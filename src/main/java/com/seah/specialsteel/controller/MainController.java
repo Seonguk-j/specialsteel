@@ -7,14 +7,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class MainController {
 
-    @GetMapping("/")
+    @GetMapping({"/","/result"})
     public String main(Model model) {
 
-        return "result";
-    }
-
-    @GetMapping("/result")
-    public String result(Model model) {
         return "result";
     }
 
