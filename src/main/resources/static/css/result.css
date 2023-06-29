@@ -1,0 +1,107 @@
+/* */
+li {
+    list-style-type: none;
+}
+
+.h5 {
+    font-weight: bold;
+}
+
+
+
+/* 표 */
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: center;
+}
+
+.table th {
+    background-color: lightgray;
+}
+
+.table {
+    width: 100%;
+    overflow:auto;
+}
+
+th:nth-child(1),
+td:nth-child(1) {
+    width: 150px;
+    background-color: lightgray;
+    font-weight: bold;
+}
+
+
+
+
+
+@media (max-width: 1400px) { /* 화면 너비가 768px 이하일 때 적용 */
+    .table {
+        font-size: 14px; /* 원하는 작은 글자 크기로 설정 */
+        white-space: nowrap; /* 줄바꿈 방지 */
+    }
+
+    li {
+        font-size: 16px; /* 원하는 작은 글자 크기로 설정 */
+        white-space: nowrap; /* 줄바꿈 방지 */
+    }
+
+    #row-tr1 td,
+    #row-tr1 th,
+    #row-tr2 td,
+    #row-tr2 th {
+        white-space: nowrap; /* 줄바꿈 방지 */
+    }
+}
+
+.card-table {
+    /* overflow-x: auto; 가로 스크롤 가능한 영역으로 설정 */
+    white-space: nowrap; /* 줄바꿈 방지 */
+}
+
+
+.title {
+    color: black; /* 텍스트 색상을 검은색으로 설정 */
+    margin-bottom: 10px; /* 표 제목과 표 사이의 간격 설정 */
+}
+
+
+
+/* 차트 */
+/* .chart {
+  margin-top: 30px;
+} */
+
+#chart-title {
+    margin-top: 40px;
+    font-weight: bold;
+}
+
+
+.chart {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* margin-top: 100px; */
+    height: 50vh;
+}
+
+.chart1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* margin-top: 100px; */
+    height: 50vh;
+}
+
+
+
+
+
+
