@@ -7,6 +7,15 @@ li {
     font-weight: bold;
 }
 
+/* 버튼 */
+.btn-group {
+    float: right;
+}
+
+
+.clear {
+    clear: both;
+}
 
 
 /* 표 */
