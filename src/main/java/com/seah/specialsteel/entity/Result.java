@@ -1,19 +1,16 @@
 package com.seah.specialsteel.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
+@Builder
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResultEntity {
+public class Result extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,15 +23,10 @@ public class ResultEntity {
     private double totalAmount;
 
     @Column
-    private String alloyInputs;
-
-    @Column
-    private String expectMaterials;
+    private double expectOutput;
 
     @Column
     private String method;
 
-    @Column
-    private LocalDateTime dateTime;
 
 }

@@ -15,37 +15,37 @@ public class CompareResult {
     ArrayList<Something> diffMaterialList;
 
     CompareResult(String oriFileName, String revFileName) throws IOException, ParseException {
-        ori = new ExtractJson(oriFileName);
-        rev = new ExtractJson(revFileName);
+//        ori = new ExtractJson(oriFileName);
+//        rev = new ExtractJson(revFileName);
     }
     
-    ArrayList<Something> compareAlloyInputs() {
-        diffAlloyInputList = new ArrayList<>();
-
-        for(String key : ori.getAlloyInputs().keySet()) {
-            if(rev.getAlloyInputs().get(key) != null) {
-                if (!ori.getAlloyInputs().get(key).equals(rev.getAlloyInputs().get(key))) {
-                    diffAlloyInputList.add(new Something(key, Double.parseDouble(ori.getAlloyInputs().get(key)) - Double.parseDouble(rev.getAlloyInputs().get(key))));
-                }
-            }
-        }
-
-        return  diffAlloyInputList;
-    }
-
-    ArrayList<Something> compareMaterials() {
-        diffMaterialList = new ArrayList<>();
-
-        for(String key : ori.getExpectMaterials().keySet()) {
-            if(rev.getExpectMaterials().get(key) != null) {
-                if (!ori.getExpectMaterials().get(key).equals(rev.getExpectMaterials().get(key))) {
-                    diffMaterialList.add(new Something(key, Double.parseDouble(ori.getExpectMaterials().get(key)) - Double.parseDouble(rev.getExpectMaterials().get(key))));
-                }
-            }
-        }
-
-        return diffMaterialList;
-    }
+//    ArrayList<Something> compareAlloyInputs() {
+//        diffAlloyInputList = new ArrayList<>();
+//
+//        for(String key : ori.getAlloyInputs().keySet()) {
+//            if(rev.getAlloyInputs().get(key) != null) {
+//                if (!ori.getAlloyInputs().get(key).equals(rev.getAlloyInputs().get(key))) {
+//                    diffAlloyInputList.add(new Something(key, Double.parseDouble(ori.getAlloyInputs().get(key)) - Double.parseDouble(rev.getAlloyInputs().get(key))));
+//                }
+//            }
+//        }
+//
+//        return  diffAlloyInputList;
+//    }
+//
+//    ArrayList<Something> compareMaterials() {
+//        diffMaterialList = new ArrayList<>();
+//
+//        for(String key : ori.getExpectMaterials().keySet()) {
+//            if(rev.getExpectMaterials().get(key) != null) {
+//                if (!ori.getExpectMaterials().get(key).equals(rev.getExpectMaterials().get(key))) {
+//                    diffMaterialList.add(new Something(key, Double.parseDouble(ori.getExpectMaterials().get(key)) - Double.parseDouble(rev.getExpectMaterials().get(key))));
+//                }
+//            }
+//        }
+//
+//        return diffMaterialList;
+//    }
 
     String diffAlloyInputListToString() {
         String str = "";
