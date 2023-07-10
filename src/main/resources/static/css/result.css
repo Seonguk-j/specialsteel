@@ -82,6 +82,30 @@ td:nth-child(1) {
 
 
 
+/* 페이지 버튼 */
+.pagination {
+    display: flex;
+    justify-content: center;
+}
+
+.page-link {
+    color: black;
+}
+
+.page-link.btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.page-link.btn-danger:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+}
+
+
+
+
+
 /* 차트 */
 /* .chart {
   margin-top: 30px;

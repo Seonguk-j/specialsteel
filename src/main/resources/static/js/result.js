@@ -1,3 +1,30 @@
+// 페이징
+const pagination = document.getElementById('pagination');
+
+// 데이터가 늘어날 때마다 페이지 버튼을 동적으로 추가하는 함수
+function addPageButton(pageNumber) {
+    const li = document.createElement('li');
+    li.classList.add('page-item');
+    const a = document.createElement('a');
+    a.classList.add('page-link');
+    a.href = '#';
+    a.textContent = pageNumber.toString();
+    li.appendChild(a);
+    pagination.appendChild(li);
+}
+
+// 예시 5개
+for (let i = 2; i <= 5; i++) {
+    addPageButton(i);
+}
+
+
+
+
+
+
+
+// 표
 // 합금철 투입량 표 데이터
 var alloyData = [
     ["합금철 종류", "철냉각제", "Cr(H)60% 하이크롬 60%", "Cr(H)57% 차지크롬 57%", "Cr(H)57% 차지크롬 47%", "Cr(H)57% 차지크롬 47% Fine", "Cr(L)60% 로크롬", "..."],
@@ -145,3 +172,6 @@ function drawChart2() {
 
     chart.draw(data, google.charts.Bar.convertOptions(options));
 }
+
+
+

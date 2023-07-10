@@ -14,9 +14,9 @@ public class MainController {
         return "result";
     }
 
-    @GetMapping("/incoding")
-    public String incoding(Model model) {
-        return "incoding";
+    @GetMapping("/encoding")
+    public String encoding(Model model) {
+        return "encoding";
     }
 
     @GetMapping("/enroll")
