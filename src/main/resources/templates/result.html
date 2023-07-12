@@ -52,6 +52,7 @@
                                     <input name="uploadFiles" type="file" multiple>
                                     <button class="uploadBtn">Upload</button>
                                 </div>
+
                             </div>
                             <li>합금철 총 투입비용 : </li>
                             <li>합금철 총 투입량 : </li>
@@ -64,7 +65,7 @@
             <button type="button" onclick="compare()">비교하기</button>
         </form>
         <div id="resultButtons"></div>
-
+        <div class="uploadResult"> <a>test</a></div>
         <!-- 차트 -->
         <div class="row">
             <div class="card col-12">
@@ -100,6 +101,7 @@
 <script>
 
     $('.uploadBtn').click(function (){
+        event.preventDefault();
         var formData = new FormData();
 
         var inputFile = $("input[type='file']");
@@ -120,26 +122,23 @@
             type: 'POST',
             dataType: 'json',
             success: function (result){
-                log.info(result);
-                alert("성공1");
-                showUploadedJson(result)
+                console.log(result);
+                showUploadedList(result);
             },
             error:function (jqXHR, textStatus, errorThorwn){
                 console.log(textStatus);
             }
         });
-        function showUploadedJson(arr){
+        function showUploadedList(arr){
             console.log(arr);
-            alert("성공2");
-            alert(arr);
+
             var divArea = $(".uploadResult");
 
             var str = "";
 
             for(var i = 0; i < arr.length; i++) {
                 str += "<div>";
-
-                str += "<p> test </p>"
+                str += "<a href='result.html'>" + arr[i].fileName + "</a>";
                 str += "</div>";
             }
             divArea.append(str);

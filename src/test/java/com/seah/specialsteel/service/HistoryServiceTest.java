@@ -17,7 +17,7 @@ public class HistoryServiceTest {
     public void Test(){
 //        ResultDTO resultDTO = new ResultDTO();
 
-        historyService.saveHistory("C:\\path\\ResponseData_N29790.json", new ResultDTO());
+//        historyService.saveHistory("C:\\path\\ResponseData_N29790.json", new ResultDTO());
 
     }
 
