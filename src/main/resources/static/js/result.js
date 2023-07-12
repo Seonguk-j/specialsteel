@@ -18,41 +18,41 @@
 //     addPageButton(i);
 // }
 //
-function compare() {
-    var originalFile = document.getElementById('originalFile1').files[0];
-    var modifiedFiles = document.getElementById('originalFile2').files;
-
-    var formData = new FormData();
-    formData.append('originalFile', originalFile);
-
-    for (var i = 0; i < modifiedFiles.length; i++) {
-        formData.append('modifiedFiles', modifiedFiles[i]);
-    }
-
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/compare', true);
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            var response = JSON.parse(xhr.responseText);
-            displayResultButtons(response.modifiedFiles);
-        }
-    };
-    xhr.send(formData);
-}
-
-function displayResultButtons(modifiedFiles) {
-    var resultButtonsDiv = document.getElementById('resultButtons');
-    resultButtonsDiv.innerHTML = '';
-
-    for (var i = 0; i < modifiedFiles.length; i++) {
-        var button = document.createElement('button');
-        button.textContent = modifiedFiles[i];
-        resultButtonsDiv.appendChild(button);
-    }
-}
-
-
-
+// function compare() {
+//     var originalFile = document.getElementById('originalFile1').files[0];
+//     var modifiedFiles = document.getElementById('originalFile2').files;
+//
+//     var formData = new FormData();
+//     formData.append('originalFile', originalFile);
+//
+//     for (var i = 0; i < modifiedFiles.length; i++) {
+//         formData.append('modifiedFiles', modifiedFiles[i]);
+//     }
+//
+//     var xhr = new XMLHttpRequest();
+//     xhr.open('POST', '/compare', true);
+//     xhr.onreadystatechange = function() {
+//         if (xhr.readyState === 4 && xhr.status === 200) {
+//             var response = JSON.parse(xhr.responseText);
+//             displayResultButtons(response.modifiedFiles);
+//         }
+//     };
+//     xhr.send(formData);
+// }
+//
+// function displayResultButtons(modifiedFiles) {
+//     var resultButtonsDiv = document.getElementById('resultButtons');
+//     resultButtonsDiv.innerHTML = '';
+//
+//     for (var i = 0; i < modifiedFiles.length; i++) {
+//         var button = document.createElement('button');
+//         button.textContent = modifiedFiles[i];
+//         resultButtonsDiv.appendChild(button);
+//     }
+// }
+//
+//
+//
 
 
 

@@ -19,19 +19,7 @@ public class MainController {
         return "encoding";
     }
 
-    @GetMapping("/enroll")
-    public String enrollData() {
 
-
-        return null;
-    }
-
-    @GetMapping("/compare/{oriId}/{revId}")
-    public String compare(@PathVariable Long oriId, @PathVariable Long revId) {
-
-
-        return null;
-    }
 
 
 }
