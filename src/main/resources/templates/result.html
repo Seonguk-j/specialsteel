@@ -26,51 +26,63 @@
 <!-- content 영역 -->
 <div class="content">
     <div class="container-fluid">
-        <div class="clear">
-            <div class="row">
-                <div class="card col-6">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-6">
-                                <h5 class="h5">기존 알고리즘 결과</h5>
+        <form id="compareForm" enctype="multipart/form-data">
+            <div class="clear">
+                <div class="row">
+                    <div class="card col-6">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-6">
+                                    <h5 class="h5">기존 알고리즘 결과</h5>
+                                </div>
+                                <div class="col-6 text-end">
+                                    <label for="originalFile1" class="btn btn-secondary">파일 선택</label>
+                                    <input type="file" id="originalFile1" style="display: none;" />
+                                </div>
                             </div>
-                            <div class="col-6 text-end">
-                                <button type="button" class="btn btn-secondary">파일 선택</button>
-                            </div>
+                            <li>합금철 총 투입비용 : </li>
+                            <li>합금철 총 투입량 : </li>
+                            <li>예상 용강량 : </li>
+                            <li>방법 :</li>
                         </div>
-                        <li>합금철 총 투입비용 : </li>
-                        <li>합금철 총 투입량 : </li>
-                        <li>예상 용강량 : </li>
-                        <li>방법 : 1-4, 무게제약 0, 냉각제 투입 X, 탄소 합금철 투입 0</li>
                     </div>
-                </div>
-                <div class="card col-6">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-6">
-                                <h5 class="h5">수정 알고리즘 결과</h5>
+                    <div class="card col-6">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-6">
+                                    <h5 class="h5">수정 알고리즘 결과</h5>
+                                </div>
+                                <div class="col-6 text-end">
+                                    <label for="originalFile2" class="btn btn-secondary">파일 선택</label>
+                                    <input type="file" id="originalFile2" multiple style="display: none;" />
+                                </div>
                             </div>
-                            <div class="col-6 text-end">
-                                <button type="button" class="btn btn-secondary">파일 선택</button>
-                            </div>
+                            <li>합금철 총 투입비용 : </li>
+                            <li>합금철 총 투입량 : </li>
+                            <li>예상 용강량 : </li>
+                            <li>방법 : </li>
                         </div>
-                        <li>합금철 총 투입비용 : </li>
-                        <li>합금철 총 투입량 : </li>
-                        <li>예상 용강량 : </li>
-                        <li>방법 : 1-8, 무게제약 0, 냉각제 투입 X, 탄소 합금철 투입 0</li>
                     </div>
                 </div>
             </div>
-        </div>
+            <button type="button" onclick="compare()">비교하기</button>
+        </form>
+        <div id="resultButtons"></div>
 
         <!-- 페이징 -->
-        <div class="pageBtn">
-            <ul id="pagination" class="pagination">
-                <li class="page-item active" aria-current="page">
-                    <a class="page-link btn-danger" href="#">1</a>
-                </li>
-            </ul>
-        </div>
+<!--        <div class="pageBtn">-->
+<!--            <ul id="pagination" class="pagination">-->
+<!--                <li class="page-item active" aria-current="page">-->
+<!--                    <a class="page-link btn-danger" href="#">1</a>-->
+<!--                </li>-->
+<!--            </ul>-->
+<!--        </div>-->
+
+
+
+
+
+
 
         <!-- 차트 -->
         <div class="row">

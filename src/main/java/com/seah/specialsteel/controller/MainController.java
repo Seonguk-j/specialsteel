@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 @Controller
 public class MainController {
 
-    @GetMapping({"/","/result"})
+    @GetMapping({"/", "/result"})
     public String main(Model model) {
 
         return "result";
@@ -23,7 +23,6 @@ public class MainController {
     public String enrollData() {
 
 
-
         return null;
     }
 
@@ -31,7 +30,8 @@ public class MainController {
     public String compare(@PathVariable Long oriId, @PathVariable Long revId) {
 
 
-
         return null;
     }
+
+
 }

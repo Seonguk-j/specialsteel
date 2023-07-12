@@ -1,22 +1,58 @@
 // 페이징
-const pagination = document.getElementById('pagination');
+// const pagination = document.getElementById('pagination');
+//
+// // 데이터가 늘어날 때마다 페이지 버튼을 동적으로 추가하는 함수
+// function addPageButton(pageNumber) {
+//     const li = document.createElement('li');
+//     li.classList.add('page-item');
+//     const a = document.createElement('a');
+//     a.classList.add('page-link');
+//     a.href = '#';
+//     a.textContent = pageNumber.toString();
+//     li.appendChild(a);
+//     pagination.appendChild(li);
+// }
+//
+// // 예시 5개
+// for (let i = 2; i <= 5; i++) {
+//     addPageButton(i);
+// }
+//
+function compare() {
+    var originalFile = document.getElementById('originalFile1').files[0];
+    var modifiedFiles = document.getElementById('originalFile2').files;
 
-// 데이터가 늘어날 때마다 페이지 버튼을 동적으로 추가하는 함수
-function addPageButton(pageNumber) {
-    const li = document.createElement('li');
-    li.classList.add('page-item');
-    const a = document.createElement('a');
-    a.classList.add('page-link');
-    a.href = '#';
-    a.textContent = pageNumber.toString();
-    li.appendChild(a);
-    pagination.appendChild(li);
+    var formData = new FormData();
+    formData.append('originalFile', originalFile);
+
+    for (var i = 0; i < modifiedFiles.length; i++) {
+        formData.append('modifiedFiles', modifiedFiles[i]);
+    }
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/compare', true);
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            var response = JSON.parse(xhr.responseText);
+            displayResultButtons(response.modifiedFiles);
+        }
+    };
+    xhr.send(formData);
 }
 
-// 예시 5개
-for (let i = 2; i <= 5; i++) {
-    addPageButton(i);
+function displayResultButtons(modifiedFiles) {
+    var resultButtonsDiv = document.getElementById('resultButtons');
+    resultButtonsDiv.innerHTML = '';
+
+    for (var i = 0; i < modifiedFiles.length; i++) {
+        var button = document.createElement('button');
+        button.textContent = modifiedFiles[i];
+        resultButtonsDiv.appendChild(button);
+    }
 }
+
+
+
 
 
 

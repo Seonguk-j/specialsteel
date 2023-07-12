@@ -4,6 +4,7 @@ import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 // "C:\\jeongTest\\ResponseData_N29790.json"
 // "C:\\jeongTest\\ResponseData_N29791.json"
@@ -14,7 +15,7 @@ public class CompareResult {
     ArrayList<Something> diffAlloyInputList;
     ArrayList<Something> diffMaterialList;
 
-    CompareResult(String oriFileName, String revFileName) throws IOException, ParseException {
+    public CompareResult() throws IOException, ParseException {
 //        ori = new ExtractJson(oriFileName);
 //        rev = new ExtractJson(revFileName);
     }
@@ -67,6 +68,11 @@ public class CompareResult {
         }
 
         return str;
+    }
+
+
+    /// @@@@@@@
+    public void setModifiedFiles(List<String> modifiedFileNames) {
     }
 
     static class Something {
