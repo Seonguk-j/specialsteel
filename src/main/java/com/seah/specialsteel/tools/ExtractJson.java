@@ -48,6 +48,8 @@ public class ExtractJson {
         Reader reader = new FileReader(fileName);
         JSONObject jsonObject = (JSONObject) parser.parse(reader);
 
+
+
         return jsonObject;
     }
 
@@ -64,14 +66,4 @@ public class ExtractJson {
         return output;
     }
 
-//    public String toString() {
-//        String str = "";
-//        str += "합금철 총 투입비용 : " + totalCost;
-//        str += "\n합금철 총 투입량 : " + totalAmount;
-//        str += "\n합금철별 투입량 : " + alloyInputs.toString();
-//        str += "\n예상 용강량 : " + expectOutput;
-//        str += "\nresult 예상 성분 : " + expectMaterials.toString();
-//        str += "\n방법 : " + method;
-//        return str;
-//    }
 }

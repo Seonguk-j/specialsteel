@@ -24,7 +24,7 @@
         <form id="compareForm" enctype="multipart/form-data">
             <div class="clear">
                 <div class="row">
-                    <div class="card col-6">
+                    <div class="card col-6" id="ori">
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-6">
@@ -54,18 +54,22 @@
                                 </div>
 
                             </div>
-                            <li>합금철 총 투입비용 : </li>
-                            <li>합금철 총 투입량 : </li>
-                            <li>예상 용강량 : </li>
-                            <li>방법 : </li>
+                            <div class="insert">
+                                <li>합금철 총 투입비용 : </li>
+                                <li>합금철 총 투입량 : </li>
+                                <li>예상 용강량 : </li>
+                                <li>방법 : </li>
+                            </div>
                         </div>
+                        <div class="uploadResult"> <a>test</a></div>
                     </div>
                 </div>
             </div>
             <button type="button" onclick="compare()">비교하기</button>
         </form>
         <div id="resultButtons"></div>
-        <div class="uploadResult"> <a>test</a></div>
+
+
         <!-- 차트 -->
         <div class="row">
             <div class="card col-12">
@@ -129,21 +133,51 @@
                 console.log(textStatus);
             }
         });
-        function showUploadedList(arr){
-            console.log(arr);
+        function showUploadedList(arr) {
+            event.preventDefault();
+            console.log(arr[0]);
+            var html = "";
 
-            var divArea = $(".uploadResult");
-
-            var str = "";
-
-            for(var i = 0; i < arr.length; i++) {
-                str += "<div>";
-                str += "<a href='result.html'>" + arr[i].fileName + "</a>";
-                str += "</div>";
+            for (var i = 0; i < arr.length; i++) {
+                html += "<div>";
+                html += "<a href='#' onclick='sendFileName(\"" + i + "\")'>" + (i+1) + "</a>";
+                html += "</div>";
             }
-            divArea.append(str);
+            $(".uploadResult").html(html);
         }
+
+
     });
+    function sendFileName(fileName) {
+        // Ajax 요청을 사용하여 백엔드에 데이터를 전송
+        $.ajax({
+            url: '/sendFileName',
+            method: 'POST',
+            data: { fileName: fileName },
+            success: function(response) {
+                // 요청이 성공한 경우의 동작
+                console.log(response);
+                showFileList(response);
+
+            },
+            error: function(error) {
+                // 요청이 실패한 경우의 동작
+                console.log(error);
+            }
+        });
+    }
+    function showFileList(response) {
+        var html = "";
+        html += "<div class='insert'>"
+        html += "<li>합금철 총 투입비용 : " + response.totalCost + "</li>";
+        html += "<li>합금철 총 투입량 : " + response.totalAmount + "</li>";
+        html += "<li>예상 용강량 : " + response.expectOutput + "</li>";
+        html += "<li>방법 : " + response.method + "</li>";
+        html += "</div>";
+
+
+        $(".insert").html(html);
+    }
 
 </script>
 <script src="js/result.js"></script>

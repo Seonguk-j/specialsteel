@@ -1,7 +1,12 @@
 package com.seah.specialsteel.service;
 
+import com.seah.specialsteel.dto.ResultDTO;
 import com.seah.specialsteel.dto.UploadResultDTO;
+import com.seah.specialsteel.tools.ExtractJson;
+import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,9 +29,9 @@ public class FileService {
     @Value("${com.seah.upload.path}")
     String uploadPath;
 
-    public List<UploadResultDTO> uploadResultDTOList(MultipartFile[] uploadfiles) throws Exception{
+    public List<String> uploadResult(MultipartFile[] uploadfiles) throws Exception{
 
-        List<UploadResultDTO> resultDTOList = new ArrayList<>();
+        List<String> uploadResultList = new ArrayList<>();
 
         for(MultipartFile uploadfile : uploadfiles) {
             String originalName = uploadfile.getOriginalFilename();
@@ -41,25 +46,25 @@ public class FileService {
             String uuid = UUID.randomUUID().toString();
 
             //저장할 파일 이름 중간에 "_"를 이용해서 구분
-            String saveName = uploadPath + File.separator + folderPath + File.separator + uuid + "_" + fileName;
-
+//            String saveName = uploadPath + File.separator + File.separator + folderPath + File.separator + File.separator + uuid + "_" + fileName;
+            String saveName = uploadPath  + File.separator + folderPath + File.separator + uuid + "_" + fileName;
             Path savePath = Paths.get(saveName);
 
             try {
                 uploadfile.transferTo(savePath);
-                resultDTOList.add(new UploadResultDTO(fileName, uuid, folderPath));
-                log.info(resultDTOList.get(0));
+                uploadResultList.add(saveName);
+                log.info(uploadResultList.get(0));
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        return resultDTOList;
+        return uploadResultList;
 
 }
 
     private String makeFolder() {
         String str = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
-        String folderPath = str.replace("/", File.separator);
+        String folderPath = str.replace("/", File.separator );
 
         //make folder
         File uploadPathFolder = new File(uploadPath,folderPath);
@@ -69,4 +74,5 @@ public class FileService {
         }
         return folderPath;
     }
+
 }

@@ -25,4 +25,6 @@ public class AlloyInput {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "result_id")
     private Result result;
+
+
 }
