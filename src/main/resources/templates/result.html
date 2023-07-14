@@ -29,24 +29,26 @@
                             <div class="row">
                                 <div>
                                     <input type="file" id="originalFile1"/>
-                                    <button class="btn btn-primary uploadBtn">Upload</button>
+                                    <button id="oriUploadBtn" class="btn btn-primary uploadBtn">Upload</button>
                                 </div>
                                 <div class="col-6">
                                     <h5 class="h5">기존 알고리즘 결과</h5>
                                 </div>
                             </div>
-                            <li>합금철 총 투입비용 : </li>
-                            <li>합금철 총 투입량 : </li>
-                            <li>예상 용강량 : </li>
-                            <li>방법 :</li>
+                            <div class="oriInsert">
+                                <li>합금철 총 투입비용 : </li>
+                                <li>합금철 총 투입량 : </li>
+                                <li>예상 용강량 : </li>
+                                <li>방법 :</li>
+                            </div>
                         </div>
                     </div>
                     <div class="card col-6">
                         <div class="card-body">
                             <div class="row">
                                 <div>
-                                    <input name="uploadFiles" id="fileInput" type="file" multiple >
-                                    <button class="btn btn-primary uploadBtn">Upload</button>
+                                    <input name="uploadFiles" type="file" multiple>
+                                    <button id="revUploadBtn" class="btn btn-primary uploadBtn">Upload</button>
                                 </div>
                                 <div class="col-6">
                                     <h5 class="h5">수정 알고리즘 결과</h5>
@@ -99,18 +101,37 @@
         integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
         crossorigin="anonymous"></script>
 <script>
-    // 파일 선택 text 지우기
-    $(document).ready(function() {
-        $(".uploadBtn").click(function() {
-            // 파일 선택 텍스트를 지우기 위해 파일 선택 요소의 값을 초기화합니다.
-            $(this).prev("input[type='file']").val("");
+
+    $('#oriUploadBtn').click(function (){
+        // event.preventDefault();
+        var formData = new FormData();
+
+        var inputFile = $("input[type='file']");
+
+        var files = inputFile[0].files;
+
+        console.log(files[0]);
+        formData.append("uploadfiles", files[0]);
+
+        //uplaod ajax
+        $.ajax({
+            url: '/uploadAjax',
+            processData: false,
+            contentType: false,
+            data: formData,
+            type: 'POST',
+            dataType: 'json',
+            success: function (result){
+                console.log(result);
+                sendOriFileName("0");
+            },
+            error:function (jqXHR, textStatus, errorThrown){
+                console.log(textStatus);
+            }
         });
     });
 
-
-    //파일 업로드
-
-    $('.uploadBtn').click(function (){
+    $('#revUploadBtn').click(function (){
         // event.preventDefault();
         var formData = new FormData();
 
@@ -135,7 +156,7 @@
                 console.log(result);
                 showUploadedList(result);
             },
-            error:function (jqXHR, textStatus, errorThorwn){
+            error:function (jqXHR, textStatus, errorThrown){
                 console.log(textStatus);
             }
         });
@@ -146,26 +167,25 @@
 
             html += "<div>";
             for (var i = 0; i < arr.length; i++) {
-                html += "<a href='#' class='btn btn-primary m-1'  onclick='sendFileName(\"" + i + "\")'>" + (i+1) + "</a>";
+                html += "<a href='#' class='btn btn-primary m-1'  onclick='sendRevFileName(\"" + i + "\")'>" + (i+1) + "</a>";
             }
             html += "</div>";
             $(".uploadResult").html(html);
 
         }
 
-
     });
-    function sendFileName(fileName) {
+
+    function sendOriFileName(fileName) {
         // Ajax 요청을 사용하여 백엔드에 데이터를 전송
         $.ajax({
-            url: '/sendFileName',
+            url: '/sendOriFileName',
             method: 'POST',
             data: { fileName: fileName },
             success: function(response) {
                 // 요청이 성공한 경우의 동작
                 console.log(response);
-                showFileList(response);
-
+                showOriFile(response);
             },
             error: function(error) {
                 // 요청이 실패한 경우의 동작
@@ -173,7 +193,37 @@
             }
         });
     }
-    function showFileList(response) {
+    function showOriFile(response) {
+        var html = "";
+        html += "<div class='oriInsert'>"
+        html += "<li>합금철 총 투입비용 : " + response.totalCost + "</li>";
+        html += "<li>합금철 총 투입량 : " + response.totalAmount + "</li>";
+        html += "<li>예상 용강량 : " + response.expectOutput + "</li>";
+        html += "<li>방법 : " + response.method + "</li>";
+        html += "</div>";
+
+
+        $(".oriInsert").html(html);
+    }
+
+    function sendRevFileName(fileName) {
+        // Ajax 요청을 사용하여 백엔드에 데이터를 전송
+        $.ajax({
+            url: '/sendRevFileName',
+            method: 'POST',
+            data: { fileName: fileName },
+            success: function(response) {
+                // 요청이 성공한 경우의 동작
+                console.log(response);
+                showRevFile(response);
+            },
+            error: function(error) {
+                // 요청이 실패한 경우의 동작
+                console.log(error);
+            }
+        });
+    }
+    function showRevFile(response) {
         var html = "";
         html += "<div class='insert'>"
         html += "<li>합금철 총 투입비용 : " + response.totalCost + "</li>";
