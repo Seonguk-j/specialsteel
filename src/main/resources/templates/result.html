@@ -115,18 +115,17 @@
 
         //uplaod ajax
         $.ajax({
-            url: '/uploadAjax',
+            url: '/oriUploadAjax',
             processData: false,
             contentType: false,
             data: formData,
             type: 'POST',
             dataType: 'json',
             success: function (result){
-                console.log(result);
-                sendOriFileName("0");
+
+                sendOriFileName(result[0]);
             },
-            error:function (jqXHR, textStatus, errorThrown){
-                console.log(textStatus);
+            error:function (){
             }
         });
     });
@@ -143,7 +142,6 @@
             console.log(files[i]);
             formData.append("uploadfiles", files[i]);
         }
-
         //uplaod ajax
         $.ajax({
             url: '/uploadAjax',
@@ -160,28 +158,29 @@
                 console.log(textStatus);
             }
         });
-        function showUploadedList(arr) {
-            event.preventDefault();
-            console.log(arr[0]);
-            var html = "";
-
-            html += "<div>";
-            for (var i = 0; i < arr.length; i++) {
-                html += "<a href='#' class='btn btn-primary m-1'  onclick='sendRevFileName(\"" + i + "\")'>" + (i+1) + "</a>";
-            }
-            html += "</div>";
-            $(".uploadResult").html(html);
-
-        }
-
     });
 
-    function sendOriFileName(fileName) {
+    function showUploadedList(arr) {
+        event.preventDefault();
+        console.log(arr[0]);
+        var html = "";
+
+        html += "<div>";
+
+        for (var i = 0; i < arr.length; i++) {
+            html += "<a href='#' class='btn btn-primary m-1'  onclick='sendRevFileName(\"" + i + "\")'>" + (i+1) + "</a>";
+        }
+        html += "</div>";
+        $(".uploadResult").html(html);
+
+    }
+
+    function sendOriFileName() {
         // Ajax 요청을 사용하여 백엔드에 데이터를 전송
         $.ajax({
             url: '/sendOriFileName',
             method: 'POST',
-            data: { fileName: fileName },
+
             success: function(response) {
                 // 요청이 성공한 경우의 동작
                 console.log(response);
@@ -195,6 +194,7 @@
     }
     function showOriFile(response) {
         var html = "";
+
         html += "<div class='oriInsert'>"
         html += "<li>합금철 총 투입비용 : " + response.totalCost + "</li>";
         html += "<li>합금철 총 투입량 : " + response.totalAmount + "</li>";
@@ -211,7 +211,7 @@
         $.ajax({
             url: '/sendRevFileName',
             method: 'POST',
-            data: { fileName: fileName },
+            data: { index: fileName },
             success: function(response) {
                 // 요청이 성공한 경우의 동작
                 console.log(response);
@@ -225,6 +225,7 @@
     }
     function showRevFile(response) {
         var html = "";
+        html += "<button class='deleteBtn' data-index='" + response.index + "'>삭제</button>";
         html += "<div class='insert'>"
         html += "<li>합금철 총 투입비용 : " + response.totalCost + "</li>";
         html += "<li>합금철 총 투입량 : " + response.totalAmount + "</li>";
@@ -232,9 +233,38 @@
         html += "<li>방법 : " + response.method + "</li>";
         html += "</div>";
 
+        $(".insert").html(html);
+    }
+    function showInit() {
+        var html = "";
+
+        html += "<div class='insert'>"
+        html += "<li>합금철 총 투입비용 : </li>";
+        html += "<li>합금철 총 투입량 : </li>";
+        html += "<li>예상 용강량 :</li>";
+        html += "<li>방법 : </li>";
+        html += "</div>";
 
         $(".insert").html(html);
     }
+    $('.insert').on('click', '.deleteBtn', function () {
+        var index = $(this).data('index');
+        $.ajax({
+            url: '/deleteList',
+            method: 'POST',
+            data: { index: index },
+            success: function(response) {
+                // 요청이 성공한 경우의 동작
+                console.log(response);
+                showUploadedList(response);
+                showInit();
+            },
+            error: function(error) {
+                // 요청이 실패한 경우의 동작
+                console.log(error);
+            }
+        });
+    });
 
 </script>
 <script src="js/result.js"></script>

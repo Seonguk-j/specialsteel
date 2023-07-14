@@ -26,6 +26,7 @@ public class ResultDTO {
     public double expectOutput;                    // 예상 용강량
     public HashMap<String, String> expectMaterials; // result 예상 성분
     public String method;                          // 방법
+    public String index;
 
     public Result toEntity(){
         return new Result(id, totalCost, totalAmount, expectOutput, method);
@@ -36,7 +37,6 @@ public class ResultDTO {
         JSONParser parser = new JSONParser();
 
         Reader reader = new FileReader(fileName);
-        System.out.println("파일이름:"+fileName);
 
         JSONObject jsonObject = (JSONObject) parser.parse(reader);
 
@@ -55,7 +55,7 @@ public class ResultDTO {
 
         this.setExpectMaterials(jsonArrayToHashMap(jsonArray));
 
-        System.out.println(this.toString());
+        reader.close();
     }
 
     public HashMap<String, String> jsonArrayToHashMap(JSONArray jsonArray) {

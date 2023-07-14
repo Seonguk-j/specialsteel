@@ -1,21 +1,18 @@
 package com.seah.specialsteel.service;
 
-import com.seah.specialsteel.dto.ResultDTO;
-import com.seah.specialsteel.dto.UploadResultDTO;
-import com.seah.specialsteel.tools.ExtractJson;
-import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.channels.FileChannel;
+import java.nio.channels.FileLock;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -73,6 +70,30 @@ public class FileService {
             uploadPathFolder.mkdirs();
         }
         return folderPath;
+    }
+
+    public void deleteFile(String filePath) throws Exception{
+        Path path = Path.of(filePath);
+
+        // 파일 존재 여부 확인
+        if (Files.exists(path)) {
+            // 파일 채널 열기
+            try (FileChannel channel = FileChannel.open(path, StandardOpenOption.WRITE)) {
+                // 파일 잠금 시도
+                FileLock lock = channel.tryLock();
+                if (lock != null) {
+                    // 잠금 성공: 파일 삭제
+                    Files.delete(path);
+                    log.info("파일을 삭제하였습니다.");
+                } else {
+                    // 파일이 사용 중인 경우
+                    log.info("파일이 사용 중입니다.");
+                }
+            }
+        } else {
+            // 파일이 존재하지 않는 경우
+            log.info("파일이 존재하지 않습니다.");
+        }
     }
 
 }
