@@ -7,7 +7,6 @@ import com.seah.specialsteel.entity.Result;
 import com.seah.specialsteel.repository.AlloyInputRepository;
 import com.seah.specialsteel.repository.ExpectedResultRepository;
 import com.seah.specialsteel.repository.ResultRepository;
-import com.seah.specialsteel.tools.ExtractJson;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
@@ -24,7 +23,7 @@ import java.util.HashMap;
 @AllArgsConstructor
 public class HistoryService {
 
-    private final ExtractJson extractJson = new ExtractJson();
+//    private final ExtractJson extractJson = new ExtractJson();
 
     private final ResultRepository resultRepository;
 

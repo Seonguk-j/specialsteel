@@ -214,8 +214,9 @@
             data: { index: fileName },
             success: function(response) {
                 // 요청이 성공한 경우의 동작
-                console.log(response);
-                showRevFile(response);
+                console.log(response.revResultDTO);
+                showRevFile(response.revResultDTO);
+                drawChartTest(response.compareDTO);
             },
             error: function(error) {
                 // 요청이 실패한 경우의 동작

@@ -4,19 +4,21 @@ package com.seah.specialsteel.controller;
 
 import com.seah.specialsteel.dto.ResultDTO;
 import com.seah.specialsteel.service.FileService;
+import com.seah.specialsteel.dto.CompareDTO;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
-import org.json.simple.parser.ParseException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -28,6 +30,7 @@ public class UploadController {
 //    List<String> uploadResultList;
     static ResultDTO oriResultDTO;
     List<ResultDTO> revResultDTOList;
+
 
     //파일 저장
     @PostMapping("/uploadAjax")
@@ -62,11 +65,22 @@ public class UploadController {
 
     //수정 알고리즘 json파일을 dto에 담아서 보내기
     @PostMapping("/sendRevFileName")
-    public ResponseEntity<ResultDTO> receiveRevResultDTO(String index){
-        revResultDTOList.get(Integer.parseInt(index));
+    public ResponseEntity<Map<String, Object>> receiveRevResultDTO(String index) {
+        ResultDTO revResultDTO = revResultDTOList.get(Integer.parseInt(index));
 
-        return new ResponseEntity<>(revResultDTOList.get(Integer.parseInt(index)), HttpStatus.OK);
+        Map<String, Object> response = new HashMap<>();
+        response.put("revResultDTO", revResultDTO);
+
+        if (oriResultDTO != null) {
+            CompareDTO compareDTO = new CompareDTO(oriResultDTO, revResultDTO);
+            System.out.println("합금철별 투입량 비교 결과:\n" + compareDTO.diffAlloyInputListToString());
+            System.out.println("성분 비교 결과:\n" + compareDTO.diffMaterialListToString());
+            response.put("compareDTO", compareDTO);
+        }
+
+        return ResponseEntity.ok(response);
     }
+
 
     @PostMapping("/deleteList")
     public ResponseEntity<List<ResultDTO>> deleteFile(String index){

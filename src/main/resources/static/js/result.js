@@ -100,12 +100,33 @@ container.appendChild(resultTableContainer);
 //차트
 
 google.charts.load('current', {'packages':['bar']});
-google.charts.setOnLoadCallback(drawChart1);
+google.charts.setOnLoadCallback();
 
 function drawChart1() {
     var data = google.visualization.arrayToDataTable([
         ['Year', 'Sales', 'Expenses'],
         ['철냉각제', 500, 400],
+        ['Fe-Ni(35%) 페로니켈 35%', 2000, 1800],
+        ['Me-Ni(99%) 메탈니켈', 2500, 3000]
+    ]);
+
+    var options = {
+        chart: {
+            title: '합금철별 투입량',
+            subtitle: '',
+        }
+    };
+
+    var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
+
+    chart.draw(data, google.charts.Bar.convertOptions(options));
+}
+
+function drawChartTest(response) {
+    var 
+    var data = google.visualization.arrayToDataTable([
+        ['Test', 'Test', 'Test'],
+        ['Test', response.diffAlloyInputList, 2000],
         ['Fe-Ni(35%) 페로니켈 35%', 2000, 1800],
         ['Me-Ni(99%) 메탈니켈', 2500, 3000]
     ]);

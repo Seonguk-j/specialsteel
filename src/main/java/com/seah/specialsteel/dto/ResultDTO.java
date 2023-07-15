@@ -1,5 +1,6 @@
 package com.seah.specialsteel.dto;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.seah.specialsteel.entity.AlloyInput;
 import com.seah.specialsteel.entity.Result;
 import lombok.Builder;
@@ -17,6 +18,7 @@ import java.io.Reader;
 import java.util.HashMap;
 @Data
 @NoArgsConstructor
+@JsonSerialize
 public class ResultDTO {
 
     public Long id;
