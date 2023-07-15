@@ -26,7 +26,8 @@ public class ResultDTO {
     public double expectOutput;                    // 예상 용강량
     public HashMap<String, String> expectMaterials; // result 예상 성분
     public String method;                          // 방법
-    public String index;
+    public String index;                           //인덱스
+    public String comment;                         //메모
 
     public Result toEntity(){
         return new Result(id, totalCost, totalAmount, expectOutput, method);

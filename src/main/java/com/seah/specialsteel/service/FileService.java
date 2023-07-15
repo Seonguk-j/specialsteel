@@ -34,7 +34,6 @@ public class FileService {
             String originalName = uploadfile.getOriginalFilename();
             String fileName = originalName.substring(originalName.lastIndexOf("\\") + 1);
 
-            log.info("fileName: " + fileName);
 
             //날짜 생성 폴더 생성
 //            String folderPath = makeFolder();
@@ -50,7 +49,7 @@ public class FileService {
             try {
                 uploadfile.transferTo(savePath);
                 uploadResultList.add(saveName);
-                log.info(uploadResultList.get(0));
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -84,7 +83,6 @@ public class FileService {
                 if (lock != null) {
                     // 잠금 성공: 파일 삭제
                     Files.delete(path);
-                    log.info("파일을 삭제하였습니다.");
                 } else {
                     // 파일이 사용 중인 경우
                     log.info("파일이 사용 중입니다.");

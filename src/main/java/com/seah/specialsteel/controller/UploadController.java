@@ -11,12 +11,15 @@ import org.json.simple.parser.ParseException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -62,11 +65,33 @@ public class UploadController {
 
     //수정 알고리즘 json파일을 dto에 담아서 보내기
     @PostMapping("/sendRevFileName")
-    public ResponseEntity<ResultDTO> receiveRevResultDTO(String index){
-        revResultDTOList.get(Integer.parseInt(index));
+    public ResponseEntity<ResultDTO> receiveRevResultDTO(@RequestParam ("index")String index, @RequestParam ("comment")String comment ) {
+
+        log.info(comment);
+        revResultDTOList.get(Integer.parseInt(index)).setComment(comment);
 
         return new ResponseEntity<>(revResultDTOList.get(Integer.parseInt(index)), HttpStatus.OK);
     }
+
+//    @PostMapping("/commentsUploadAjax")
+//    public ResponseEntity<String> handleAjaxCommentUpload(@RequestParam("oriComment") List<MultipartFile> oriComments) {
+//
+//        oriResultDTO.setComment(oriComments.get(0).toString());
+//        System.out.println("코멘트: " + oriResultDTO.getComment());
+//
+//
+//        return ResponseEntity.ok("Success");
+//    }
+
+//    //Comment 저장
+//    @PostMapping("/commentsUploadAjax")
+//    public ResponseEntity<List<String>> saveComment(List<String> oriComment){
+//
+//        List<String> stringList = new ArrayList<>();
+//        stringList.add("성공");
+//        return new ResponseEntity<>(stringList, HttpStatus.OK);
+//    }
+
 
     @PostMapping("/deleteList")
     public ResponseEntity<List<ResultDTO>> deleteFile(String index){
