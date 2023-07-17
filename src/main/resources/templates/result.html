@@ -7,6 +7,9 @@
     <title>출력 페이지</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="css/result.css">
 
 </head>
@@ -21,20 +24,48 @@
 <!-- content 영역 -->
 <div class="content">
     <div class="container-fluid">
-<!--        <form id="compareForm" enctype="multipart/form-data">-->
             <div class="clear">
+                <div class="row">
+                    <div class="card1 card col-12">
+                        <div class="date-search-container">
+                            <button onclick="showModal()">조회</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 모달창 -->
+                <div id="myModal" class="modal" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">날짜 조회</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="closeModal()"></button>
+                            </div>
+                            <div class="modal-body">
+                                <label class="date-search-label">기간</label>
+                                <input type="date" id="startDate">
+                                <span> ~ </span>
+                                <input type="date" id="endDate">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary">조회</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeModal()">닫기</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
                 <div class="row">
                     <div class="card col-6" id="ori">
                         <div class="card-body">
-                            <div class="row">
-                                <div>
-                                    <input type="file" id="originalFile1"/>
-                                    <button class="btn btn-primary uploadBtn">Upload</button>
+                                <div class="title-file-group row">
+                                    <h5 class="h5 col-5">기존 알고리즘 결과</h5>
+                                    <div class="file-group col-7">
+                                        <input type="file" name="file" id="originalFile1"/>
+                                        <button class="btn btn-primary uploadBtn">Upload</button>
+                                    </div>
                                 </div>
-                                <div class="col-6">
-                                    <h5 class="h5">기존 알고리즘 결과</h5>
-                                </div>
-                            </div>
                             <li>합금철 총 투입비용 : </li>
                             <li>합금철 총 투입량 : </li>
                             <li>예상 용강량 : </li>
@@ -43,13 +74,11 @@
                     </div>
                     <div class="card col-6">
                         <div class="card-body">
-                            <div class="row">
-                                <div>
+                            <div class="title-file-group row">
+                                <h5 class="h5 col-5">수정 알고리즘 결과</h5>
+                                <div class="file-group col-7">
                                     <input name="uploadFiles" id="fileInput" type="file" multiple >
                                     <button class="btn btn-primary uploadBtn">Upload</button>
-                                </div>
-                                <div class="col-6">
-                                    <h5 class="h5">수정 알고리즘 결과</h5>
                                 </div>
                             </div>
                             <div class="insert">
@@ -63,8 +92,19 @@
                     </div>
                 </div>
             </div>
-<!--        </form>-->
-
+            <div class="row">
+                <div class="card col-6">
+                    <div class="card-body">
+                    </div>
+                </div>
+                <div class="card col-6">
+                    <div class="card-body">
+                        <div class="result-save">
+                            <button type="button">저장</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
         <!-- 차트 -->
         <div class="row">
@@ -73,10 +113,10 @@
                     <div class="allchart">
                         <h5 id="chart-title">요약 지표</h5>
                         <div class="chart">
-                            <div id="columnchart_material" style="width: 800px; height: 500px;"></div>
+                            <div id="top_x_div1" style="width: 800px; height: 600px;"></div>
                         </div>
                         <div class="chart1">
-                            <div id="columnchart_material2" style="width: 800px; height: 500px;"></div>
+                            <div id="top_x_div2" style="width: 800px; height: 600px;"></div>
                         </div>
                     </div>
                 </div>
@@ -94,98 +134,11 @@
         </div>
     </div>
 </div>
+<!-- JQuery -->
 <script
         src="https://code.jquery.com/jquery-3.5.1.min.js"
         integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
-        crossorigin="anonymous"></script>
-<script>
-    // 파일 선택 text 지우기
-    $(document).ready(function() {
-        $(".uploadBtn").click(function() {
-            // 파일 선택 텍스트를 지우기 위해 파일 선택 요소의 값을 초기화합니다.
-            $(this).prev("input[type='file']").val("");
-        });
-    });
-
-
-    //파일 업로드
-
-    $('.uploadBtn').click(function (){
-        // event.preventDefault();
-        var formData = new FormData();
-
-        var inputFile = $("input[type='file']");
-
-        var files = inputFile[1].files;
-
-        for(var i=0; i<files.length; i++){
-            console.log(files[i]);
-            formData.append("uploadfiles", files[i]);
-        }
-
-        //uplaod ajax
-        $.ajax({
-            url: '/uploadAjax',
-            processData: false,
-            contentType: false,
-            data: formData,
-            type: 'POST',
-            dataType: 'json',
-            success: function (result){
-                console.log(result);
-                showUploadedList(result);
-            },
-            error:function (jqXHR, textStatus, errorThorwn){
-                console.log(textStatus);
-            }
-        });
-        function showUploadedList(arr) {
-            event.preventDefault();
-            console.log(arr[0]);
-            var html = "";
-
-            html += "<div>";
-            for (var i = 0; i < arr.length; i++) {
-                html += "<a href='#' class='btn btn-primary m-1'  onclick='sendFileName(\"" + i + "\")'>" + (i+1) + "</a>";
-            }
-            html += "</div>";
-            $(".uploadResult").html(html);
-
-        }
-
-
-    });
-    function sendFileName(fileName) {
-        // Ajax 요청을 사용하여 백엔드에 데이터를 전송
-        $.ajax({
-            url: '/sendFileName',
-            method: 'POST',
-            data: { fileName: fileName },
-            success: function(response) {
-                // 요청이 성공한 경우의 동작
-                console.log(response);
-                showFileList(response);
-
-            },
-            error: function(error) {
-                // 요청이 실패한 경우의 동작
-                console.log(error);
-            }
-        });
-    }
-    function showFileList(response) {
-        var html = "";
-        html += "<div class='insert'>"
-        html += "<li>합금철 총 투입비용 : " + response.totalCost + "</li>";
-        html += "<li>합금철 총 투입량 : " + response.totalAmount + "</li>";
-        html += "<li>예상 용강량 : " + response.expectOutput + "</li>";
-        html += "<li>방법 : " + response.method + "</li>";
-        html += "</div>";
-
-
-        $(".insert").html(html);
-    }
-
+        crossorigin="anonymous">
 </script>
 <script src="js/result.js"></script>
 </body>

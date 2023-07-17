@@ -1,13 +1,83 @@
-/* */
+ /*날짜 검색 조회 버튼 */
+.date-search-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+#startDate{
+    width: 15%;
+}
+
+#endDate {
+    margin-left: 10px;
+    width: 15%;
+}
+
+.date-search-label {
+    margin-right: 10px;
+}
+
+
+.card1 {
+    background-color: #f8f8f8;
+    border-radius: 5px;
+    padding: 10px;
+
+}
+
+.card input[type="date"] {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-right: 10px;
+}
+
+.card button {
+    padding: 10px 20px;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.card button:hover {
+    background-color: #0056b3;
+}
+
+/* 모달 날짜조회 버튼 css ===========================*/
+ .date-search-label {
+     margin-right: 10px;
+ }
+
+ .modal-body {
+     display: flex;
+     align-items: center;
+ }
+
+ .modal-body input[type="date"] {
+     flex-grow: 1;
+     margin-right: 10px;
+ }
+
+
+
+
+
+
+/* 기본 화면 */
+
 li {
     list-style-type: none;
 }
 
 .h5 {
     font-weight: bold;
+
 }
 
-/* 버튼 */
+/* 버튼====================================== */
 .btn-group {
     float: right;
 }
@@ -18,7 +88,7 @@ li {
 }
 
 
-/* 표 */
+/* 표 ======================================================*/
 table {
     border-collapse: collapse;
     width: 100%;
@@ -83,15 +153,34 @@ td:nth-child(1) {
 
 
 
-/*        */
+/*   파일 선택 버튼 css  =================================================*/
+input[type=file]::file-selector-button {
+    width: 100px;
+    height: 30px;
+    background: #fff;
+    border: 1px solid rgb(77,77,77);
+    border-radius: 10px;
+    cursor: pointer;
+}
+input[type=file]::file-selector-button:hover {
+    background: rgb(77,77,77);
+    color: #fff;
+}
+
+.file-group {
+    display: flex;
+}
 
 
+/*   */
+.result-save {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
 
 
-/* 차트 */
-/* .chart {
-  margin-top: 30px;
-} */
+/* 차트 ============================================================*/
 
 #chart-title {
     margin-top: 40px;
