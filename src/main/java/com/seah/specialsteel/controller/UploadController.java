@@ -72,9 +72,16 @@ public class UploadController {
 
         if (oriResultDTO != null) {
             CompareDTO compareDTO = new CompareDTO(oriResultDTO, revResultDTO);
-            System.out.println("합금철별 투입량 비교 결과:\n" + compareDTO.diffAlloyInputListToString());
-            System.out.println("성분 비교 결과:\n" + compareDTO.diffMaterialListToString());
+//            System.out.println("합금철별 투입량 비교 결과:\n" + compareDTO.diffAlloyInputListToString());
+//            System.out.println("성분 비교 결과:\n" + compareDTO.diffMaterialListToString());
             response.put("compareDTO", compareDTO);
+        }
+
+        CompareDTO compareDTO = (CompareDTO) response.get("compareDTO");
+        HashMap<String, Double> test = compareDTO.diffAlloyInputs;
+        System.out.println("맞을텐데?");
+        for (String key : test.keySet()){
+            System.out.println(key);
         }
 
         return ResponseEntity.ok(response);

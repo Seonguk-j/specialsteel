@@ -217,8 +217,8 @@
                 // console.log(response.revResultDTO);
                 showRevFile(response.revResultDTO);
                 // console.log("확인용: " + JSON.stringify(response.compareDTO.diffAlloyInputList));
-                drawAlloyChart(response.compareDTO.diffAlloyInputList);
-                drawMaterialChart(response.compareDTO.diffMaterialList);
+                drawAlloyChart(response.compareDTO.diffAlloyInputs);
+                drawMaterialChart(response.compareDTO.diffMaterials);
             },
             error: function(error) {
                 // 요청이 실패한 경우의 동작

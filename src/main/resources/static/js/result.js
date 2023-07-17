@@ -108,10 +108,9 @@ function drawAlloyChart(response) {
     data.addColumn('string', 'Ingredient');
     data.addColumn('number', 'Diff');
 
-    // var output = response.diffAlloyInputList;
-    // console.log("차트 테스트: " + output);
-    for(var i = 0; i < response.length; i++) {
-        data.addRow([response[i].name, response[i].diff]);
+    for(var key in response) {
+        var value = response[key];
+        data.addRow([key, value]);
     }
 
     var options = {
@@ -137,8 +136,9 @@ function drawMaterialChart(response) {
 
     // var output = response.diffAlloyInputList;
     // console.log("차트 테스트: " + output);
-    for(var i = 0; i < response.length; i++) {
-        data.addRow([response[i].name, response[i].diff]);
+    for(var key in response) {
+        var value = response[key];
+        data.addRow([key, value]);
     }
 
     var options = {

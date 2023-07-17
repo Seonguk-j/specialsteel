@@ -3,14 +3,22 @@ package com.seah.specialsteel.dto;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @JsonSerialize
 public class CompareDTO {
     ResultDTO ori;
     ResultDTO rev;
-    public ArrayList<Ingredient> diffAlloyInputList;
-    public ArrayList<Ingredient> diffMaterialList;
+//    public ArrayList<Ingredient> diffAlloyInputList;
+//    public ArrayList<Ingredient> diffMaterialList;
+
+    public HashMap<String, Double> diffAlloyInputs;
+    public HashMap<String, Double> oriAlloyInputs;
+    public HashMap<String, Double> revAlloyInputs;
+    public HashMap<String, Double> diffMaterials;
+    public HashMap<String, Double> oriMaterials;
+    public HashMap<String, Double> revMaterials;
 
     public CompareDTO(ResultDTO ori, ResultDTO rev) {
         this.ori = ori;
@@ -18,95 +26,86 @@ public class CompareDTO {
         compareAlloyInputs();
         compareMaterials();
     }
-    
-    ArrayList<Ingredient> compareAlloyInputs() {
-        diffAlloyInputList = new ArrayList<>();
 
-        for(String key : ori.getAlloyInputs().keySet()) {
-            if(rev.getAlloyInputs().containsKey(key)) {
-                if (!ori.getAlloyInputs().get(key).equals(rev.getAlloyInputs().get(key))) {
-                    diffAlloyInputList.add(new Ingredient(key, Double.parseDouble(ori.getAlloyInputs().get(key)) - Double.parseDouble(rev.getAlloyInputs().get(key))));
+    // 합금철별 투입량
+    void compareAlloyInputs() {
+        HashMap<String, String> oriHash = ori.getAlloyInputs();
+        HashMap<String, String> revHash = rev.getAlloyInputs();
+
+        diffAlloyInputs = new HashMap<>();
+        oriAlloyInputs = new HashMap<>();
+        revAlloyInputs = new HashMap<>();
+
+        // 기존 알고리즘에 존재하는 모든 합금철이름 사용
+        for(String key : oriHash.keySet()) {
+            // 수정알고리즘에 값이 존재할 경우
+            if(revHash.containsKey(key)) {
+                // 기존알고리즘과 수정알고리즘의 값에 차이가 있을 경우 내용 추가
+                if (!oriHash.get(key).equals(revHash.get(key))) {
+                    diffAlloyInputs.put(key, Double.parseDouble(oriHash.get(key)) - Double.parseDouble(revHash.get(key)));
+                    oriAlloyInputs.put(key, Double.parseDouble(oriHash.get(key)));
+                    revAlloyInputs.put(key, Double.parseDouble(revHash.get(key)));
                 }
             }
+            // 기존알고리즘에 값이 있으나 수정알고리즘에 없을 경우
             else {
-                diffAlloyInputList.add(new Ingredient(key, Double.parseDouble(ori.getAlloyInputs().get(key))));
+                diffAlloyInputs.put(key, Double.parseDouble(oriHash.get(key)));
+                oriAlloyInputs.put(key, Double.parseDouble(oriHash.get(key)));
+                revAlloyInputs.put(key, 0.0);
+
             }
         }
-        for(String key : rev.getAlloyInputs().keySet()) {
-            if(!ori.getAlloyInputs().containsKey(key)) {
-                diffAlloyInputList.add(new Ingredient(key, Double.parseDouble(rev.getAlloyInputs().get(key))));
-            }
-        }
-
-        return  diffAlloyInputList;
-    }
-
-    ArrayList<Ingredient> compareMaterials() {
-        diffMaterialList = new ArrayList<>();
-
-        for(String key : ori.getExpectMaterials().keySet()) {
-            if(rev.getExpectMaterials().containsKey(key)) {
-                if (!ori.getExpectMaterials().get(key).equals(rev.getExpectMaterials().get(key))) {
-                    diffMaterialList.add(new Ingredient(key, Double.parseDouble(ori.getExpectMaterials().get(key)) - Double.parseDouble(rev.getExpectMaterials().get(key))));
-                }
-            }
-            else {
-                diffMaterialList.add(new Ingredient(key, Double.parseDouble(ori.getExpectMaterials().get(key))));
-            }
-        }
-        for(String key : rev.getExpectMaterials().keySet()) {
-            if(!ori.getExpectMaterials().containsKey(key)) {
-                diffMaterialList.add(new Ingredient(key, Double.parseDouble(rev.getExpectMaterials().get(key))));
+        // 기존알고리즘에 값이 없으나 수정알고리즘에 값이 있을 경우
+        for(String key : revHash.keySet()) {
+            if(!oriHash.containsKey(key)) {
+                diffAlloyInputs.put(key, Double.parseDouble(revHash.get(key)));
+                oriAlloyInputs.put(key, 0.0);
+                revAlloyInputs.put(key, Double.parseDouble(revHash.get(key)));
             }
         }
 
-        return diffMaterialList;
     }
 
-    public String diffAlloyInputListToString() {
-        String str = "";
+    // result 예상 성분
+     void compareMaterials() {
+         HashMap<String, String> oriHash = ori.getExpectMaterials();
+         HashMap<String, String> revHash = rev.getExpectMaterials();
 
-        if(diffAlloyInputList != null) {
-            for (Ingredient s : diffAlloyInputList)
-                str += s.name + " : " + s.diff + "\n";
-        }
+         diffMaterials = new HashMap<>();
+         oriMaterials = new HashMap<>();
+         revMaterials = new HashMap<>();
 
-        return str;
-    }
+         // 기존 알고리즘에 존재하는 모든 합금철이름 사용
+         for(String key : oriHash.keySet()) {
+             // 수정알고리즘에 값이 존재할 경우
+             if(revHash.containsKey(key)) {
+                 // 기존알고리즘과 수정알고리즘의 값에 차이가 있을 경우 내용 추가
+                 if (!oriHash.get(key).equals(revHash.get(key))) {
+                     diffMaterials.put(key, Double.parseDouble(oriHash.get(key)) - Double.parseDouble(revHash.get(key)));
+                     oriMaterials.put(key, Double.parseDouble(oriHash.get(key)));
+                     revMaterials.put(key, Double.parseDouble(revHash.get(key)));
+                 }
+             }
+             // 기존알고리즘에 값이 있으나 수정알고리즘에 없을 경우
+             else {
+                 diffMaterials.put(key, Double.parseDouble(oriHash.get(key)));
+                 oriMaterials.put(key, Double.parseDouble(oriHash.get(key)));
+                 revMaterials.put(key, 0.0);
 
-    public String diffMaterialListToString() {
-        String str = "";
-
-        if(diffMaterialList != null) {
-            for (Ingredient s : diffMaterialList)
-                str += ",\n['" + s.name + "', '" + s.diff + "']";
-        }
-
-        return str;
-    }
-
-
-    /// @@@@@@@
-    public void setModifiedFiles(List<String> modifiedFileNames) {
-    }
-
-    public static class Ingredient {
-        private String name;
-        private Double diff;
-
-        public String getName() {
-            return name;
-        }
-
-        public Double getDiff() {
-            return diff;
-        }
-
-        Ingredient(String name, Double diff) {
-            this.name = name;
-            this.diff = diff;
-        }
-
+             }
+         }
+         // 기존알고리즘에 값이 없으나 수정알고리즘에 값이 있을 경우
+         for(String key : revHash.keySet()) {
+             if(!oriHash.containsKey(key)) {
+                 diffMaterials.put(key, Double.parseDouble(revHash.get(key)));
+                 oriMaterials.put(key, 0.0);
+                 revMaterials.put(key, Double.parseDouble(revHash.get(key)));
+             }
+         }
+         System.out.println("확인용");
+         for (String key : diffMaterials.keySet()){
+             System.out.println(key + ":" + diffMaterials.get(key));
+         }
     }
 
 }
