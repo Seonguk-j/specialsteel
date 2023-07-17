@@ -76,6 +76,7 @@
                 <div class="card-body">
                     <div class="allchart">
                         <button id="saveBtn">저장하기</button>
+                        <button id="allSaveBtn">일괄 저장하기</button>
                         <h5 id="chart-title">요약 지표</h5>
                         <div class="chart">
                             <div id="columnchart_material" style="width: 800px; height: 500px;"></div>
@@ -105,7 +106,8 @@
         crossorigin="anonymous"></script>
 <script>
     var nowIndex;
-    var nowComment;
+    var nowRevComment;
+    var nowOriComment;
     $('#oriUploadBtn').click(function (){
         // event.preventDefault();
         var formData = new FormData();
@@ -156,10 +158,11 @@
         html += "<li>합금철 총 투입량 : " + response.totalAmount + "</li>";
         html += "<li>예상 용강량 : " + response.expectOutput + "</li>";
         html += "<li>방법 : " + response.method + "</li>";
-        html += "<label> 메모 : <input type='textarea'/></label>";
+        html += "<label> 메모 : <input id='commentOriTextarea' type='textarea'/></label>";
         html += "</div>";
 
         $(".oriInsert").html(html);
+         nowOriComment = $("#commentOriTextarea").val();
     }
 
     //업로드 버튼을 누르면 파일을 MultipartFile[]에 담아 백으로 전달
@@ -231,18 +234,18 @@
         html += "<li>합금철 총 투입량 : " + response.totalAmount + "</li>";
         html += "<li>예상 용강량 : " + response.expectOutput + "</li>";
         html += "<li>방법 : " + response.method + "</li>";
-        html += "<label> 메모 : <textarea id='commentTextarea'>" + response.comment + "</textarea></label>";
+        html += "<label> 메모 : <textarea id='commentRevTextarea'>" + response.comment + "</textarea></label>";
         html += "<div>";
 
         for (var i = 0; i < response.length; i++) {
-            html += "<a href='#' class='btn btn-primary m-1' onclick='saveComment(\"" + i + "\",\"" + response.index + "\", $(\"#commentTextarea\").val())'>" + (i + 1) + "</a>";
+            html += "<a href='#' class='btn btn-primary m-1' onclick='saveComment(\"" + i + "\",\"" + response.index + "\", $(\"#commentRevTextarea\").val())'>" + (i + 1) + "</a>";
         }
 
         html += "</div>";
         html += "</div>";
 
         $(".insert").html(html);
-        nowComment = $("#commentTextarea").val();
+        nowRevComment = $("#commentRevTextarea").val();
     }
 
     function saveComment(index, saveIndex, comment) {
@@ -289,14 +292,16 @@
         });
     });
     $('#saveBtn').click(function (){
-        nowComment = $("#commentTextarea").val();
+        nowRevComment = $("#commentRevTextarea").val();
+        nowOriComment = $("#commentOriTextarea").val();
         //uplaod ajax
         $.ajax({
             url: '/saveHistory',
             method: 'POST',
             data: {
                 index: nowIndex,
-                comment: nowComment.toString()
+                revComment: nowRevComment.toString(),
+                oriComment: nowOriComment.toString()
             },
             success: function (result){
                 alert("성공");
@@ -307,6 +312,26 @@
         });
     });
 
+    $('#allSaveBtn').click(function (){
+        nowRevComment = $("#commentRevTextarea").val();
+        nowOriComment = $("#commentOriTextarea").val();
+        //uplaod ajax
+        $.ajax({
+            url: '/allSaveHistory',
+            method: 'POST',
+            data: {
+                index: nowIndex,
+                revComment: nowRevComment.toString(),
+                oriComment: nowOriComment.toString()
+            },
+            success: function (result){
+                alert("성공");
+            },
+            error:function (error){
+                alert("기존 알고리즘이 없습니다.");
+            }
+        });
+    });
 
 </script>
 <script src="js/result.js"></script>

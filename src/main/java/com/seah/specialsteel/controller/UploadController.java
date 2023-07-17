@@ -100,12 +100,25 @@ public class UploadController {
     }
 
     @PostMapping("/saveHistory")
-    public ResponseEntity<String>saveHistory(@RequestParam ("index")int index, @RequestParam ("comment")String comment) {
+    public ResponseEntity<String>saveHistory(@RequestParam ("index")int index, @RequestParam ("revComment")String revComment, @RequestParam ("oriComment")String oriComment) {
         if(oriResultDTO != null) {
-            revResultDTOList.get(index).setComment(comment);
+            revResultDTOList.get(index).setComment(revComment);
+            oriResultDTO.setComment(oriComment);
 
-            log.info("코멘트" + comment);
-            historyService.saveRevResultHistory(oriResultDTO, revResultDTOList.get(index));
+            historyService.saveHistory(oriResultDTO, revResultDTOList.get(index));
+            return new ResponseEntity(HttpStatus.OK);
+        }else {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/allSaveHistory")
+    public ResponseEntity<String>allSaveHistory(@RequestParam ("index") int index, @RequestParam ("revComment")String revComment, @RequestParam ("oriComment")String oriComment) {
+        if(oriResultDTO != null) {
+            revResultDTOList.get(index).setComment(revComment);
+            oriResultDTO.setComment(oriComment);
+            historyService.saveAllHistory(oriResultDTO, revResultDTOList);
+
             return new ResponseEntity(HttpStatus.OK);
         }else {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
