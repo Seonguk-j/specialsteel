@@ -5,9 +5,6 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.util.ArrayList;
 import java.util.List;
 
-// "C:\\jeongTest\\ResponseData_N29790.json"
-// "C:\\jeongTest\\ResponseData_N29791.json"
-
 @JsonSerialize
 public class CompareDTO {
     ResultDTO ori;
@@ -26,10 +23,18 @@ public class CompareDTO {
         diffAlloyInputList = new ArrayList<>();
 
         for(String key : ori.getAlloyInputs().keySet()) {
-            if(rev.getAlloyInputs().get(key) != null) {
+            if(rev.getAlloyInputs().containsKey(key)) {
                 if (!ori.getAlloyInputs().get(key).equals(rev.getAlloyInputs().get(key))) {
                     diffAlloyInputList.add(new Ingredient(key, Double.parseDouble(ori.getAlloyInputs().get(key)) - Double.parseDouble(rev.getAlloyInputs().get(key))));
                 }
+            }
+            else {
+                diffAlloyInputList.add(new Ingredient(key, Double.parseDouble(ori.getAlloyInputs().get(key))));
+            }
+        }
+        for(String key : rev.getAlloyInputs().keySet()) {
+            if(!ori.getAlloyInputs().containsKey(key)) {
+                diffAlloyInputList.add(new Ingredient(key, Double.parseDouble(rev.getAlloyInputs().get(key))));
             }
         }
 
@@ -40,10 +45,18 @@ public class CompareDTO {
         diffMaterialList = new ArrayList<>();
 
         for(String key : ori.getExpectMaterials().keySet()) {
-            if(rev.getExpectMaterials().get(key) != null) {
+            if(rev.getExpectMaterials().containsKey(key)) {
                 if (!ori.getExpectMaterials().get(key).equals(rev.getExpectMaterials().get(key))) {
                     diffMaterialList.add(new Ingredient(key, Double.parseDouble(ori.getExpectMaterials().get(key)) - Double.parseDouble(rev.getExpectMaterials().get(key))));
                 }
+            }
+            else {
+                diffMaterialList.add(new Ingredient(key, Double.parseDouble(ori.getExpectMaterials().get(key))));
+            }
+        }
+        for(String key : rev.getExpectMaterials().keySet()) {
+            if(!ori.getExpectMaterials().containsKey(key)) {
+                diffMaterialList.add(new Ingredient(key, Double.parseDouble(rev.getExpectMaterials().get(key))));
             }
         }
 

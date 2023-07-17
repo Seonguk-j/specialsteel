@@ -76,8 +76,6 @@ public class UploadController {
             System.out.println("성분 비교 결과:\n" + compareDTO.diffMaterialListToString());
             response.put("compareDTO", compareDTO);
         }
-        CompareDTO compareDTO = (CompareDTO) response.get("compareDTO");
-        System.out.println("dto확인: " + compareDTO.diffAlloyInputList.get(0).getName());
 
         return ResponseEntity.ok(response);
     }
