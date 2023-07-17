@@ -59,8 +59,9 @@
                                 <li>합금철 총 투입량 : </li>
                                 <li>예상 용강량 : </li>
                                 <li>방법 : </li>
+                                <div class="uploadResult"></div>
                             </div>
-                            <div class="uploadResult"></div>
+
                         </div>
 
                     </div>
@@ -74,7 +75,7 @@
             <div class="card col-12">
                 <div class="card-body">
                     <div class="allchart">
-                        <button id="commentSaveBtn">저장하기</button>
+                        <button id="saveBtn">저장하기</button>
                         <h5 id="chart-title">요약 지표</h5>
                         <div class="chart">
                             <div id="columnchart_material" style="width: 800px; height: 500px;"></div>
@@ -103,30 +104,8 @@
         integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
         crossorigin="anonymous"></script>
 <script>
-    $('#commentSaveBtn').click(function (){
-        var commentData = new FormData();
-
-        var comments = $("input[type='textarea']");
-
-        commentData.append("oriComment", comments[0]);
-        commentData.append("oriComment", comments[1]);
-
-       //uplaod ajax
-        $.ajax({
-            url: '/commentsUploadAjax',
-            processData: false,
-            contentType: false,
-            data: commentData,
-            type: 'POST',
-            dataType: 'json',
-            success: function (result){
-                alert("성공");
-            },
-            error:function (){
-            }
-        });
-
-    });
+    var nowIndex;
+    var nowComment;
     $('#oriUploadBtn').click(function (){
         // event.preventDefault();
         var formData = new FormData();
@@ -135,7 +114,7 @@
 
         var files = inputFile[0].files;
 
-        console.log(files[0]);
+
         formData.append("uploadfiles", files[0]);
 
         //uplaod ajax
@@ -153,51 +132,6 @@
             }
         });
     });
-
-    $('#revUploadBtn').click(function (){
-        // event.preventDefault();
-        var formData = new FormData();
-
-        var inputFile = $("input[type='file']");
-
-        var files = inputFile[1].files;
-
-        for(var i=0; i<files.length; i++){
-            console.log(files[i]);
-            formData.append("uploadfiles", files[i]);
-        }
-        //uplaod ajax
-        $.ajax({
-            url: '/uploadAjax',
-            processData: false,
-            contentType: false,
-            data: formData,
-            type: 'POST',
-            dataType: 'json',
-            success: function (result){
-                console.log(result);
-                showUploadedList(result);
-            },
-            error:function (jqXHR, textStatus, errorThrown){
-                console.log(textStatus);
-            }
-        });
-    });
-
-
-    function showUploadedList(arr) {
-        event.preventDefault();
-        var html = "";
-
-        html += "<div class='changeTest'>";
-
-        for (var i = 0; i < arr.length; i++) {
-            html += "<a href='#' class='btn btn-primary m-1'  onclick='sendRevFileName(\"" + i + "\",\"test\")'>" + (i+1) + "</a>";
-        }
-        html += "</div>";
-        $(".uploadResult").html(html);
-
-    }
 
     function sendOriFileName() {
         // Ajax 요청을 사용하여 백엔드에 데이터를 전송
@@ -228,51 +162,104 @@
         $(".oriInsert").html(html);
     }
 
+    //업로드 버튼을 누르면 파일을 MultipartFile[]에 담아 백으로 전달
+    $('#revUploadBtn').click(function (){
+        // event.preventDefault();
+        var formData = new FormData();
 
+        var inputFile = $("input[type='file']");
 
- function showRevFile(response) {
-    var html = "";
-    html += "<button class='deleteBtn' data-index='" + response.index + "'>삭제</button>";
-    html += "<div class='insert'>";
-    html += "<li>합금철 총 투입비용 : " + response.totalCost + "</li>";
-    html += "<li>합금철 총 투입량 : " + response.totalAmount + "</li>";
-    html += "<li>예상 용강량 : " + response.expectOutput + "</li>";
-    html += "<li>방법 : " + response.method + "</li>";
-    html += "<label> 메모 : <textarea id='commentTextarea'>" + response.comment + "</textarea></label>";
-    html += "<div>";
+        var files = inputFile[1].files;
 
-    var commentText = $("#commentTextarea").val();
-    console.log("Comment: ", commentText);
-    html += "<p> 바뀐거 </p>";
-    for (var i = 0; i < response.length; i++) {
-        html += "<a href='#' class='btn btn-primary m-1' onclick='sendRevFileName(\"" + i + "\",\"" + commentText + "\")'>" + (i+1) + "</a>";
+        for(var i=0; i<files.length; i++){
+
+            formData.append("uploadfiles", files[i]);
+        }
+        //uplaod ajax
+        $.ajax({
+            url: '/uploadAjax',
+            processData: false,
+            contentType: false,
+            data: formData,
+            type: 'POST',
+            dataType: 'json',
+            success: function (result){
+
+                showUploadedList(result);
+            },
+            error:function (jqXHR, textStatus, errorThrown){
+                console.log(textStatus);
+            }
+        });
+    });
+
+    //전달 받은 파일의 개수 만큼 버튼 생성, 버튼을 누르면 해당 인덱스를 가지는 json파일 출력
+    function showUploadedList(arr) {
+        event.preventDefault();
+        var html = "";
+
+        html += "<div class='changeTest'>";
+
+        for (var i = 0; i < arr.length; i++) {
+            html += "<a href='#' class='btn btn-primary m-1'  onclick='sendRevFileName(\"" + i + "\")'>" + (i+1) + "</a>";
+        }
+        html += "</div>";
+        $(".uploadResult").html(html);
+
+    }
+    function sendRevFileName(index) {
+
+        $.ajax({
+            url: '/sendRevFileName',
+            method: 'POST',
+            data: { index: index },
+            success: function(response) {
+                showRevFile(response);
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
     }
 
-    html += "</div>";
-    html += "</div>";
+    function showRevFile(response) {
+        nowIndex = response.index;
+        var html = "";
+        html += "<button class='deleteBtn' data-index='" + response.index + "'> 삭제</button>";
+        html += "<div class='insert'>";
+        html += "<li>합금철 총 투입비용 : " + response.totalCost + "</li>";
+        html += "<li>합금철 총 투입량 : " + response.totalAmount + "</li>";
+        html += "<li>예상 용강량 : " + response.expectOutput + "</li>";
+        html += "<li>방법 : " + response.method + "</li>";
+        html += "<label> 메모 : <textarea id='commentTextarea'>" + response.comment + "</textarea></label>";
+        html += "<div>";
 
-    $(".insert").html(html);
-}
-
-    function sendRevFileName(index, comment) {
-    var commentText = $("#commentTextarea").val(); // 최신의 commentText 값 가져오기
-
-    // Ajax 요청을 사용하여 백엔드에 데이터를 전송
-    $.ajax({
-        url: '/sendRevFileName',
-        method: 'POST',
-        data: { index: index, comment: comment },
-        success: function(response) {
-            // 선택한 json 보여주기
-            showRevFile(response);
-        },
-        error: function(error) {
-            // 요청이 실패한 경우의 동작
-            console.log(error);
+        for (var i = 0; i < response.length; i++) {
+            html += "<a href='#' class='btn btn-primary m-1' onclick='saveComment(\"" + i + "\",\"" + response.index + "\", $(\"#commentTextarea\").val())'>" + (i + 1) + "</a>";
         }
-    });
-}
 
+        html += "</div>";
+        html += "</div>";
+
+        $(".insert").html(html);
+        nowComment = $("#commentTextarea").val();
+    }
+
+    function saveComment(index, saveIndex, comment) {
+        $.ajax({
+            url: '/saveComment',
+            method: 'POST',
+            data: { index: index,
+                    saveIndex: saveIndex,
+                    comment: comment},
+            success: function(response) {
+                showRevFile(response);
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+    }
 
     function showInit() {
         var html = "";
@@ -282,11 +269,11 @@
         html += "<li>합금철 총 투입량 : </li>";
         html += "<li>예상 용강량 :</li>";
         html += "<li>방법 : </li>";
-        html += "<input type='textarea'/>";
         html += "</div>";
 
         $(".insert").html(html);
     }
+
     $('.insert').on('click', '.deleteBtn', function () {
         var index = $(this).data('index');
         $.ajax({
@@ -294,17 +281,32 @@
             method: 'POST',
             data: { index: index },
             success: function(response) {
-                // 요청이 성공한 경우의 동작
-                console.log(response);
-                showUploadedList(response);
-                showInit();
+                showRevFile(response);
             },
             error: function(error) {
-                // 요청이 실패한 경우의 동작
-                console.log(error);
+                showInit();
             }
         });
     });
+    $('#saveBtn').click(function (){
+        nowComment = $("#commentTextarea").val();
+        //uplaod ajax
+        $.ajax({
+            url: '/saveHistory',
+            method: 'POST',
+            data: {
+                index: nowIndex,
+                comment: nowComment.toString()
+            },
+            success: function (result){
+                alert("성공");
+            },
+            error:function (error){
+                alert("기존 알고리즘이 없습니다.");
+            }
+        });
+    });
+
 
 </script>
 <script src="js/result.js"></script>

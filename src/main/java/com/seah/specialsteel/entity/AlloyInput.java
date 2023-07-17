@@ -23,8 +23,12 @@ public class AlloyInput {
     private Double amount;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "result_id")
-    private Result result;
+    @JoinColumn(name = "RevResult_id")
+    private RevResult revResult;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "OriResult_id")
+    private OriResult oriResult;
 
 
 }

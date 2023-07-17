@@ -10,7 +10,7 @@ import javax.persistence.*;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class Result extends BaseEntity{
+public class OriResult extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,5 +28,7 @@ public class Result extends BaseEntity{
     @Column
     private String method;
 
+    @Column
+    private String comment;
 
 }

@@ -7,24 +7,29 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @ToString
-public class ExpectedResult {
+@NoArgsConstructor
+@AllArgsConstructor
+public class RevResult extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String name;
+    @Column
+    private double totalCost;
 
-    @Column(nullable = false)
-    private Double amount;
+    @Column
+    private double totalAmount;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "RevResult_id")
-    private RevResult revResult;
+    @Column
+    private double expectOutput;
+
+    @Column
+    private String method;
+
+    @Column
+    private String comment;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "OriResult_id")
