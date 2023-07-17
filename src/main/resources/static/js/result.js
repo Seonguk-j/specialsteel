@@ -102,13 +102,17 @@ container.appendChild(resultTableContainer);
 google.charts.load('current', {'packages':['bar']});
 google.charts.setOnLoadCallback();
 
-function drawChart1() {
-    var data = google.visualization.arrayToDataTable([
-        ['Year', 'Sales', 'Expenses'],
-        ['철냉각제', 500, 400],
-        ['Fe-Ni(35%) 페로니켈 35%', 2000, 1800],
-        ['Me-Ni(99%) 메탈니켈', 2500, 3000]
-    ]);
+function drawAlloyChart(response) {
+    var data = new google.visualization.DataTable();
+    // console.log(JSON.stringify(response));
+    data.addColumn('string', 'Ingredient');
+    data.addColumn('number', 'Diff');
+
+    // var output = response.diffAlloyInputList;
+    // console.log("차트 테스트: " + output);
+    for(var i = 0; i < response.length; i++) {
+        data.addRow([response[i].name, response[i].diff]);
+    }
 
     var options = {
         chart: {
@@ -117,35 +121,38 @@ function drawChart1() {
         }
     };
 
-    var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
+    var chart = new google.charts.Bar(document.getElementById('alloy_chart'));
 
     chart.draw(data, google.charts.Bar.convertOptions(options));
 }
 
-function drawChartTest(response) {
-    var 
-    var data = google.visualization.arrayToDataTable([
-        ['Test', 'Test', 'Test'],
-        ['Test', response.diffAlloyInputList, 2000],
-        ['Fe-Ni(35%) 페로니켈 35%', 2000, 1800],
-        ['Me-Ni(99%) 메탈니켈', 2500, 3000]
-    ]);
-
-    var options = {
-        chart: {
-            title: '합금철별 투입량',
-            subtitle: '',
-        }
-    };
-
-    var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
-
-    chart.draw(data, google.charts.Bar.convertOptions(options));
-}
-
-/* 차트 2 */
+/* 성분 차트 */
 google.charts.load('current', {'packages':['bar']});
-google.charts.setOnLoadCallback(drawChart2);
+google.charts.setOnLoadCallback();
+function drawMaterialChart(response) {
+    var data = new google.visualization.DataTable();
+    // console.log(JSON.stringify(response));
+    data.addColumn('string', 'Ingredient');
+    data.addColumn('number', 'Diff');
+
+    // var output = response.diffAlloyInputList;
+    // console.log("차트 테스트: " + output);
+    for(var i = 0; i < response.length; i++) {
+        data.addRow([response[i].name, response[i].diff]);
+    }
+
+    var options = {
+        chart: {
+            title: 'result 예상 성분',
+            subtitle: '',
+        }
+    };
+
+    var chart = new google.charts.Bar(document.getElementById('material_chart'));
+
+    chart.draw(data, google.charts.Bar.convertOptions(options));
+}
+
 
 function drawChart2() {
     var data = google.visualization.arrayToDataTable([

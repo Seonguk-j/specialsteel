@@ -31,7 +31,6 @@ public class UploadController {
     static ResultDTO oriResultDTO;
     List<ResultDTO> revResultDTOList;
 
-
     //파일 저장
     @PostMapping("/uploadAjax")
     public ResponseEntity<List<ResultDTO>> resultDTO(MultipartFile[] uploadfiles) throws Exception {
@@ -77,16 +76,16 @@ public class UploadController {
             System.out.println("성분 비교 결과:\n" + compareDTO.diffMaterialListToString());
             response.put("compareDTO", compareDTO);
         }
+        CompareDTO compareDTO = (CompareDTO) response.get("compareDTO");
+        System.out.println("dto확인: " + compareDTO.diffAlloyInputList.get(0).getName());
 
         return ResponseEntity.ok(response);
     }
-
 
     @PostMapping("/deleteList")
     public ResponseEntity<List<ResultDTO>> deleteFile(String index){
         System.out.println("확인용" + index);
         revResultDTOList.remove(Integer.parseInt(index));
-
 
         for(int i=0; i<revResultDTOList.size(); i++){
             revResultDTOList.get(i).setIndex(i+"");

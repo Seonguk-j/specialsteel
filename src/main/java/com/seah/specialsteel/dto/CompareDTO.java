@@ -12,8 +12,8 @@ import java.util.List;
 public class CompareDTO {
     ResultDTO ori;
     ResultDTO rev;
-    ArrayList<Ingredient> diffAlloyInputList;
-    ArrayList<Ingredient> diffMaterialList;
+    public ArrayList<Ingredient> diffAlloyInputList;
+    public ArrayList<Ingredient> diffMaterialList;
 
     public CompareDTO(ResultDTO ori, ResultDTO rev) {
         this.ori = ori;
@@ -77,9 +77,17 @@ public class CompareDTO {
     public void setModifiedFiles(List<String> modifiedFileNames) {
     }
 
-    static class Ingredient {
+    public static class Ingredient {
         private String name;
         private Double diff;
+
+        public String getName() {
+            return name;
+        }
+
+        public Double getDiff() {
+            return diff;
+        }
 
         Ingredient(String name, Double diff) {
             this.name = name;
