@@ -19,7 +19,4 @@ public class MainController {
         return "encoding";
     }
 
-
-
-
 }

@@ -132,11 +132,11 @@
                                 <option>차이값</option>
                             </select>
                         </div>
-                        <div class="chart">
-                            <div id="top_x_div1" style="width: 800px; height: 600px;"></div>
+                        <div class="alloy_chart">
+                            <div id="alloy_chart" style="width: 800px; height: 500px;"></div>
                         </div>
-                        <div class="chart1">
-                            <div id="top_x_div2" style="width: 800px; height: 600px;"></div>
+                        <div class="material_chart">
+                            <div id="material_chart" style="width: 800px; height: 500px;"></div>
                         </div>
                     </div>
                 </div>
@@ -147,8 +147,8 @@
         <div class="row">
             <div class="card col-12">
                 <div class="card-body">
-                    <div class="card-table">
-                    </div>
+                    <div class="alloy-table"></div>
+                    <div class="material-table"></div>
                 </div>
             </div>
         </div>
@@ -272,7 +272,12 @@
             method: 'POST',
             data: { index: index },
             success: function(response) {
-                showRevFile(response);
+                // 요청이 성공한 경우의 동작
+                showRevFile(response.revResultDTO);
+                drawAlloyChart(response.compareDTO.diffAlloyInputs);
+                drawMaterialChart(response.compareDTO.diffMaterials);
+                drawAlloyTable(response.compareDTO);
+                drawMaterialTable(response.compareDTO);
             },
             error: function(error) {
                 console.log(error);

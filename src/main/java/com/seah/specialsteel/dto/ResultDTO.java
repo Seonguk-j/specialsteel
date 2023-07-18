@@ -15,6 +15,7 @@ import java.io.Reader;
 import java.util.HashMap;
 @Data
 @NoArgsConstructor
+@JsonSerialize
 public class ResultDTO {
 
     public Long id;
