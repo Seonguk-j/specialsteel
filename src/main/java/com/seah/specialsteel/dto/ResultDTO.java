@@ -1,5 +1,6 @@
 package com.seah.specialsteel.dto;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.seah.specialsteel.entity.OriResult;
 import com.seah.specialsteel.entity.RevResult;
 import lombok.Data;

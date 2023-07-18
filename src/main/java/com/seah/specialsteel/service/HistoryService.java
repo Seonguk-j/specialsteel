@@ -9,7 +9,6 @@ import com.seah.specialsteel.repository.AlloyInputRepository;
 import com.seah.specialsteel.repository.ExpectedResultRepository;
 import com.seah.specialsteel.repository.OriResultRepository;
 import com.seah.specialsteel.repository.RevResultRepository;
-import com.seah.specialsteel.tools.ExtractJson;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
