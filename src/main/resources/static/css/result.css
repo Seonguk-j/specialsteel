@@ -46,6 +46,13 @@
     background-color: #0056b3;
 }
 
+
+/* 상단 검색 버튼 */
+.searchBtn {
+    margin-right: 10px;
+}
+
+
 /* 모달 날짜조회 버튼 css ===========================*/
  .date-search-label {
      margin-right: 10px;
@@ -172,7 +179,7 @@ input[type=file]::file-selector-button:hover {
 }
 
 
-/*   */
+/* 저장  */
 .result-save {
     display: flex;
     align-items: center;

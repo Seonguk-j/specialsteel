@@ -28,6 +28,10 @@
                 <div class="row">
                     <div class="card1 card col-12">
                         <div class="date-search-container">
+                            <div class="searchBtn">
+                                <input type="text" placeholder="검색어 입력">
+                                <button type="button">검색</button>
+                            </div>
                             <button onclick="showModal()">조회</button>
                         </div>
                     </div>
@@ -46,6 +50,9 @@
                                 <input type="date" id="startDate">
                                 <span> ~ </span>
                                 <input type="date" id="endDate">
+                            </div>
+                            <div id="listContainer">
+                                <!-- 리스트 목록이 여기에 추가될 것입니다. -->
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-primary">조회</button>

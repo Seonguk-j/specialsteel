@@ -16,7 +16,6 @@ function closeModal() {
 
 
 
-
 // 파일 선택 text 지우기 ======================================================================
 $(document).ready(function() {
     $(".uploadBtn").click(function() {
