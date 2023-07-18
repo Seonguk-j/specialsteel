@@ -95,7 +95,7 @@
                                 <li>합금철 총 투입량 : </li>
                                 <li>예상 용강량 : </li>
                                 <li>방법 : </li>
-                                <div class="uploadResult"></div>
+                                <div id="uploadResult"></div>
                             </div>
 
                         </div>
@@ -183,6 +183,7 @@
             error:function (){
             }
         });
+        $(this).prev("input[type='file']").val("");
     });
 
     function sendOriFileName() {
@@ -208,7 +209,7 @@
         html += "<li>합금철 총 투입량 : " + response.totalAmount + "</li>";
         html += "<li>예상 용강량 : " + response.expectOutput + "</li>";
         html += "<li>방법 : " + response.method + "</li>";
-        html += "<label> 메모 : <input id='commentOriTextarea' placeholder='메모를 입력하세요' type='textarea'/></label>";
+        html += "<label> 메모 : <textarea id='commentOriTextarea' placeholder='메모를 입력하세요'></textarea></label>";
         html += "</div>";
 
         $(".oriInsert").html(html);
@@ -237,13 +238,14 @@
             type: 'POST',
             dataType: 'json',
             success: function (result){
-
+                showInit();
                 showUploadedList(result);
             },
             error:function (jqXHR, textStatus, errorThrown){
                 console.log(textStatus);
             }
         });
+        $(this).prev("input[type='file']").val("");
     });
 
     //전달 받은 파일의 개수 만큼 버튼 생성, 버튼을 누르면 해당 인덱스를 가지는 json파일 출력
@@ -251,13 +253,11 @@
         event.preventDefault();
         var html = "";
 
-        html += "<div class='changeTest'>";
-
         for (var i = 0; i < arr.length; i++) {
             html += "<a href='#' class='btn btn-primary m-1'  onclick='sendRevFileName(\"" + i + "\")'>" + (i+1) + "</a>";
         }
         html += "</div>";
-        $(".uploadResult").html(html);
+        $("#uploadResult").html(html);
 
     }
     function sendRevFileName(index) {
@@ -289,11 +289,11 @@
         html += "<li>합금철 총 투입량 : " + response.totalAmount + "</li>";
         html += "<li>예상 용강량 : " + response.expectOutput + "</li>";
         html += "<li>방법 : " + response.method + "</li>";
-        html += "<label> 메모 : <input id='commentRevTextarea' placeholder='메모를 입력하세요'type='textarea'/>" + response.comment + "</input></label>";
+        html += "<label> 메모 : <textarea id='commentRevTextarea' placeholder='메모를 입력하세요'>" + response.comment + "</textarea></label>";
         html += "<div>";
 
         for (var i = 0; i < response.length; i++) {
-            html += "<a href='#' class='btn btn-primary m-1' onclick='saveComment(\"" + i + "\",\"" + response.index + "\", $(\"#commentRevTextarea\").val())'>" + (i + 1) + "</a>";
+            html += "<a href='#' id='uploadResult' class='btn btn-primary m-1' onclick='saveComment(\"" + i + "\",\"" + response.index + "\", $(\"#commentRevTextarea\").val())'>" + (i + 1) + "</a>";
         }
 
         html += "</div>";
@@ -331,6 +331,7 @@
         html += "<li>합금철 총 투입량 : </li>";
         html += "<li>예상 용강량 :</li>";
         html += "<li>방법 : </li>";
+        html += "<div id=\"uploadResult\"></div>";
         html += "</div>";
 
         $(".insert").html(html);
