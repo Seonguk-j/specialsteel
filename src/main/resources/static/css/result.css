@@ -192,6 +192,7 @@ input[type=file]::file-selector-button:hover {
 #chart-title {
     margin-top: 40px;
     font-weight: bold;
+    font-size: 25px;
 }
 
 
@@ -212,7 +213,11 @@ input[type=file]::file-selector-button:hover {
 }
 
 
-
+.sort-group {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
 
 
 
