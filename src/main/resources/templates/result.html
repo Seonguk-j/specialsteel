@@ -316,7 +316,11 @@
                     saveIndex: saveIndex,
                     comment: comment},
             success: function(response) {
-                showRevFile(response);
+                showRevFile(response.revResultDTO);
+                drawAlloyChart(response.compareDTO.diffAlloyInputs);
+                drawMaterialChart(response.compareDTO.diffMaterials);
+                drawAlloyTable(response.compareDTO);
+                drawMaterialTable(response.compareDTO);
             },
             error: function(error) {
                 console.log(error);

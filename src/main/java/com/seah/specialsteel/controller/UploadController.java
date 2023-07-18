@@ -36,7 +36,7 @@ import java.util.Map;
 public class UploadController {
     private final FileService fileService;
 
-//    List<String> uploadResultList;
+    //    List<String> uploadResultList;
     static ResultDTO oriResultDTO;
     List<ResultDTO> revResultDTOList;
 
@@ -50,7 +50,7 @@ public class UploadController {
         int i = 0;
         revResultDTOList = new ArrayList<>();
 
-        for(String str : uploadResultList){
+        for (String str : uploadResultList) {
             revResultDTOList.add(new ResultDTO(str));
             revResultDTOList.get(i).setIndex(i);
             i++;
@@ -58,6 +58,7 @@ public class UploadController {
         }
         return new ResponseEntity<>(revResultDTOList, HttpStatus.OK);
     }
+
     @PostMapping("/oriUploadAjax")
     public ResponseEntity<List<String>> oriUploadfile(MultipartFile[] uploadfiles) throws Exception {
         List<String> oriFileName = fileService.uploadResult(uploadfiles);
@@ -65,7 +66,7 @@ public class UploadController {
         oriResultDTO = new ResultDTO(oriFileName.get(0));
 
         fileService.deleteFile(oriFileName.get(0));
-        return new ResponseEntity<>(oriFileName,HttpStatus.OK);
+        return new ResponseEntity<>(oriFileName, HttpStatus.OK);
     }
 
     //기존 알고리즘 json파일을 dto에 담아서 보내기
@@ -78,11 +79,25 @@ public class UploadController {
 
 
     @PostMapping("/saveComment")
-    public ResponseEntity<ResultDTO> saveComment(@RequestParam ("index")int index, @RequestParam ("saveIndex")int saveIndex, @RequestParam ("comment")String comment) {
+    public ResponseEntity<Map<String, Object>> saveComment(@RequestParam("index") int index, @RequestParam("saveIndex") int saveIndex, @RequestParam("comment") String comment) {
         revResultDTOList.get(index).setLength(revResultDTOList.size());
         revResultDTOList.get(saveIndex).setComment(comment);
-        return new ResponseEntity<>(revResultDTOList.get(index), HttpStatus.OK);
+
+        ResultDTO revResultDTO = revResultDTOList.get(index);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("revResultDTO", revResultDTO);
+
+        if (oriResultDTO != null) {
+            CompareDTO compareDTO = new CompareDTO(oriResultDTO, revResultDTO);
+            response.put("compareDTO", compareDTO);
+        }
+
+        return ResponseEntity.ok(response);
     }
+
+
+    @PostMapping("/sendRevFileName")
     public ResponseEntity<Map<String, Object>> receiveRevResultDTO(@RequestParam ("index")int index) {
         revResultDTOList.get(index).setLength(revResultDTOList.size());
         ResultDTO revResultDTO = revResultDTOList.get(index);
