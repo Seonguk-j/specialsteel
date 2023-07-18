@@ -15,99 +15,99 @@ function closeModal() {
 
 
 
-
-// 파일 선택 text 지우기 ======================================================================
-$(document).ready(function() {
-    $(".uploadBtn").click(function() {
-        // 파일 선택 텍스트를 지우기 위해 파일 선택 요소의 값을 초기화합니다.
-        $(this).prev("input[type='file']").val("");
-    });
-});
-
-
-
-// 파일 업로드 ======================================================================
-
-$('.uploadBtn').click(function (){
-    // event.preventDefault();
-    var formData = new FormData();
-    var inputFile = $("input[type='file']");
-    var files = inputFile[1].files;
-
-    // 파일업로드 갯수 제한
-    var maxFileCount = 10; // 최대 업로드 갯수
-    if (files.length > maxFileCount) {
-        alert("파일 업로드는 최대 " + maxFileCount + "개까지 가능합니다.");
-        return;
-    }
-
-    for(var i=0; i<files.length; i++){
-        console.log(files[i]);
-        formData.append("uploadfiles", files[i]);
-    }
-
-    //uplaod ajax
-    $.ajax({
-        url: '/uploadAjax',
-        processData: false,
-        contentType: false,
-        data: formData,
-        type: 'POST',
-        dataType: 'json',
-        success: function (result){
-            console.log(result);
-            showUploadedList(result);
-        },
-        error:function (jqXHR, textStatus, errorThorwn){
-            console.log(textStatus);
-        }
-    });
-    function showUploadedList(arr) {
-        event.preventDefault();
-        console.log(arr[0]);
-        var html = "";
-
-        html += "<div>";
-            for (var i = 0; i < arr.length; i++) {
-                html += "<a href='#' class='btn btn-primary m-1'  onclick='sendFileName(\"" + i + "\")'>" + (i + 1) + "</a>";
-            }
-        html += "</div>";
-        $(".uploadResult").html(html);
-
-    }
-
-
-});
-function sendFileName(fileName) {
-    // Ajax 요청을 사용하여 백엔드에 데이터를 전송
-    $.ajax({
-        url: '/sendFileName',
-        method: 'POST',
-        data: { fileName: fileName },
-        success: function(response) {
-            // 요청이 성공한 경우의 동작
-            console.log(response);
-            showFileList(response);
-
-        },
-        error: function(error) {
-            // 요청이 실패한 경우의 동작
-            console.log(error);
-        }
-    });
-}
-function showFileList(response) {
-    var html = "";
-    html += "<div class='insert'>"
-    html += "<li>합금철 총 투입비용 : " + response.totalCost + "</li>";
-    html += "<li>합금철 총 투입량 : " + response.totalAmount + "</li>";
-    html += "<li>예상 용강량 : " + response.expectOutput + "</li>";
-    html += "<li>방법 : " + response.method + "</li>";
-    html += "</div>";
-
-
-    $(".insert").html(html);
-}
+//
+// // 파일 선택 text 지우기 ======================================================================
+// $(document).ready(function() {
+//     $(".uploadBtn").click(function() {
+//         // 파일 선택 텍스트를 지우기 위해 파일 선택 요소의 값을 초기화합니다.
+//         $(this).prev("input[type='file']").val("");
+//     });
+// });
+//
+//
+//
+// // 파일 업로드 ======================================================================
+//
+// $('.uploadBtn').click(function (){
+//     // event.preventDefault();
+//     var formData = new FormData();
+//     var inputFile = $("input[type='file']");
+//     var files = inputFile[1].files;
+//
+//     // 파일업로드 갯수 제한
+//     var maxFileCount = 10; // 최대 업로드 갯수
+//     if (files.length > maxFileCount) {
+//         alert("파일 업로드는 최대 " + maxFileCount + "개까지 가능합니다.");
+//         return;
+//     }
+//
+//     for(var i=0; i<files.length; i++){
+//         console.log(files[i]);
+//         formData.append("uploadfiles", files[i]);
+//     }
+//
+//     //uplaod ajax
+//     $.ajax({
+//         url: '/uploadAjax',
+//         processData: false,
+//         contentType: false,
+//         data: formData,
+//         type: 'POST',
+//         dataType: 'json',
+//         success: function (result){
+//             console.log(result);
+//             showUploadedList(result);
+//         },
+//         error:function (jqXHR, textStatus, errorThorwn){
+//             console.log(textStatus);
+//         }
+//     });
+//     function showUploadedList(arr) {
+//         event.preventDefault();
+//         console.log(arr[0]);
+//         var html = "";
+//
+//         html += "<div>";
+//             for (var i = 0; i < arr.length; i++) {
+//                 html += "<a href='#' class='btn btn-primary m-1'  onclick='sendFileName(\"" + i + "\")'>" + (i + 1) + "</a>";
+//             }
+//         html += "</div>";
+//         $(".uploadResult").html(html);
+//
+//     }
+//
+//
+// });
+// function sendFileName(fileName) {
+//     // Ajax 요청을 사용하여 백엔드에 데이터를 전송
+//     $.ajax({
+//         url: '/sendFileName',
+//         method: 'POST',
+//         data: { fileName: fileName },
+//         success: function(response) {
+//             // 요청이 성공한 경우의 동작
+//             console.log(response);
+//             showFileList(response);
+//
+//         },
+//         error: function(error) {
+//             // 요청이 실패한 경우의 동작
+//             console.log(error);
+//         }
+//     });
+// }
+// function showFileList(response) {
+//     var html = "";
+//     html += "<div class='insert'>"
+//     html += "<li>합금철 총 투입비용 : " + response.totalCost + "</li>";
+//     html += "<li>합금철 총 투입량 : " + response.totalAmount + "</li>";
+//     html += "<li>예상 용강량 : " + response.expectOutput + "</li>";
+//     html += "<li>방법 : " + response.method + "</li>";
+//     html += "</div>";
+//
+//
+//     $(".insert").html(html);
+// }
 
 // 커멘트
 

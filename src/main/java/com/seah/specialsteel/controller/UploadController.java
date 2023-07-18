@@ -47,6 +47,7 @@ public class UploadController {
 
         for(String str : uploadResultList){
             revResultDTOList.add(new ResultDTO(str));
+            log.info("길이:" + revResultDTOList.size());
             revResultDTOList.get(i).setIndex(i);
             i++;
             fileService.deleteFile(str);
