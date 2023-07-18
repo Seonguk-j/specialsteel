@@ -213,7 +213,7 @@
         html += "<li>합금철 총 투입량 : " + response.totalAmount + "</li>";
         html += "<li>예상 용강량 : " + response.expectOutput + "</li>";
         html += "<li>방법 : " + response.method + "</li>";
-        html += "<label> 메모 : <input id='commentOriTextarea' type='textarea'/></label>";
+        html += "<label> 메모 : <input id='commentOriTextarea' placeholder='메모를 입력하세요' type='textarea'/></label>";
         html += "</div>";
 
         $(".oriInsert").html(html);
@@ -294,7 +294,7 @@
         html += "<li>합금철 총 투입량 : " + response.totalAmount + "</li>";
         html += "<li>예상 용강량 : " + response.expectOutput + "</li>";
         html += "<li>방법 : " + response.method + "</li>";
-        html += "<label> 메모 : <textarea id='commentRevTextarea'>" + response.comment + "</textarea></label>";
+        html += "<label> 메모 : <input id='commentRevTextarea' placeholder='메모를 입력하세요'type='textarea'/>" + response.comment + "</input></label>";
         html += "<div>";
 
         for (var i = 0; i < response.length; i++) {

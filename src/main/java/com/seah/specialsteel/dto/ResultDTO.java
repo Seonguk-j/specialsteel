@@ -27,7 +27,7 @@ public class ResultDTO {
     public HashMap<String, String> expectMaterials; // result 예상 성분
     public String method;                          // 방법
     public int index;                           //인덱스
-    public String comment;                         //메모
+    public String comment = "";                         //메모
     public int length;                              //사이즈
     public OriResult oriResult;                     //저장용
 
