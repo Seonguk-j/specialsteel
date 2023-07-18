@@ -1,104 +1,140 @@
-
-
-
-
-
-
-
-// 표
-// 합금철 투입량 표 데이터
-var alloyData = [
-    ["합금철 종류", "철냉각제", "Cr(H)60% 하이크롬 60%", "Cr(H)57% 차지크롬 57%", "Cr(H)57% 차지크롬 47%", "Cr(H)57% 차지크롬 47% Fine", "Cr(L)60% 로크롬", "..."],
-    ["기존 알고리즘", "-", "-", "-", "-", "-", "-", "..."],
-    ["수정 알고리즘", "-", "-", "-", "-", "-", "-", "..."]
-];
-
-// result 예상 성분 표 데이터
-var resultData = [
-    ["성분 종류", "C", "Si", "Mn", "P", "S", "Ni", "..."],
-    ["기존 알고리즘", "-", "-", "-", "-", "-", "-", "..."],
-    ["수정 알고리즘", "-", "-", "-", "-", "-", "-", "..."]
-];
-
 // 합금철 투입량 표 생성 함수
-function createAlloyTable(data) {
+function createAlloyTable(response) {
     var table = document.createElement("table");
     var caption = document.createElement("caption");
     caption.classList.add("title");
 
     table.appendChild(caption);
 
-    for (var i = 0; i < data.length; i++) {
-        var row = document.createElement("tr");
+    var ori = response.oriAlloyInputs;
+    var rev = response.revAlloyInputs;
 
-        for (var j = 0; j < data[i].length; j++) {
-            var cell = document.createElement(i === 0 ? "th" : "td");
-            cell.textContent = data[i][j];
-            row.appendChild(cell);
-        }
+    var row1 = document.createElement("tr");
+    var row2 = document.createElement("tr");
+    var row3 = document.createElement("tr");
 
-        table.appendChild(row);
+    head = document.createElement("th");
+    head.textContent = "합금철 종류";
+    cell1 = document.createElement("td");
+    cell1.textContent = "기존 알고리즘";
+    cell2 = document.createElement("td");
+    cell2.textContent = "수정 알고리즘";
+
+    row1.appendChild(head);
+    row2.appendChild(cell1);
+    row3.appendChild(cell2);
+
+
+    var head, cell1,cell2;
+    for(var key in ori) {
+        head = document.createElement("th");
+        head.textContent = key;
+        cell1 = document.createElement("td");
+        cell1.textContent = ori[key];
+        cell2 = document.createElement("td");
+        cell2.textContent = rev[key];
+        row1.appendChild(head);
+        row2.appendChild(cell1);
+        row3.appendChild(cell2);
     }
+
+    table.appendChild(row1);
+    table.appendChild(row2);
+    table.appendChild(row3);
 
     return table;
 }
 
 // result 예상 성분 표 생성 함수
-function createResultTable(data) {
+function createMaterialTable(response) {
     var table = document.createElement("table");
     var caption = document.createElement("caption");
     caption.classList.add("title");
 
     table.appendChild(caption);
 
-    for (var i = 0; i < data.length; i++) {
-        var row = document.createElement("tr");
+    var ori = response.oriMaterials;
+    var rev = response.revMaterials;
 
-        for (var j = 0; j < data[i].length; j++) {
-            var cell = document.createElement("td");
-            cell.textContent = data[i][j];
-            row.appendChild(cell);
-        }
+    var row1 = document.createElement("tr");
+    var row2 = document.createElement("tr");
+    var row3 = document.createElement("tr");
 
-        table.appendChild(row);
+    head = document.createElement("th");
+    head.textContent = "예상 성분";
+    cell1 = document.createElement("td");
+    cell1.textContent = "기존 알고리즘";
+    cell2 = document.createElement("td");
+    cell2.textContent = "수정 알고리즘";
+
+    row1.appendChild(head);
+    row2.appendChild(cell1);
+    row3.appendChild(cell2);
+
+
+    var head, cell1,cell2;
+    for(var key in ori) {
+        head = document.createElement("th");
+        head.textContent = key;
+        cell1 = document.createElement("td");
+        cell1.textContent = ori[key];
+        cell2 = document.createElement("td");
+        cell2.textContent = rev[key];
+        row1.appendChild(head);
+        row2.appendChild(cell1);
+        row3.appendChild(cell2);
     }
+
+    table.appendChild(row1);
+    table.appendChild(row2);
+    table.appendChild(row3);
 
     return table;
 }
 
-// 표를 추가할 컨테이너 요소
-var container = document.querySelector(".card-table");
+function drawAlloyTable(response) {
+    // 표를 추가할 컨테이너 요소
+    var container = document.querySelector(".alloy-table");
 
-// 합금철 투입량 표 생성
-var alloyTable = createAlloyTable(alloyData);
-var alloyTableContainer = document.createElement("div");
-alloyTableContainer.appendChild(alloyTable);
+    // 이전 테이블을 제거합니다.
+    while (container.firstChild) {
+        container.firstChild.remove();
+    }
 
-// result 예상 성분 표 생성
-var resultTable = createResultTable(resultData);
-var resultTableContainer = document.createElement("div");
-resultTableContainer.appendChild(resultTable);
+    // 합금철 투입량 표 생성
+    var alloyTable = createAlloyTable(response);
+    var alloyTableContainer = document.createElement("div");
+    alloyTableContainer.className = "alloy-table";
+    alloyTableContainer.appendChild(alloyTable);
+    var alloyTitle = document.createElement("div");
+    alloyTitle.classList.add("title");
+    alloyTitle.textContent = "합금철별 투입량 :";
+    container.appendChild(alloyTitle);
+    container.appendChild(alloyTableContainer);
+}
 
-// 제목 추가
-var alloyTitle = document.createElement("div");
-alloyTitle.classList.add("title");
-alloyTitle.textContent = "합금철별 투입량 :";
-container.appendChild(alloyTitle);
-container.appendChild(alloyTableContainer);
+function drawMaterialTable(response) {
+    // 표를 추가할 컨테이너 요소
+    var container = document.querySelector(".material-table");
 
-var resultTitle = document.createElement("div");
-resultTitle.classList.add("title");
-resultTitle.textContent = "result 예상 성분 :";
-container.appendChild(resultTitle);
-container.appendChild(resultTableContainer);
+    // 이전 테이블을 제거합니다.
+    while (container.firstChild) {
+        container.firstChild.remove();
+    }
 
+    // 합금철 투입량 표 생성
+    var materialTable = createMaterialTable(response);
+    var materialTableContainer = document.createElement("div");
+    materialTableContainer.className = "material-table";
+    materialTableContainer.appendChild(materialTable);
+    var materialTitle = document.createElement("div");
+    materialTitle.classList.add("title");
+    materialTitle.textContent = "result 예상 성분 :";
+    container.appendChild(materialTitle);
+    container.appendChild(materialTableContainer);
+}
 
-
-
-
-
-//차트
-
+// 합금철별 투입량 차트
 google.charts.load('current', {'packages':['bar']});
 google.charts.setOnLoadCallback();
 
@@ -125,7 +161,7 @@ function drawAlloyChart(response) {
     chart.draw(data, google.charts.Bar.convertOptions(options));
 }
 
-/* 성분 차트 */
+// 예상 성분 차트
 google.charts.load('current', {'packages':['bar']});
 google.charts.setOnLoadCallback();
 function drawMaterialChart(response) {
@@ -152,35 +188,3 @@ function drawMaterialChart(response) {
 
     chart.draw(data, google.charts.Bar.convertOptions(options));
 }
-
-
-function drawChart2() {
-    var data = google.visualization.arrayToDataTable([
-        ['Year', 'Sales', 'Expenses'],
-        ['C', 100, 400],
-        ['Si', 1170, 460],
-        ['Mn', 660, 1120],
-        ['P', 1170, 460],
-        ['S', 1170, 460],
-        ['Ni', 1170, 460],
-        ['Cr', 1170, 460],
-        ['Mo', 1170, 460],
-        ['Cu', 1170, 460],
-        ['Sn', 1170, 460],
-        ['Tol-Al', 1170, 460],
-    ]);
-
-    var options = {
-        chart: {
-            title: 'result 예상 성분',
-            subtitle: '',
-        }
-    };
-
-    var chart = new google.charts.Bar(document.getElementById('columnchart_material2'));
-
-    chart.draw(data, google.charts.Bar.convertOptions(options));
-}
-
-
-

@@ -10,9 +10,6 @@ import java.util.List;
 public class CompareDTO {
     ResultDTO ori;
     ResultDTO rev;
-//    public ArrayList<Ingredient> diffAlloyInputList;
-//    public ArrayList<Ingredient> diffMaterialList;
-
     public HashMap<String, Double> diffAlloyInputs;
     public HashMap<String, Double> oriAlloyInputs;
     public HashMap<String, Double> revAlloyInputs;
@@ -63,7 +60,6 @@ public class CompareDTO {
                 revAlloyInputs.put(key, Double.parseDouble(revHash.get(key)));
             }
         }
-
     }
 
     // result 예상 성분
@@ -101,10 +97,6 @@ public class CompareDTO {
                  oriMaterials.put(key, 0.0);
                  revMaterials.put(key, Double.parseDouble(revHash.get(key)));
              }
-         }
-         System.out.println("확인용");
-         for (String key : diffMaterials.keySet()){
-             System.out.println(key + ":" + diffMaterials.get(key));
          }
     }
 

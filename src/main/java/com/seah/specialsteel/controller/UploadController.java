@@ -77,13 +77,6 @@ public class UploadController {
             response.put("compareDTO", compareDTO);
         }
 
-        CompareDTO compareDTO = (CompareDTO) response.get("compareDTO");
-        HashMap<String, Double> test = compareDTO.diffAlloyInputs;
-        System.out.println("맞을텐데?");
-        for (String key : test.keySet()){
-            System.out.println(key);
-        }
-
         return ResponseEntity.ok(response);
     }
 
