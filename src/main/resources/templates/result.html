@@ -265,6 +265,7 @@
         $("#uploadResult").html(html);
 
     }
+
     function sendRevFileName(index) {
 
         $.ajax({
@@ -274,10 +275,20 @@
             success: function(response) {
                 // 요청이 성공한 경우의 동작
                 showRevFile(response.revResultDTO);
-                drawAlloyChart(response.compareDTO.diffAlloyInputs);
-                drawMaterialChart(response.compareDTO.diffMaterials);
-                drawAlloyTable(response.compareDTO);
-                drawMaterialTable(response.compareDTO);
+
+                if(Object.keys(response.compareDTO.diffAlloyInputs).length === 0){
+                    alert("합금철별 투입량에 차이가 없습니다.");
+                }
+                else {
+                    drawAlloyChart(response.compareDTO.diffAlloyInputs);
+                    drawAlloyTable(response.compareDTO);
+                }
+                if(Object.keys(response.compareDTO.diffMaterials).length === 0){
+                    alert("예상 성분에 차이가 없습니다.");
+                }else {
+                    drawMaterialChart(response.compareDTO.diffMaterials);
+                    drawMaterialTable(response.compareDTO);
+                }
             },
             error: function(error) {
                 console.log(error);
@@ -316,11 +327,22 @@
                     saveIndex: saveIndex,
                     comment: comment},
             success: function(response) {
+                // 요청이 성공한 경우의 동작
                 showRevFile(response.revResultDTO);
-                drawAlloyChart(response.compareDTO.diffAlloyInputs);
-                drawMaterialChart(response.compareDTO.diffMaterials);
-                drawAlloyTable(response.compareDTO);
-                drawMaterialTable(response.compareDTO);
+
+                if(Object.keys(response.compareDTO.diffAlloyInputs).length === 0){
+                    alert("합금철별 투입량에 차이가 없습니다.");
+                }
+                else {
+                    drawAlloyChart(response.compareDTO.diffAlloyInputs);
+                    drawAlloyTable(response.compareDTO);
+                }
+                if(Object.keys(response.compareDTO.diffMaterials).length === 0){
+                    alert("예상 성분에 차이가 없습니다.");
+                }else {
+                    drawMaterialChart(response.compareDTO.diffMaterials);
+                    drawMaterialTable(response.compareDTO);
+                }
             },
             error: function(error) {
                 console.log(error);
