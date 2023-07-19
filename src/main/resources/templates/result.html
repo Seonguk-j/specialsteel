@@ -84,27 +84,13 @@
         <div class="row">
             <div class="card col-12">
                 <div class="card-body">
-                    <div class="allchart">
-<!--                        <h5 id="chart-title">요약 지표</h5>-->
-<!--                        <div class="sort-group">-->
-<!--                            <select class="sort-list" id="sort-select" style="margin-right: 10px" onchange="sendSortData()">-->
-<!--                                <option>정렬기준</option>-->
-<!--                                <option>이름</option>-->
-<!--                                <option>차이값</option>-->
-<!--                            </select>-->
-<!--                            <div>-->
-<!--                                <input type="radio" id="asc" name="order" value="asc" checked onchange="sendSortData()">오름차순-->
-<!--                                <input type="radio" id="desc" name="order" value="desc" onchange="sendSortData()">내림차순-->
-<!--                            </div>-->
-<!--                         </div>-->
-
-                    </div>
-                    <div class="alloy_chart">
-                        <div id="alloy_chart" style="width: 800px; height: 500px;"></div>
-                    </div>
-                    <div class="material_chart">
-                        <div id="material_chart" style="width: 800px; height: 500px;"></div>
-                    </div>
+                    <div class="allchart"></div>
+                        <div class="alloy_chart">
+                            <div id="alloy_chart" style="width: 800px; height: 500px;"></div>
+                        </div>
+                        <div class="material_chart">
+                            <div id="material_chart" style="width: 800px; height: 500px;"></div>
+                        </div>
                 </div>
             </div>
         </div>
@@ -265,11 +251,11 @@
                     alert("합금철별 투입량에 차이가 없습니다.");
 
                     var html = "";
-                    html += "<div id='alloy_chart'>"
+                    html += "<div id='alloy_chart' '>"
                     html += "<p>여기를 예쁘게</p>";
                     html += "</div>"
 
-                    $(".alloy_chart").html(html);
+                    $("#alloy_chart").html(html);
                 }
                 else {
                     var order = [];
@@ -285,10 +271,10 @@
                 if(Object.keys(response.compareDTO.diffMaterials).length === 0){
                     alert("예상 성분에 차이가 없습니다.");
                     var html = "";
-                    html += "<div id='material_chart'>"
+                    html += "<div id='material_chart' style='width: 800px; height: 500px;'>"
                     html +="<p>여기를 예쁘게</p>";
                     html += "</div>"
-                    $(".material_chart").html(html);
+                    $("#material_chart").html(html);
                 }else {
                     var order = [];
                     var i = 0;
@@ -380,11 +366,11 @@
                     alert("합금철별 투입량에 차이가 없습니다.");
 
                     var html = "";
-                    html += "<div id='alloy_chart'>"
+                    html += "<div id='alloy_chart' style='width: 800px; height: 500px;'>"
                     html +="<p>여기를 예쁘게</p>";
                     html += "</div>"
 
-                    $(".alloy_chart").html(html);
+                    $("#alloy_chart").html(html);
 
                 }
                 else {
@@ -402,11 +388,11 @@
                     alert("예상 성분에 차이가 없습니다.");
 
                     var html = "";
-                    html += "<div id='material_chart'>"
+                    html += "<div id='material_chart' style='width: 800px; height: 500px;'>"
                     html +="<p>여기를 예쁘게</p>";
                     html += "</div>"
 
-                    $(".material_chart").html(html);
+                    $("#material_chart").html(html);
                 }else {
                     var order = [];
                     var i = 0;
