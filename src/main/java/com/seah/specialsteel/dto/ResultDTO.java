@@ -31,12 +31,13 @@ public class ResultDTO {
     public String comment = "";                         //메모
     public int length;                              //사이즈
     public OriResult oriResult;                     //저장용
+    public String title;                            //파일 제목,
 
     public RevResult toRevEntity(){
         return new RevResult(id, totalCost, totalAmount, expectOutput, method, comment, oriResult);
     }
     public OriResult toOriEntity(){
-        return new OriResult(id, totalCost, totalAmount, expectOutput, method, comment);
+        return new OriResult(id, totalCost, totalAmount, expectOutput, method, comment,title);
     }
     public ResultDTO(String fileName) throws IOException, ParseException {
 

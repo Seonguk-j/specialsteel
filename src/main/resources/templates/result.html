@@ -28,10 +28,6 @@
                 <div class="row">
                     <div class="card1 card col-12">
                         <div class="date-search-container">
-                            <div class="searchBtn">
-                                <input type="text" placeholder="검색어 입력">
-                                <button type="button">검색</button>
-                            </div>
                             <button onclick="showModal()">조회</button>
                         </div>
                     </div>
@@ -45,6 +41,10 @@
                                 <h5 class="modal-title">날짜 조회</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="closeModal()"></button>
                             </div>
+                            <div class="searchBtn">
+                                <input type="text" placeholder="검색어 입력">
+                                <button type="button">검색</button>
+                            </div>
                             <div class="modal-body">
                                 <label class="date-search-label">기간</label>
                                 <input type="date" id="startDate">
@@ -52,7 +52,7 @@
                                 <input type="date" id="endDate">
                             </div>
                             <div id="listContainer">
-                                <!-- 리스트 목록이 여기에 추가될 것입니다. -->
+                                <!-- 리스트 목록이 여기에 추가. -->
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-primary">조회</button>
@@ -101,16 +101,53 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="card col-12">
-                    <div class="card-body">
-                        <div class="result-save">
-                            <button id="saveBtn">저장하기</button>
-                            <button id="allSaveBtn">일괄 저장하기</button>
+        <div class="test"></div>
+        <!-- 세이브 버튼 2개 및 각 모달창 -->
+
+        <!-- 파일 저장 모달 -->
+            <div id="saveModal" class="modal" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">파일 저장</h5>
+                            <button class="btn-close" data-bs-dismiss="modal" onclick="closeSaveModal()" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <label>제목 :
+                                <input id="title" type="text" placeholder="제목 입력">
+                            </label>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-primary" onclick="saveHistory()">저장</button>
+                            <button class="btn btn-secondary" onclick="closeSaveModal()" data-bs-dismiss="modal">닫기</button>
                         </div>
                     </div>
                 </div>
             </div>
+
+        <!-- 파일 일괄 저장 모달 -->
+        <div id="allSaveModal" class="modal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">파일 저장</h5>
+                        <button class="btn-close" data-bs-dismiss="modal" onclick="closeAllSaveModal()" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <label>제목 :
+                            <input id="allSaveTitle" type="text" placeholder="제목 입력">
+                        </label>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" onclick="allSaveHistory()">저장</button>
+                        <button class="btn btn-secondary" onclick="closeAllSaveModal()" data-bs-dismiss="modal">닫기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
 
         <!-- 차트 -->
         <div class="row">
@@ -203,9 +240,10 @@
             }
         });
     }
+
+    //
     function showOriFile(response) {
         var html = "";
-
         html += "<div class='oriInsert'>"
         html += "<li>합금철 총 투입비용 : " + response.totalCost + "</li>";
         html += "<li>합금철 총 투입량 : " + response.totalAmount + "</li>";
@@ -242,6 +280,7 @@
             success: function (result){
                 showInit();
                 showUploadedList(result);
+
             },
             error:function (jqXHR, textStatus, errorThrown){
                 console.log(textStatus);
@@ -272,7 +311,7 @@
             success: function(response) {
                 // 요청이 성공한 경우의 동작
                 showRevFile(response.revResultDTO);
-
+                showSaveBtn();
                 if(Object.keys(response.compareDTO.diffAlloyInputs).length === 0){
                     alert("합금철별 투입량에 차이가 없습니다.");
                 }
@@ -296,7 +335,6 @@
     function showRevFile(response) {
         nowIndex = response.index;
         var html = "";
-        html += "<button class='deleteBtn' data-index='" + response.index + "'> 삭제</button>";
         html += "<div class='insert'>";
         html += "<li>합금철 총 투입비용 : " + response.totalCost + "</li>";
         html += "<li>합금철 총 투입량 : " + response.totalAmount + "</li>";
@@ -310,10 +348,28 @@
         }
 
         html += "</div>";
+        html += "<button class='deleteBtn bg-danger' data-index='" + response.index + "'> 삭제</button>";
         html += "</div>";
+
 
         $(".insert").html(html);
         nowRevComment = $("#commentRevTextarea").val();
+    }
+    function showSaveBtn(){
+        var html = "";
+        html += "<div class='row'>";
+        html += "<div class='card col-12'>";
+        html += "<div class='card-body'>";
+        html += "<div class='result-save'>";
+        html += "<button class='saveBtn'>저장하기</button>";
+        html += "<button class='allSaveBtn'>일괄 저장하기</button>";
+        html += "</div>";
+        html += "</div>";
+        html += "</div>";
+        html += "</div>";
+
+        $(".test").html(html);
+
     }
 
     function saveComment(index, saveIndex, comment) {
@@ -326,7 +382,7 @@
             success: function(response) {
                 // 요청이 성공한 경우의 동작
                 showRevFile(response.revResultDTO);
-
+                showSaveBtn();
                 if(Object.keys(response.compareDTO.diffAlloyInputs).length === 0){
                     alert("합금철별 투입량에 차이가 없습니다.");
                 }
@@ -347,6 +403,7 @@
         });
     }
 
+    //
     function showInit() {
         var html = "";
 
@@ -361,6 +418,7 @@
         $(".insert").html(html);
     }
 
+    // 삭제 버튼
     $('.insert').on('click', '.deleteBtn', function () {
         var index = $(this).data('index');
         $.ajax({
@@ -369,53 +427,71 @@
             data: { index: index },
             success: function(response) {
                 showRevFile(response);
+
             },
             error: function(error) {
                 showInit();
             }
         });
     });
-    $('#saveBtn').click(function (){
+
+    // 파일 저장
+    $('.test').on('click', '.saveBtn', function (){
+        showSaveModal();
+    });
+    function saveHistory(){
         nowRevComment = $("#commentRevTextarea").val();
         nowOriComment = $("#commentOriTextarea").val();
+        var title = $('#title').val();
         //uplaod ajax
         $.ajax({
             url: '/saveHistory',
             method: 'POST',
             data: {
                 index: nowIndex,
+                title: title,
                 revComment: nowRevComment.toString(),
                 oriComment: nowOriComment.toString()
             },
             success: function (result){
-                alert("성공");
+                closeSaveModal();
+                title = "";
             },
             error:function (error){
                 alert("기존 알고리즘이 없습니다.");
             }
         });
-    });
 
-    $('#allSaveBtn').click(function (){
+    }
+
+    // 파일 일괄 저장
+    $('.test').on('click', '.allSaveBtn', function (){
+        showAllSaveModal();
+    });
+    function allSaveHistory(){
         nowRevComment = $("#commentRevTextarea").val();
         nowOriComment = $("#commentOriTextarea").val();
+        var title = $('#allSaveTitle').val();
         //uplaod ajax
         $.ajax({
             url: '/allSaveHistory',
             method: 'POST',
             data: {
                 index: nowIndex,
+                title: title,
                 revComment: nowRevComment.toString(),
                 oriComment: nowOriComment.toString()
             },
             success: function (result){
-                alert("성공");
+                closeAllSaveModal();
+                title = "";
             },
             error:function (error){
                 alert("기존 알고리즘이 없습니다.");
             }
         });
-    });
+    }
+
 
     function sendSortData() {
         var selectedSort = $("#sort-select").val();
@@ -429,6 +505,7 @@
 
 </script>
 <script src="js/result.js"></script>
+<script src="js/Modal.js"></script>
 </body>
 
 </html>

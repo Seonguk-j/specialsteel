@@ -31,4 +31,7 @@ public class OriResult extends BaseEntity{
     @Column
     private String comment;
 
+    @Column
+    private String title;
+
 }

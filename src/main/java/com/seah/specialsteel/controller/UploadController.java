@@ -117,9 +117,11 @@ public class UploadController {
     }
 
     @PostMapping("/saveHistory")
-    public ResponseEntity<String>saveHistory(@RequestParam ("index")int index, @RequestParam ("revComment")String revComment, @RequestParam ("oriComment")String oriComment) {
+    public ResponseEntity<String>saveHistory(@RequestParam ("index")int index, @RequestParam ("revComment")String revComment, @RequestParam ("oriComment")String oriComment,@RequestParam ("title")String title) {
+        log.info("타이틀: "+ title );
         if(oriResultDTO != null) {
             revResultDTOList.get(index).setComment(revComment);
+            oriResultDTO.setTitle(title);
             oriResultDTO.setComment(oriComment);
 
             historyService.saveHistory(oriResultDTO, revResultDTOList.get(index));
@@ -130,10 +132,11 @@ public class UploadController {
     }
 
     @PostMapping("/allSaveHistory")
-    public ResponseEntity<String>allSaveHistory(@RequestParam ("index") int index, @RequestParam ("revComment")String revComment, @RequestParam ("oriComment")String oriComment) {
+    public ResponseEntity<String>allSaveHistory(@RequestParam ("index") int index, @RequestParam ("revComment")String revComment, @RequestParam ("oriComment")String oriComment, @RequestParam ("title")String title) {
         if(oriResultDTO != null) {
             revResultDTOList.get(index).setComment(revComment);
             oriResultDTO.setComment(oriComment);
+            oriResultDTO.setTitle(title);
             historyService.saveAllHistory(oriResultDTO, revResultDTOList);
 
             return new ResponseEntity(HttpStatus.OK);

@@ -50,6 +50,9 @@
 /* 상단 검색 버튼 */
 .searchBtn {
     margin-right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
 }
 
 
