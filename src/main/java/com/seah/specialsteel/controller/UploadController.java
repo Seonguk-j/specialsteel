@@ -1,27 +1,16 @@
 package com.seah.specialsteel.controller;
 
-
-
 import com.seah.specialsteel.dto.ResultDTO;
-import com.seah.specialsteel.entity.OriResult;
 import com.seah.specialsteel.service.FileService;
 
 import com.seah.specialsteel.service.HistoryService;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-
-import org.json.simple.parser.ParseException;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.seah.specialsteel.dto.CompareDTO;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -39,7 +28,6 @@ public class UploadController {
     //    List<String> uploadResultList;
     static ResultDTO oriResultDTO;
     List<ResultDTO> revResultDTOList;
-
 
     private final HistoryService historyService;
 

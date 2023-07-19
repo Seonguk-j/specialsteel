@@ -14,8 +14,6 @@ public class SpecialsteelApplication {
 
 	public static void main(String[] args) throws IOException, ParseException {
 		SpringApplication.run(SpecialsteelApplication.class, args);
-
-
 	}
 
 }
