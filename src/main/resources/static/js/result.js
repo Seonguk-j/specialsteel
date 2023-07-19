@@ -110,7 +110,7 @@ function closeModal() {
 // }
 
 // 합금철 투입량 표 생성 함수
-function createAlloyTable(response) {
+function createAlloyTable(response, order) {
     var table = document.createElement("table");
     var caption = document.createElement("caption");
     caption.classList.add("title");
@@ -137,7 +137,8 @@ function createAlloyTable(response) {
 
 
     var head, cell1,cell2;
-    for(var key in ori) {
+    for(var i = 0; i < order.length; i++) {
+        var key = order[i];
         head = document.createElement("th");
         head.textContent = key;
         cell1 = document.createElement("td");
@@ -157,7 +158,7 @@ function createAlloyTable(response) {
 }
 
 // result 예상 성분 표 생성 함수
-function createMaterialTable(response) {
+function createMaterialTable(response, order) {
     var table = document.createElement("table");
     var caption = document.createElement("caption");
     caption.classList.add("title");
@@ -184,7 +185,8 @@ function createMaterialTable(response) {
 
 
     var head, cell1,cell2;
-    for(var key in ori) {
+    for(var i = 0; i < order.length; i++) {
+        var key = order[i];
         head = document.createElement("th");
         head.textContent = key;
         cell1 = document.createElement("td");
@@ -203,7 +205,7 @@ function createMaterialTable(response) {
     return table;
 }
 
-function drawAlloyTable(response) {
+function drawAlloyTable(response, order) {
     // 표를 추가할 컨테이너 요소
     var container = document.querySelector(".alloy-table");
 
@@ -213,7 +215,7 @@ function drawAlloyTable(response) {
     }
 
     // 합금철 투입량 표 생성
-    var alloyTable = createAlloyTable(response);
+    var alloyTable = createAlloyTable(response, order);
     var alloyTableContainer = document.createElement("div");
     alloyTableContainer.className = "alloy-table";
     alloyTableContainer.appendChild(alloyTable);
@@ -225,7 +227,7 @@ function drawAlloyTable(response) {
 
 }
 
-function drawMaterialTable(response) {
+function drawMaterialTable(response, order) {
     // 표를 추가할 컨테이너 요소
     var container = document.querySelector(".material-table");
 
@@ -235,7 +237,7 @@ function drawMaterialTable(response) {
     }
 
     // 합금철 투입량 표 생성
-    var materialTable = createMaterialTable(response);
+    var materialTable = createMaterialTable(response, order);
     var materialTableContainer = document.createElement("div");
     materialTableContainer.className = "material-table";
     materialTableContainer.appendChild(materialTable);
@@ -250,13 +252,14 @@ function drawMaterialTable(response) {
 google.charts.load('current', {'packages':['bar']});
 google.charts.setOnLoadCallback();
 
-function drawAlloyChart(response) {
+function drawAlloyChart(response, order) {
     var data = new google.visualization.DataTable();
     // console.log(JSON.stringify(response));
     data.addColumn('string', 'Ingredient');
     data.addColumn('number', 'Diff');
 
-    for(var key in response) {
+    for(var i = 0; i < order.length; i++) {
+        var key = order[i];
         var value = response[key];
         data.addRow([key, value]);
     }
@@ -276,7 +279,7 @@ function drawAlloyChart(response) {
 // 예상 성분 차트
 google.charts.load('current', {'packages':['bar']});
 google.charts.setOnLoadCallback();
-function drawMaterialChart(response) {
+function drawMaterialChart(response, order) {
     var data = new google.visualization.DataTable();
     // console.log(JSON.stringify(response));
     data.addColumn('string', 'Ingredient');
@@ -284,7 +287,8 @@ function drawMaterialChart(response) {
 
     // var output = response.diffAlloyInputList;
     // console.log("차트 테스트: " + output);
-    for(var key in response) {
+    for(var i = 0; i < order.length; i++) {
+        var key = order[i];
         var value = response[key];
         data.addRow([key, value]);
     }
