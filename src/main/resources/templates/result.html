@@ -32,36 +32,8 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- 모달창 -->
-                <div id="myModal" class="modal" tabindex="-1">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">날짜 조회</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="closeModal()"></button>
-                            </div>
-                            <div class="searchBtn">
-                                <input type="text" placeholder="검색어 입력">
-                                <button type="button">검색</button>
-                            </div>
-                            <div class="modal-body">
-                                <label class="date-search-label">기간</label>
-                                <input type="date" id="startDate">
-                                <span> ~ </span>
-                                <input type="date" id="endDate">
-                            </div>
-                            <div id="listContainer">
-                                <!-- 리스트 목록이 여기에 추가. -->
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-primary">조회</button>
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeModal()">닫기</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+                <!--날짜 조회 모달 -->
+                <th:block th:insert="Modal"></th:block>
 
                 <div class="row">
                     <div class="card col-6" id="ori">
@@ -101,51 +73,10 @@
                     </div>
                 </div>
             </div>
-        <div class="test"></div>
+        <div class="hidden-group"></div>
         <!-- 세이브 버튼 2개 및 각 모달창 -->
 
-        <!-- 파일 저장 모달 -->
-            <div id="saveModal" class="modal" tabindex="-1">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">파일 저장</h5>
-                            <button class="btn-close" data-bs-dismiss="modal" onclick="closeSaveModal()" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <label>제목 :
-                                <input id="title" type="text" placeholder="제목 입력">
-                            </label>
-                        </div>
-                        <div class="modal-footer">
-                            <button class="btn btn-primary" onclick="saveHistory()">저장</button>
-                            <button class="btn btn-secondary" onclick="closeSaveModal()" data-bs-dismiss="modal">닫기</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        <!-- 파일 일괄 저장 모달 -->
-        <div id="allSaveModal" class="modal" tabindex="-1">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">파일 저장</h5>
-                        <button class="btn-close" data-bs-dismiss="modal" onclick="closeAllSaveModal()" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <label>제목 :
-                            <input id="allSaveTitle" type="text" placeholder="제목 입력">
-                        </label>
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-primary" onclick="allSaveHistory()">저장</button>
-                        <button class="btn btn-secondary" onclick="closeAllSaveModal()" data-bs-dismiss="modal">닫기</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+        <!-- 파일 모달 부분 -->
 
 
 
@@ -154,24 +85,25 @@
             <div class="card col-12">
                 <div class="card-body">
                     <div class="allchart">
-                        <h5 id="chart-title">요약 지표</h5>
-                        <div class="sort-group">
-                            <select class="sort-list" id="sort-select" style="margin-right: 10px" onchange="sendSortData()">
-                                <option>정렬기준</option>
-                                <option>이름</option>
-                                <option>차이값</option>
-                            </select>
-                            <div>
-                                <input type="radio" id="asc" name="order" value="asc" checked onchange="sendSortData()">오름차순
-                                <input type="radio" id="desc" name="order" value="desc" onchange="sendSortData()">내림차순
-                            </div>
-                        </div>
-                        <div class="alloy_chart">
-                            <div id="alloy_chart" style="width: 800px; height: 500px;"></div>
-                        </div>
-                        <div class="material_chart">
-                            <div id="material_chart" style="width: 800px; height: 500px;"></div>
-                        </div>
+<!--                        <h5 id="chart-title">요약 지표</h5>-->
+<!--                        <div class="sort-group">-->
+<!--                            <select class="sort-list" id="sort-select" style="margin-right: 10px" onchange="sendSortData()">-->
+<!--                                <option>정렬기준</option>-->
+<!--                                <option>이름</option>-->
+<!--                                <option>차이값</option>-->
+<!--                            </select>-->
+<!--                            <div>-->
+<!--                                <input type="radio" id="asc" name="order" value="asc" checked onchange="sendSortData()">오름차순-->
+<!--                                <input type="radio" id="desc" name="order" value="desc" onchange="sendSortData()">내림차순-->
+<!--                            </div>-->
+<!--                         </div>-->
+
+                    </div>
+                    <div class="alloy_chart">
+                        <div id="alloy_chart" style="width: 800px; height: 500px;"></div>
+                    </div>
+                    <div class="material_chart">
+                        <div id="material_chart" style="width: 800px; height: 500px;"></div>
                     </div>
                 </div>
             </div>
@@ -272,7 +204,7 @@
         }
         //uplaod ajax
         $.ajax({
-            url: '/uploadAjax',
+            url: '/revUploadAjax',
             processData: false,
             contentType: false,
             data: formData,
@@ -281,7 +213,6 @@
             success: function (result){
                 showInit();
                 showUploadedList(result);
-
             },
             error:function (jqXHR, textStatus, errorThrown){
                 console.log(textStatus);
@@ -315,8 +246,26 @@
                 showSaveBtn();
                 compareDTO = response.compareDTO;
 
+                var html ="";
+                html += "<h5 id='chart-title'>요약 지표</h5>";
+                html += "<div class='sort-group'>";
+                html += "<select class='sort-list' id='sort-select' style='margin-right: 10px' onchange='sendSortData()'>";
+                html += "<option>정렬기준</option>";
+                html += "<option>이름</option>";
+                html += "<option>차이값</option>";
+                html += "</select>";
+                html += "<div>";
+                html += "<input type='radio' id='asc' name='order' value='asc' checked onchange='sendSortData()'>오름차순";
+                html += "<input type='radio' id='desc' name='order' value='desc' onchange='sendSortData()'>내림차순";
+                html += "</div>";
+                html += "</div>";
+                $(".allchart").html(html);
+
                 if(Object.keys(response.compareDTO.diffAlloyInputs).length === 0){
                     alert("합금철별 투입량에 차이가 없습니다.");
+                    var html ="<p>여기를 예쁘게</p>";
+
+                    $(".alloy_chart").html(html);
                 }
                 else {
                     var order = [];
@@ -331,6 +280,8 @@
                 }
                 if(Object.keys(response.compareDTO.diffMaterials).length === 0){
                     alert("예상 성분에 차이가 없습니다.");
+                    var html ="<p>여기를 예쁘게</p>";
+                    $(".material_chart").html(html);
                 }else {
                     var order = [];
                     var i = 0;
@@ -385,9 +336,10 @@
         html += "</div>";
         html += "</div>";
 
-        $(".test").html(html);
+        $(".hidden-group").html(html);
 
     }
+
 
     function saveComment(index, saveIndex, comment) {
         $.ajax({
@@ -402,8 +354,28 @@
                 showSaveBtn();
                 compareDTO = response.compareDTO;
 
+                var html ="";
+                html += "<h5 id='chart-title'>요약 지표</h5>";
+                html += "<div class='sort-group'>";
+                html += "<select class='sort-list' id='sort-select' style='margin-right: 10px' onchange='sendSortData()'>";
+                html += "<option>정렬기준</option>";
+                html += "<option>이름</option>";
+                html += "<option>차이값</option>";
+                html += "</select>";
+                html += "<div>";
+                html += "<input type='radio' id='asc' name='order' value='asc' checked onchange='sendSortData()'>오름차순";
+                html += "<input type='radio' id='desc' name='order' value='desc' onchange='sendSortData()'>내림차순";
+                html += "</div>";
+                html += "</div>";
+                $(".allchart").html(html);
+
                 if(Object.keys(response.compareDTO.diffAlloyInputs).length === 0){
                     alert("합금철별 투입량에 차이가 없습니다.");
+
+                    var html ="<p>여기를 예쁘게</p>";
+
+                    $(".alloy_chart").html(html);
+
                 }
                 else {
                     var order = [];
@@ -418,6 +390,10 @@
                 }
                 if(Object.keys(response.compareDTO.diffMaterials).length === 0){
                     alert("예상 성분에 차이가 없습니다.");
+
+                    var html ="<p>여기를 예쁘게</p>";
+
+                    $(".material_chart").html(html);
                 }else {
                     var order = [];
                     var i = 0;
@@ -469,7 +445,7 @@
     });
 
     // 파일 저장
-    $('.test').on('click', '.saveBtn', function (){
+    $('.hidden-group').on('click', '.saveBtn', function (){
         showSaveModal();
     });
     function saveHistory(){
@@ -498,7 +474,7 @@
     }
 
     // 파일 일괄 저장
-    $('.test').on('click', '.allSaveBtn', function (){
+    $('.hidden-group').on('click', '.allSaveBtn', function (){
         showAllSaveModal();
     });
     function allSaveHistory(){
@@ -526,6 +502,13 @@
     }
 
 
+
+
+
+
+
+
+    // 정렬
     function sendSortData() {
         var selectedSort = $("#sort-select").val();
         var selectedOrder = $("input[name='order']:checked").val();

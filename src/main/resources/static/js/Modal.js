@@ -31,12 +31,12 @@ function closeSaveModal() {
 // 일괄저장 모달창 ======================================================================
 
 function showAllSaveModal() {
-    const modal = document.getElementById('saveModal');
+    const modal = document.getElementById('allSaveModal');
     modal.style.display = 'block';
 }
 
 //닫기
 function closeAllSaveModal() {
-    const modal = document.getElementById('saveModal');
+    const modal = document.getElementById('allSaveModal');
     modal.style.display = 'none';
 }

@@ -30,9 +30,18 @@ public class UploadController {
     List<ResultDTO> revResultDTOList;
 
     private final HistoryService historyService;
+    @PostMapping("/oriUploadAjax")
+    public ResponseEntity<List<String>> oriUploadfile(MultipartFile[] uploadfiles) throws Exception {
+        List<String> oriFileName = fileService.uploadResult(uploadfiles);
+
+        oriResultDTO = new ResultDTO(oriFileName.get(0));
+
+        fileService.deleteFile(oriFileName.get(0));
+        return new ResponseEntity<>(oriFileName, HttpStatus.OK);
+    }
 
     //파일 저장
-    @PostMapping("/uploadAjax")
+    @PostMapping("/revUploadAjax")
     public ResponseEntity<List<ResultDTO>> resultDTO(MultipartFile[] uploadfiles) throws Exception {
         List<String> uploadResultList = fileService.uploadResult(uploadfiles);
         int i = 0;
@@ -44,18 +53,10 @@ public class UploadController {
             i++;
             fileService.deleteFile(str);
         }
+
         return new ResponseEntity<>(revResultDTOList, HttpStatus.OK);
     }
 
-    @PostMapping("/oriUploadAjax")
-    public ResponseEntity<List<String>> oriUploadfile(MultipartFile[] uploadfiles) throws Exception {
-        List<String> oriFileName = fileService.uploadResult(uploadfiles);
-
-        oriResultDTO = new ResultDTO(oriFileName.get(0));
-
-        fileService.deleteFile(oriFileName.get(0));
-        return new ResponseEntity<>(oriFileName, HttpStatus.OK);
-    }
 
     //기존 알고리즘 json파일을 dto에 담아서 보내기
     @PostMapping("/sendOriFileName")
@@ -106,6 +107,7 @@ public class UploadController {
 
         revResultDTOList.remove(Integer.parseInt(index));
         if(revResultDTOList.isEmpty()){
+
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }else {
             revResultDTOList.get(0).setLength(revResultDTOList.size());
