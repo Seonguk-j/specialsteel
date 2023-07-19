@@ -300,3 +300,4 @@ function drawMaterialChart(response) {
 
     chart.draw(data, google.charts.Bar.convertOptions(options));
 }
+
