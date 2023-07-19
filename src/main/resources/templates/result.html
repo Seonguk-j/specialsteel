@@ -97,9 +97,7 @@
                                 <li>방법 : </li>
                                 <div id="uploadResult"></div>
                             </div>
-
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -121,11 +119,15 @@
                     <div class="allchart">
                         <h5 id="chart-title">요약 지표</h5>
                         <div class="sort-group">
-                            <select class="sort-list">
+                            <select class="sort-list" id="sort-select" style="margin-right: 10px" onchange="sendSortData()">
                                 <option>정렬기준</option>
                                 <option>이름</option>
                                 <option>차이값</option>
                             </select>
+                            <div>
+                                <input type="radio" id="asc" name="order" value="asc" checked onchange="sendSortData()">오름차순
+                                <input type="radio" id="desc" name="order" value="desc" onchange="sendSortData()">내림차순
+                            </div>
                         </div>
                         <div class="alloy_chart">
                             <div id="alloy_chart" style="width: 800px; height: 500px;"></div>
@@ -158,14 +160,14 @@
     var nowIndex;
     var nowRevComment;
     var nowOriComment;
+    var diffAlloyInputsMap;
+    var diffMaterialsMap;
+
     $('#oriUploadBtn').click(function (){
         // event.preventDefault();
         var formData = new FormData();
-
         var inputFile = $("input[type='file']");
-
         var files = inputFile[0].files;
-
 
         formData.append("uploadfiles", files[0]);
 
@@ -260,6 +262,7 @@
         $("#uploadResult").html(html);
 
     }
+
     function sendRevFileName(index) {
 
         $.ajax({
@@ -269,10 +272,20 @@
             success: function(response) {
                 // 요청이 성공한 경우의 동작
                 showRevFile(response.revResultDTO);
-                drawAlloyChart(response.compareDTO.diffAlloyInputs);
-                drawMaterialChart(response.compareDTO.diffMaterials);
-                drawAlloyTable(response.compareDTO);
-                drawMaterialTable(response.compareDTO);
+
+                if(Object.keys(response.compareDTO.diffAlloyInputs).length === 0){
+                    alert("합금철별 투입량에 차이가 없습니다.");
+                }
+                else {
+                    drawAlloyChart(response.compareDTO.diffAlloyInputs);
+                    drawAlloyTable(response.compareDTO);
+                }
+                if(Object.keys(response.compareDTO.diffMaterials).length === 0){
+                    alert("예상 성분에 차이가 없습니다.");
+                }else {
+                    drawMaterialChart(response.compareDTO.diffMaterials);
+                    drawMaterialTable(response.compareDTO);
+                }
             },
             error: function(error) {
                 console.log(error);
@@ -311,11 +324,22 @@
                     saveIndex: saveIndex,
                     comment: comment},
             success: function(response) {
+                // 요청이 성공한 경우의 동작
                 showRevFile(response.revResultDTO);
-                drawAlloyChart(response.compareDTO.diffAlloyInputs);
-                drawMaterialChart(response.compareDTO.diffMaterials);
-                drawAlloyTable(response.compareDTO);
-                drawMaterialTable(response.compareDTO);
+
+                if(Object.keys(response.compareDTO.diffAlloyInputs).length === 0){
+                    alert("합금철별 투입량에 차이가 없습니다.");
+                }
+                else {
+                    drawAlloyChart(response.compareDTO.diffAlloyInputs);
+                    drawAlloyTable(response.compareDTO);
+                }
+                if(Object.keys(response.compareDTO.diffMaterials).length === 0){
+                    alert("예상 성분에 차이가 없습니다.");
+                }else {
+                    drawMaterialChart(response.compareDTO.diffMaterials);
+                    drawMaterialTable(response.compareDTO);
+                }
             },
             error: function(error) {
                 console.log(error);
@@ -392,6 +416,16 @@
             }
         });
     });
+
+    function sendSortData() {
+        var selectedSort = $("#sort-select").val();
+        if(selectedSort === "이름"){
+            alert("이름되나?");
+        }
+        // var selectedOrder = $("input[name='order']:checked").val();
+
+        // AJAX 요청을 통해 선택된 값을 백엔드로 전달
+    }
 
 </script>
 <script src="js/result.js"></script>

@@ -2,20 +2,18 @@ package com.seah.specialsteel.dto;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.LinkedHashMap;
 
 @JsonSerialize
 public class CompareDTO {
     ResultDTO ori;
     ResultDTO rev;
-    public HashMap<String, Double> diffAlloyInputs;
-    public HashMap<String, Double> oriAlloyInputs;
-    public HashMap<String, Double> revAlloyInputs;
-    public HashMap<String, Double> diffMaterials;
-    public HashMap<String, Double> oriMaterials;
-    public HashMap<String, Double> revMaterials;
+    public LinkedHashMap<String, Double> diffAlloyInputs;
+    public LinkedHashMap<String, Double> oriAlloyInputs;
+    public LinkedHashMap<String, Double> revAlloyInputs;
+    public LinkedHashMap<String, Double> diffMaterials;
+    public LinkedHashMap<String, Double> oriMaterials;
+    public LinkedHashMap<String, Double> revMaterials;
 
     public CompareDTO(ResultDTO ori, ResultDTO rev) {
         this.ori = ori;
@@ -26,12 +24,12 @@ public class CompareDTO {
 
     // 합금철별 투입량
     void compareAlloyInputs() {
-        HashMap<String, String> oriHash = ori.getAlloyInputs();
-        HashMap<String, String> revHash = rev.getAlloyInputs();
+        LinkedHashMap<String, String> oriHash = ori.getAlloyInputs();
+        LinkedHashMap<String, String> revHash = rev.getAlloyInputs();
 
-        diffAlloyInputs = new HashMap<>();
-        oriAlloyInputs = new HashMap<>();
-        revAlloyInputs = new HashMap<>();
+        diffAlloyInputs = new LinkedHashMap<>();
+        oriAlloyInputs = new LinkedHashMap<>();
+        revAlloyInputs = new LinkedHashMap<>();
 
         // 기존 알고리즘에 존재하는 모든 합금철이름 사용
         for(String key : oriHash.keySet()) {
@@ -64,12 +62,12 @@ public class CompareDTO {
 
     // result 예상 성분
      void compareMaterials() {
-         HashMap<String, String> oriHash = ori.getExpectMaterials();
-         HashMap<String, String> revHash = rev.getExpectMaterials();
+         LinkedHashMap<String, String> oriHash = ori.getExpectMaterials();
+         LinkedHashMap<String, String> revHash = rev.getExpectMaterials();
 
-         diffMaterials = new HashMap<>();
-         oriMaterials = new HashMap<>();
-         revMaterials = new HashMap<>();
+         diffMaterials = new LinkedHashMap<>();
+         oriMaterials = new LinkedHashMap<>();
+         revMaterials = new LinkedHashMap<>();
 
          // 기존 알고리즘에 존재하는 모든 합금철이름 사용
          for(String key : oriHash.keySet()) {
