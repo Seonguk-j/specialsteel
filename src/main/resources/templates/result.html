@@ -263,7 +263,11 @@
 
                 if(Object.keys(response.compareDTO.diffAlloyInputs).length === 0){
                     alert("합금철별 투입량에 차이가 없습니다.");
-                    var html ="<p>여기를 예쁘게</p>";
+
+                    var html = "";
+                    html += "<div id='alloy_chart'>"
+                    html += "<p>여기를 예쁘게</p>";
+                    html += "</div>"
 
                     $(".alloy_chart").html(html);
                 }
@@ -280,7 +284,10 @@
                 }
                 if(Object.keys(response.compareDTO.diffMaterials).length === 0){
                     alert("예상 성분에 차이가 없습니다.");
-                    var html ="<p>여기를 예쁘게</p>";
+                    var html = "";
+                    html += "<div id='material_chart'>"
+                    html +="<p>여기를 예쁘게</p>";
+                    html += "</div>"
                     $(".material_chart").html(html);
                 }else {
                     var order = [];
@@ -372,7 +379,10 @@
                 if(Object.keys(response.compareDTO.diffAlloyInputs).length === 0){
                     alert("합금철별 투입량에 차이가 없습니다.");
 
-                    var html ="<p>여기를 예쁘게</p>";
+                    var html = "";
+                    html += "<div id='alloy_chart'>"
+                    html +="<p>여기를 예쁘게</p>";
+                    html += "</div>"
 
                     $(".alloy_chart").html(html);
 
@@ -391,7 +401,10 @@
                 if(Object.keys(response.compareDTO.diffMaterials).length === 0){
                     alert("예상 성분에 차이가 없습니다.");
 
-                    var html ="<p>여기를 예쁘게</p>";
+                    var html = "";
+                    html += "<div id='material_chart'>"
+                    html +="<p>여기를 예쁘게</p>";
+                    html += "</div>"
 
                     $(".material_chart").html(html);
                 }else {
