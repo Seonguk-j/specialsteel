@@ -1,5 +1,6 @@
 package com.seah.specialsteel.entity;
 
+import com.seah.specialsteel.dto.ResultDTO;
 import lombok.*;
 
 import javax.persistence.*;
@@ -33,5 +34,9 @@ public class OriResult extends BaseEntity{
 
     @Column
     private String title;
+
+    public ResultDTO entityToDTO() {
+        return new ResultDTO(id, totalCost, totalAmount, null, expectOutput, null, method, 0, comment, 0, null, title);
+    }
 
 }

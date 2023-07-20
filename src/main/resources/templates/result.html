@@ -231,7 +231,7 @@
                 showRevFile(response.revResultDTO);
                 showSaveBtn();
                 compareDTO = response.compareDTO;
-
+                console.log(compareDTO);
                 var html ="";
                 html += "<h5 id='chart-title'>요약 지표</h5>";
                 html += "<div class='sort-group'>";
@@ -713,6 +713,7 @@
         }
     }
 
+
     // 조회 버튼 클릭 시 실행될 함수를 정의합니다.
     function fetchDataById() {
         // 선택한 id 값으로 서버로 데이터를 요청합니다.
@@ -721,12 +722,11 @@
                 .then(response => response.json())
                 .then(data => {
                     // 서버에서 받은 데이터를 원하는 방식으로 화면에 표시합니다.
+                    console.log("여기");
                     console.log(data);
+                    console.log("여기2");
                     showOriFile(data.oriResults);
-                    // showRevFile(data.revResults);
-
                     showUploadedList1(data.revResults);
-
                 })
                 .catch(error => {
                     console.error('Error:', error);
@@ -737,13 +737,15 @@
     function showUploadedList1(revResults) {
         //event.preventDefault();
         var html = "";
-
+        html += "<div class='changeTest'>";
 
         for (var i = 0; i < revResults.length; i++) {
             html += "<a href='#' class='btn btn-primary m-1' onclick='sendRevFileName1(\"" + i + "\")'>" + (i + 1) + "</a>";
         }
+        html += "</div>";
         $("#uploadResult").html(html);
     }
+
 
     function sendRevFileName1(index) {
 
@@ -754,16 +756,61 @@
             success: function(response) {
                 // 요청이 성공한 경우의 동작
                 showRevFile(response.revResultDTO);
+                showSaveBtn();
+                compareDTO = response.compareDTO;
+                console.log(compareDTO);
+                var html ="";
+                html += "<h5 id='chart-title'>요약 지표</h5>";
+                html += "<div class='sort-group'>";
+                html += "<select class='sort-list' id='sort-select' style='margin-right: 10px' onchange='sendSortData()'>";
+                html += "<option>정렬기준</option>";
+                html += "<option>이름</option>";
+                html += "<option>차이값</option>";
+                html += "</select>";
+                html += "<div>";
+                html += "<input type='radio' id='asc' name='order' value='asc' checked onchange='sendSortData()'>오름차순";
+                html += "<input type='radio' id='desc' name='order' value='desc' onchange='sendSortData()'>내림차순";
+                html += "</div>";
+                html += "</div>";
+                $(".allchart").html(html);
 
-                if(Object.keys(response.compareDTO.diffAlloyInputs).length !== 0) {
-                    drawAlloyChart(response.compareDTO.diffAlloyInputs, orderAlloyInputs);
-                    drawAlloyTable(response.compareDTO, orderAlloyInputs);
+                if(Object.keys(response.compareDTO.diffAlloyInputs).length === 0){
+                    alert("합금철별 투입량에 차이가 없습니다.");
+
+                    var html = "";
+                    html += "<div id='alloy_chart' '>"
+                    html += "<p>여기를 예쁘게</p>";
+                    html += "</div>"
+
+                    $("#alloy_chart").html(html);
+                }
+                else {
+                    var order = [];
+                    var i = 0;
+                    for(var key in response.compareDTO.diffAlloyInputs){
+                        order[i] = key;
+                        i++;
+                    }
+                    drawAlloyChart(response.compareDTO.diffAlloyInputs, order);
+                    drawAlloyTable(response.compareDTO, order);
                     diffAlloyInputsMap = response.compareDTO.diffAlloyInputs;
                 }
-
-                if(Object.keys(response.compareDTO.diffMaterials).length !== 0) {
-                    drawMaterialChart(response.compareDTO.diffMaterials, orderMaterials);
-                    drawMaterialTable(response.compareDTO, orderMaterials);
+                if(Object.keys(response.compareDTO.diffMaterials).length === 0){
+                    alert("예상 성분에 차이가 없습니다.");
+                    var html = "";
+                    html += "<div id='material_chart' style='width: 800px; height: 500px;'>"
+                    html +="<p>여기를 예쁘게</p>";
+                    html += "</div>"
+                    $("#material_chart").html(html);
+                }else {
+                    var order = [];
+                    var i = 0;
+                    for(var key in response.compareDTO.diffMaterials){
+                        order[i] = key;
+                        i++;
+                    }
+                    drawMaterialChart(response.compareDTO.diffMaterials, order);
+                    drawMaterialTable(response.compareDTO, order);
                     diffMaterialsMap = response.compareDTO.diffMaterials;
                 }
             },
@@ -772,6 +819,7 @@
             }
         });
     }
+
 
 </script>
 <script src="js/result.js"></script>

@@ -3,6 +3,7 @@ package com.seah.specialsteel.dto;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.seah.specialsteel.entity.OriResult;
 import com.seah.specialsteel.entity.RevResult;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.json.simple.JSONArray;
@@ -17,6 +18,7 @@ import java.util.LinkedHashMap;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @JsonSerialize
 public class ResultDTO {
 

@@ -2,6 +2,7 @@ package com.seah.specialsteel.controller;
 
 import com.seah.specialsteel.dto.DataDTO;
 import com.seah.specialsteel.dto.DateRequestDTO;
+import com.seah.specialsteel.dto.ResultDTO;
 import com.seah.specialsteel.entity.AlloyInput;
 import com.seah.specialsteel.entity.ExpectedResult;
 import com.seah.specialsteel.entity.OriResult;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.*;
+import static com.seah.specialsteel.controller.UploadController.revResultDTOList;
 
 @RestController
 @RequestMapping("/api")
@@ -69,28 +71,72 @@ public class DataController {
         return resultData;
     }
 
+
+
     @GetMapping("/getDataById/{id}")
     public Map<String, Object> getDataById(@PathVariable Long id) {
         Map<String, Object> resultMap = new HashMap<>();
 
         // RevResult 조회
         List<RevResult> revResults = revResultRepository.findByOriResultId(id);
-        Optional<OriResult> oriResults = oriResultRepository.findById(id);
+        for (RevResult revResult : revResults) {
+            ResultDTO resultDTO = revResult.entityToDTO();
 
-        resultMap.put("oriResults",oriResults);
+            List<AlloyInput> alloyInputs = alloyInputRepository.findByRevResultId(revResult.getId());
+            LinkedHashMap<String, String> alloyHashMap = new LinkedHashMap<>();
+
+            for(AlloyInput alloyInput : alloyInputs) {
+                alloyHashMap.put(alloyInput.getName(), alloyInput.getAmount()+"");
+            }
+            resultDTO.setAlloyInputs(alloyHashMap);
+
+            List<ExpectedResult> expectedResults = expectedResultRepository.findByRevResultId(revResult.getId());
+            LinkedHashMap<String, String> expectHashMap = new LinkedHashMap<>();
+
+            for(ExpectedResult expectedResult : expectedResults) {
+                expectHashMap.put(expectedResult.getName(), expectedResult.getAmount()+"");
+            }
+            resultDTO.setExpectMaterials(expectHashMap);
+            revResultDTOList.add(resultDTO);
+        }
+
+
+        OriResult oriResult = oriResultRepository.findById(id).orElseThrow();
+
+        ResultDTO oriResultDTO = oriResult.entityToDTO();
+
+        List<AlloyInput> alloyInputs = alloyInputRepository.findByRevResultId(oriResult.getId());
+
+        LinkedHashMap<String, String> alloyHashMap = new LinkedHashMap<>();
+        for(AlloyInput alloyInput : alloyInputs) {
+            alloyHashMap.put(alloyInput.getName(), alloyInput.getAmount()+"");
+        }
+        oriResultDTO.setAlloyInputs(alloyHashMap);
+
+        List<ExpectedResult> expectedResults = expectedResultRepository.findByRevResultId(oriResult.getId());
+        LinkedHashMap<String, String> expectHashMap = new LinkedHashMap<>();
+
+        for(ExpectedResult expectedResult : expectedResults) {
+            expectHashMap.put(expectedResult.getName(), expectedResult.getAmount()+"");
+        }
+        oriResultDTO.setExpectMaterials(expectHashMap);
+
+        //기존 알고리즘 넣기
+        resultMap.put("oriResults",oriResult);
         if (!revResults.isEmpty()) {
-            resultMap.put("revResults", revResults); // 모든 RevResult를 담는 List로 수정
+            //수정 알고리즘 넣기
+            resultMap.put("revResults", revResultDTOList); // 모든 RevResult를 담는 List로 수정
             // AlloyInput 조회
-            List<AlloyInput> alloyInputs = alloyInputRepository.findByRevResultId(id);
-            resultMap.put("alloyInputs", alloyInputs);
-
-            // ExpectedResult 조회
-            List<ExpectedResult> expectedResults = expectedResultRepository.findByRevResultId(id);
-            resultMap.put("expectedResults", expectedResults);
+//            List<AlloyInput> alloyInputs = alloyInputRepository.findByRevResultId(id);
+//            resultMap.put("alloyInputs", alloyInputs);
+//
+//            // ExpectedResult 조회
+//            List<ExpectedResult> expectedResults = expectedResultRepository.findByRevResultId(id);
+//            resultMap.put("expectedResults", expectedResults);
         } else {
             resultMap.put("error", "RevResult not found with ID: " + id);
         }
-
+        System.out.println(resultMap.toString());
         return resultMap;
     }
 
