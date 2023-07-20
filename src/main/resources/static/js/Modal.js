@@ -40,3 +40,8 @@ function closeAllSaveModal() {
     const modal = document.getElementById('allSaveModal');
     modal.style.display = 'none';
 }
+
+function excelDownload(){
+    window.location.href = '/excel/download';
+
+}
