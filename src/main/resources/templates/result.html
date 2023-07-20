@@ -24,120 +24,72 @@
 <!-- content 영역 -->
 <div class="content">
     <div class="container-fluid">
-            <div class="clear">
-                <div class="row">
-                    <div class="card1 card col-12">
-                        <div class="date-search-container">
-                            <div class="searchBtn">
-                                <input type="text" placeholder="검색어 입력">
-                                <button type="button">검색</button>
-                            </div>
-                            <button onclick="showModal()">조회</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 모달창 -->
-                <div id="myModal" class="modal" tabindex="-1">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">날짜 조회</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="closeModal()"></button>
-                            </div>
-                            <div class="modal-body">
-                                <label class="date-search-label">기간</label>
-                                <input type="datetime-local" id="startDate">
-                                <span> ~ </span>
-                                <input type="datetime-local" id="endDate">
-                            </div>
-                            <div id="listContainer">
-                                <!-- 리스트 목록이 여기에 추가될 것입니다. -->
-                            </div>
-                            <div class="modal-footer">
-                                <button id="fetchButton" type="button" class="btn btn-primary" onclick="fetchData()">조회</button>
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeModal()">닫기</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="row">
-                    <div class="card col-6" id="ori">
-                        <div class="card-body">
-                                <div class="title-file-group row">
-                                    <h5 class="h5 col-5">기존 알고리즘 결과</h5>
-                                    <div class="file-group col-7">
-                                        <input type="file" name="file" id="originalFile1"/>
-                                        <button class="btn btn-primary uploadBtn" id="oriUploadBtn">Upload</button>
-                                    </div>
-                                </div>
-                                <div class="oriInsert">
-                                    <li>합금철 총 투입비용 : </li>
-                                    <li>합금철 총 투입량 : </li>
-                                    <li>예상 용강량 : </li>
-                                    <li>방법 :</li>
-                                </div>
-                        </div>
-                    </div>
-                    <div class="card col-6">
-                        <div class="card-body">
-                            <div class="title-file-group row">
-                                <h5 class="h5 col-5">수정 알고리즘 결과</h5>
-                                <div class="file-group col-7">
-                                    <input name="uploadFiles" id="fileInput" type="file" multiple >
-                                    <button class="btn btn-primary uploadBtn" id="revUploadBtn">Upload</button>
-                                </div>
-                            </div>
-                            <div class="insert">
-                                <li>합금철 총 투입비용 : </li>
-                                <li>합금철 총 투입량 : </li>
-                                <li>예상 용강량 : </li>
-                                <li>방법 : </li>
-                                <div class="uploadResult"></div>
-                            </div>
-
-                        </div>
-
-                    </div>
-                </div>
-            </div>
+        <div class="clear">
             <div class="row">
-                <div class="card col-6">
+                <div class="card1 card col-12">
+                    <div class="date-search-container">
+                        <button onclick="showModal()">조회</button>
+                    </div>
+                </div>
+            </div>
+            <!--날짜 조회 모달 -->
+            <th:block th:insert="Modal"></th:block>
+
+            <div class="row">
+                <div class="card col-6" id="ori">
                     <div class="card-body">
+                        <div class="title-file-group row">
+                            <h5 class="h5 col-5">기존 알고리즘 결과</h5>
+                            <div class="file-group col-7">
+                                <input type="file" name="file" id="originalFile1"/>
+                                <button class="btn btn-primary uploadBtn" id="oriUploadBtn">Upload</button>
+                            </div>
+                        </div>
+                        <div class="oriInsert">
+                            <li>합금철 총 투입비용 : </li>
+                            <li>합금철 총 투입량 : </li>
+                            <li>예상 용강량 : </li>
+                            <li>방법 :</li>
+                        </div>
                     </div>
                 </div>
                 <div class="card col-6">
                     <div class="card-body">
-                        <div class="result-save">
-                            <button type="button">저장</button>
+                        <div class="title-file-group row">
+                            <h5 class="h5 col-5">수정 알고리즘 결과</h5>
+                            <div class="file-group col-7">
+                                <input name="uploadFiles" id="fileInput" type="file" multiple >
+                                <button class="btn btn-primary uploadBtn" id="revUploadBtn">Upload</button>
+                            </div>
+                        </div>
+                        <div class="insert">
+                            <li>합금철 총 투입비용 : </li>
+                            <li>합금철 총 투입량 : </li>
+                            <li>예상 용강량 : </li>
+                            <li>방법 : </li>
+                            <div id="uploadResult"></div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="hidden-group"></div>
+        <!-- 세이브 버튼 2개 및 각 모달창 -->
+
+        <!-- 파일 모달 부분 -->
+
+
 
         <!-- 차트 -->
         <div class="row">
             <div class="card col-12">
                 <div class="card-body">
-                    <div class="allchart">
-                        <button id="saveBtn">저장하기</button>
-                        <button id="allSaveBtn">일괄 저장하기</button>
-                        <h5 id="chart-title">요약 지표</h5>
-                        <div class="sort-group">
-                            <select class="sort-list">
-                                <option>정렬기준</option>
-                                <option>이름</option>
-                                <option>차이값</option>
-                            </select>
-                        </div>
-                        <div class="alloy_chart">
-                            <div id="alloy_chart" style="width: 800px; height: 500px;"></div>
-                        </div>
-                        <div class="material_chart">
-                            <div id="material_chart" style="width: 800px; height: 500px;"></div>
-                        </div>
+                    <div class="allchart"></div>
+                    <div class="alloy_chart">
+                        <div id="alloy_chart" style="width: 800px; height: 500px;"></div>
+                    </div>
+                    <div class="material_chart">
+                        <div id="material_chart" style="width: 800px; height: 500px;"></div>
                     </div>
                 </div>
             </div>
@@ -163,14 +115,15 @@
     var nowIndex;
     var nowRevComment;
     var nowOriComment;
+    var compareDTO;
+    var diffAlloyInputsMap;
+    var diffMaterialsMap;
+
     $('#oriUploadBtn').click(function (){
         // event.preventDefault();
         var formData = new FormData();
-
         var inputFile = $("input[type='file']");
-
         var files = inputFile[0].files;
-
 
         formData.append("uploadfiles", files[0]);
 
@@ -183,11 +136,12 @@
             type: 'POST',
             dataType: 'json',
             success: function (result){
-             sendOriFileName(result[0]);
+                sendOriFileName(result[0]);
             },
             error:function (){
             }
         });
+        $(this).prev("input[type='file']").val("");
     });
 
     function sendOriFileName() {
@@ -205,19 +159,20 @@
             }
         });
     }
+
+    //
     function showOriFile(response) {
         var html = "";
-
         html += "<div class='oriInsert'>"
         html += "<li>합금철 총 투입비용 : " + response.totalCost + "</li>";
         html += "<li>합금철 총 투입량 : " + response.totalAmount + "</li>";
         html += "<li>예상 용강량 : " + response.expectOutput + "</li>";
         html += "<li>방법 : " + response.method + "</li>";
-        html += "<label> 메모 : <input id='commentOriTextarea' placeholder='메모를 입력하세요' type='textarea'/></label>";
+        html += "<label> 메모 : <textarea id='commentOriTextarea' placeholder='메모를 입력하세요'></textarea></label>";
         html += "</div>";
 
         $(".oriInsert").html(html);
-         nowOriComment = $("#commentOriTextarea").val();
+        nowOriComment = $("#commentOriTextarea").val();
     }
 
     //업로드 버튼을 누르면 파일을 MultipartFile[]에 담아 백으로 전달
@@ -235,20 +190,21 @@
         }
         //uplaod ajax
         $.ajax({
-            url: '/uploadAjax',
+            url: '/revUploadAjax',
             processData: false,
             contentType: false,
             data: formData,
             type: 'POST',
             dataType: 'json',
             success: function (result){
-
+                showInit();
                 showUploadedList(result);
             },
             error:function (jqXHR, textStatus, errorThrown){
                 console.log(textStatus);
             }
         });
+        $(this).prev("input[type='file']").val("");
     });
 
     //전달 받은 파일의 개수 만큼 버튼 생성, 버튼을 누르면 해당 인덱스를 가지는 json파일 출력
@@ -256,15 +212,14 @@
         event.preventDefault();
         var html = "";
 
-        html += "<div class='changeTest'>";
-
         for (var i = 0; i < arr.length; i++) {
             html += "<a href='#' class='btn btn-primary m-1'  onclick='sendRevFileName(\"" + i + "\")'>" + (i+1) + "</a>";
         }
         html += "</div>";
-        $(".uploadResult").html(html);
+        $("#uploadResult").html(html);
 
     }
+
     function sendRevFileName(index) {
 
         $.ajax({
@@ -274,10 +229,63 @@
             success: function(response) {
                 // 요청이 성공한 경우의 동작
                 showRevFile(response.revResultDTO);
-                drawAlloyChart(response.compareDTO.diffAlloyInputs);
-                drawMaterialChart(response.compareDTO.diffMaterials);
-                drawAlloyTable(response.compareDTO);
-                drawMaterialTable(response.compareDTO);
+                showSaveBtn();
+                compareDTO = response.compareDTO;
+
+                var html ="";
+                html += "<h5 id='chart-title'>요약 지표</h5>";
+                html += "<div class='sort-group'>";
+                html += "<select class='sort-list' id='sort-select' style='margin-right: 10px' onchange='sendSortData()'>";
+                html += "<option>정렬기준</option>";
+                html += "<option>이름</option>";
+                html += "<option>차이값</option>";
+                html += "</select>";
+                html += "<div>";
+                html += "<input type='radio' id='asc' name='order' value='asc' checked onchange='sendSortData()'>오름차순";
+                html += "<input type='radio' id='desc' name='order' value='desc' onchange='sendSortData()'>내림차순";
+                html += "</div>";
+                html += "</div>";
+                $(".allchart").html(html);
+
+                if(Object.keys(response.compareDTO.diffAlloyInputs).length === 0){
+                    alert("합금철별 투입량에 차이가 없습니다.");
+
+                    var html = "";
+                    html += "<div id='alloy_chart' '>"
+                    html += "<p>여기를 예쁘게</p>";
+                    html += "</div>"
+
+                    $("#alloy_chart").html(html);
+                }
+                else {
+                    var order = [];
+                    var i = 0;
+                    for(var key in response.compareDTO.diffAlloyInputs){
+                        order[i] = key;
+                        i++;
+                    }
+                    drawAlloyChart(response.compareDTO.diffAlloyInputs, order);
+                    drawAlloyTable(response.compareDTO, order);
+                    diffAlloyInputsMap = response.compareDTO.diffAlloyInputs;
+                }
+                if(Object.keys(response.compareDTO.diffMaterials).length === 0){
+                    alert("예상 성분에 차이가 없습니다.");
+                    var html = "";
+                    html += "<div id='material_chart' style='width: 800px; height: 500px;'>"
+                    html +="<p>여기를 예쁘게</p>";
+                    html += "</div>"
+                    $("#material_chart").html(html);
+                }else {
+                    var order = [];
+                    var i = 0;
+                    for(var key in response.compareDTO.diffMaterials){
+                        order[i] = key;
+                        i++;
+                    }
+                    drawMaterialChart(response.compareDTO.diffMaterials, order);
+                    drawMaterialTable(response.compareDTO, order);
+                    diffMaterialsMap = response.compareDTO.diffMaterials;
+                }
             },
             error: function(error) {
                 console.log(error);
@@ -288,39 +296,114 @@
     function showRevFile(response) {
         nowIndex = response.index;
         var html = "";
-        html += "<button class='deleteBtn' data-index='" + response.index + "'> 삭제</button>";
         html += "<div class='insert'>";
         html += "<li>합금철 총 투입비용 : " + response.totalCost + "</li>";
         html += "<li>합금철 총 투입량 : " + response.totalAmount + "</li>";
         html += "<li>예상 용강량 : " + response.expectOutput + "</li>";
         html += "<li>방법 : " + response.method + "</li>";
-        html += "<label> 메모 : <input id='commentRevTextarea' placeholder='메모를 입력하세요'type='textarea'/>" + response.comment + "</input></label>";
+        html += "<label> 메모 : <textarea id='commentRevTextarea' placeholder='메모를 입력하세요'>" + response.comment + "</textarea></label>";
         html += "<div>";
 
         for (var i = 0; i < response.length; i++) {
-            html += "<a href='#' class='btn btn-primary m-1' onclick='saveComment(\"" + i + "\",\"" + response.index + "\", $(\"#commentRevTextarea\").val())'>" + (i + 1) + "</a>";
+            html += "<a href='#' id='uploadResult' class='btn btn-primary m-1' onclick='saveComment(\"" + i + "\",\"" + response.index + "\", $(\"#commentRevTextarea\").val())'>" + (i + 1) + "</a>";
         }
 
         html += "</div>";
+        html += "<button class='deleteBtn bg-danger' data-index='" + response.index + "'> 삭제</button>";
         html += "</div>";
+
 
         $(".insert").html(html);
         nowRevComment = $("#commentRevTextarea").val();
     }
+    function showSaveBtn(){
+        var html = "";
+        html += "<div class='row'>";
+        html += "<div class='card col-12'>";
+        html += "<div class='card-body'>";
+        html += "<div class='result-save'>";
+        html += "<button class='saveBtn'>저장하기</button>";
+        html += "<button class='allSaveBtn'>일괄 저장하기</button>";
+        html += "</div>";
+        html += "</div>";
+        html += "</div>";
+        html += "</div>";
+
+        $(".hidden-group").html(html);
+
+    }
+
 
     function saveComment(index, saveIndex, comment) {
         $.ajax({
             url: '/saveComment',
             method: 'POST',
             data: { index: index,
-                    saveIndex: saveIndex,
-                    comment: comment},
+                saveIndex: saveIndex,
+                comment: comment},
             success: function(response) {
+                // 요청이 성공한 경우의 동작
                 showRevFile(response.revResultDTO);
-                drawAlloyChart(response.compareDTO.diffAlloyInputs);
-                drawMaterialChart(response.compareDTO.diffMaterials);
-                drawAlloyTable(response.compareDTO);
-                drawMaterialTable(response.compareDTO);
+                showSaveBtn();
+                compareDTO = response.compareDTO;
+
+                var html ="";
+                html += "<h5 id='chart-title'>요약 지표</h5>";
+                html += "<div class='sort-group'>";
+                html += "<select class='sort-list' id='sort-select' style='margin-right: 10px' onchange='sendSortData()'>";
+                html += "<option>정렬기준</option>";
+                html += "<option>이름</option>";
+                html += "<option>차이값</option>";
+                html += "</select>";
+                html += "<div>";
+                html += "<input type='radio' id='asc' name='order' value='asc' checked onchange='sendSortData()'>오름차순";
+                html += "<input type='radio' id='desc' name='order' value='desc' onchange='sendSortData()'>내림차순";
+                html += "</div>";
+                html += "</div>";
+                $(".allchart").html(html);
+
+                if(Object.keys(response.compareDTO.diffAlloyInputs).length === 0){
+                    alert("합금철별 투입량에 차이가 없습니다.");
+
+                    var html = "";
+                    html += "<div id='alloy_chart' style='width: 800px; height: 500px;'>"
+                    html +="<p>여기를 예쁘게</p>";
+                    html += "</div>"
+
+                    $("#alloy_chart").html(html);
+
+                }
+                else {
+                    var order = [];
+                    var i = 0;
+                    for(var key in response.compareDTO.diffAlloyInputs){
+                        order[i] = key;
+                        i++;
+                    }
+                    drawAlloyChart(response.compareDTO.diffAlloyInputs, order);
+                    drawAlloyTable(response.compareDTO, order);
+                    diffAlloyInputsMap = response.compareDTO.diffAlloyInputs;
+                }
+                if(Object.keys(response.compareDTO.diffMaterials).length === 0){
+                    alert("예상 성분에 차이가 없습니다.");
+
+                    var html = "";
+                    html += "<div id='material_chart' style='width: 800px; height: 500px;'>"
+                    html +="<p>여기를 예쁘게</p>";
+                    html += "</div>"
+
+                    $("#material_chart").html(html);
+                }else {
+                    var order = [];
+                    var i = 0;
+                    for(var key in response.compareDTO.diffMaterials){
+                        order[i] = key;
+                        i++;
+                    }
+                    drawMaterialChart(response.compareDTO.diffMaterials, order);
+                    drawMaterialTable(response.compareDTO, order);
+                    diffMaterialsMap = response.compareDTO.diffMaterials;
+                }
             },
             error: function(error) {
                 console.log(error);
@@ -328,6 +411,7 @@
         });
     }
 
+    //
     function showInit() {
         var html = "";
 
@@ -336,11 +420,13 @@
         html += "<li>합금철 총 투입량 : </li>";
         html += "<li>예상 용강량 :</li>";
         html += "<li>방법 : </li>";
+        html += "<div id=\"uploadResult\"></div>";
         html += "</div>";
 
         $(".insert").html(html);
     }
 
+    // 삭제 버튼
     $('.insert').on('click', '.deleteBtn', function () {
         var index = $(this).data('index');
         $.ajax({
@@ -349,53 +435,166 @@
             data: { index: index },
             success: function(response) {
                 showRevFile(response);
+
             },
             error: function(error) {
                 showInit();
             }
         });
     });
-    $('#saveBtn').click(function (){
+
+    // 파일 저장
+    $('.hidden-group').on('click', '.saveBtn', function (){
+        showSaveModal();
+    });
+    function saveHistory(){
         nowRevComment = $("#commentRevTextarea").val();
         nowOriComment = $("#commentOriTextarea").val();
+        var title = $('#title').val();
         //uplaod ajax
         $.ajax({
             url: '/saveHistory',
             method: 'POST',
             data: {
                 index: nowIndex,
+                title: title,
                 revComment: nowRevComment.toString(),
                 oriComment: nowOriComment.toString()
             },
             success: function (result){
-                alert("성공");
+                closeSaveModal();
+                title = "";
             },
             error:function (error){
                 alert("기존 알고리즘이 없습니다.");
             }
         });
-    });
 
-    $('#allSaveBtn').click(function (){
+    }
+
+    // 파일 일괄 저장
+    $('.hidden-group').on('click', '.allSaveBtn', function (){
+        showAllSaveModal();
+    });
+    function allSaveHistory(){
         nowRevComment = $("#commentRevTextarea").val();
         nowOriComment = $("#commentOriTextarea").val();
+        var title = $('#allSaveTitle').val();
         //uplaod ajax
         $.ajax({
             url: '/allSaveHistory',
             method: 'POST',
             data: {
                 index: nowIndex,
+                title: title,
                 revComment: nowRevComment.toString(),
                 oriComment: nowOriComment.toString()
             },
             success: function (result){
-                alert("성공");
+                closeAllSaveModal();
+                title = "";
             },
             error:function (error){
                 alert("기존 알고리즘이 없습니다.");
             }
         });
-    });
+    }
+
+    // 정렬
+    function sendSortData() {
+        var selectedSort = $("#sort-select").val();
+        var selectedOrder = $("input[name='order']:checked").val();
+        var orderAlloyInputs = [];
+        var orderMaterials = [];
+
+        var tempAlloyInputs = new Map(Object.entries(diffAlloyInputsMap));
+        var tempMaterial = new Map(Object.entries(diffMaterialsMap));
+
+        if(selectedSort === "정렬기준") {
+            var i = 0;
+            for(var key in compareDTO.diffAlloyInputs){
+                orderAlloyInputs[i] = key;
+                i++;
+            }
+
+            var i = 0;
+            for(var key in compareDTO.diffMaterials){
+                orderMaterials[i] = key;
+                i++;
+            }
+        } else if(selectedSort === "이름" && selectedOrder === "asc"){
+            const orderKindAlloy = new Map([...tempAlloyInputs].sort());
+            var i = 0;
+            for(var [key, value] of orderKindAlloy){
+                orderAlloyInputs[i] = key;
+                i++;
+            }
+
+            const orderKindMaterial = new Map([...tempMaterial].sort());
+            var i = 0;
+            for(var [key, value] of orderKindMaterial){
+                orderMaterials[i] = key;
+                i++;
+            }
+        }
+        else if(selectedSort === "이름") {
+            const orderKindAlloy = new Map([...tempAlloyInputs].sort().reverse());
+            var i = 0;
+            for(var [key, value] of orderKindAlloy){
+                orderAlloyInputs[i] = key;
+                i++;
+            }
+
+            const orderKindMaterial = new Map([...tempMaterial].sort().reverse());
+            var i = 0;
+            for(var [key, value] of orderKindMaterial){
+                orderMaterials[i] = key;
+                i++;
+            }
+        }
+        else if(selectedOrder === "asc") {
+            const orderKindAlloy = new Map([...tempAlloyInputs].sort((a, b) => (a[1] > b[1] ? 1 : -1)));
+            var i = 0;
+            for(var [key, value] of orderKindAlloy){
+                orderAlloyInputs[i] = key;
+                i++;
+            }
+
+            const orderKindMaterial = new Map([...tempMaterial].sort((a, b) => (a[1] > b[1] ? 1 : -1)));
+            var i = 0;
+            for(var [key, value] of orderKindMaterial){
+                orderMaterials[i] = key;
+                i++;
+            }
+        }
+        else {
+            const orderKindAlloy = new Map([...tempAlloyInputs].sort((a, b) => (a[1] > b[1] ? -1 : 1)));
+            var i = 0;
+            for(var [key, value] of orderKindAlloy){
+                orderAlloyInputs[i] = key;
+                i++;
+            }
+
+            const orderKindMaterial = new Map([...tempMaterial].sort((a, b) => (a[1] > b[1] ? -1 : 1)));
+            var i = 0;
+            for(var [key, value] of orderKindMaterial){
+                orderMaterials[i] = key;
+                i++;
+            }
+        }
+
+        if(Object.keys(compareDTO.diffAlloyInputs).length !== 0) {
+            drawAlloyChart(compareDTO.diffAlloyInputs, orderAlloyInputs);
+            drawAlloyTable(compareDTO, orderAlloyInputs);
+            diffAlloyInputsMap = compareDTO.diffAlloyInputs;
+        }
+
+        if(Object.keys(compareDTO.diffMaterials).length !== 0) {
+            drawMaterialChart(compareDTO.diffMaterials, orderMaterials);
+            drawMaterialTable(compareDTO, orderMaterials);
+            diffMaterialsMap = compareDTO.diffMaterials;
+        }
+    }
 
     function fetchData() {
         // 선택한 날짜 정보를 가져옵니다.
@@ -546,14 +745,9 @@
         $(".uploadResult").html(html);
     }
 
-
-
-
-
-
 </script>
 <script src="js/result.js"></script>
+<script src="js/Modal.js"></script>
 </body>
 
 </html>
-
