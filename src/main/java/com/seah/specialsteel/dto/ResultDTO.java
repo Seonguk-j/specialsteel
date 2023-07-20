@@ -13,7 +13,8 @@ import org.json.simple.parser.ParseException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
+
 @Data
 @NoArgsConstructor
 @JsonSerialize
@@ -22,20 +23,21 @@ public class ResultDTO {
     public Long id;
     public double totalCost;                       // 합금철 총 투입비용
     public double totalAmount;                     // 합금철 총 투입량
-    public HashMap<String, String> alloyInputs;    // 합금철별 투입량
+    public LinkedHashMap<String, String> alloyInputs;    // 합금철별 투입량
     public double expectOutput;                    // 예상 용강량
-    public HashMap<String, String> expectMaterials; // result 예상 성분
+    public LinkedHashMap<String, String> expectMaterials; // result 예상 성분
     public String method;                          // 방법
     public int index;                           //인덱스
     public String comment = "";                         //메모
     public int length;                              //사이즈
     public OriResult oriResult;                     //저장용
+    public String title;                            //파일 제목,
 
     public RevResult toRevEntity(){
         return new RevResult(id, totalCost, totalAmount, expectOutput, method, comment, oriResult);
     }
     public OriResult toOriEntity(){
-        return new OriResult(id, totalCost, totalAmount, expectOutput, method, comment);
+        return new OriResult(id, totalCost, totalAmount, expectOutput, method, comment,title);
     }
     public ResultDTO(String fileName) throws IOException, ParseException {
 
@@ -63,8 +65,8 @@ public class ResultDTO {
         reader.close();
     }
 
-    public HashMap<String, String> jsonArrayToHashMap(JSONArray jsonArray) {
-        HashMap<String, String> output = new HashMap<>();
+    public LinkedHashMap<String, String> jsonArrayToHashMap(JSONArray jsonArray) {
+        LinkedHashMap<String, String> output = new LinkedHashMap<>();
 
         for(int i=0; i < jsonArray.size(); i++){
             JSONArray arr = (JSONArray) jsonArray.get(i);

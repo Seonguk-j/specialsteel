@@ -1,11 +1,11 @@
- /*날짜 검색 조회 버튼 */
+/*날짜 검색 조회 버튼 */
 .date-search-container {
     display: flex;
     align-items: center;
     justify-content: flex-end;
 }
 
-#startDate{
+#startDate {
     width: 15%;
 }
 
@@ -54,22 +54,19 @@
 
 
 /* 모달 날짜조회 버튼 css ===========================*/
- .date-search-label {
-     margin-right: 10px;
- }
+.date-search-label {
+    margin-right: 10px;
+}
 
- .modal-body {
-     display: flex;
-     align-items: center;
- }
+.modal-body {
+    display: flex;
+    align-items: center;
+}
 
- .modal-body input[type="date"] {
-     flex-grow: 1;
-     margin-right: 10px;
- }
-
-
-
+.modal-body input[type="date"] {
+    flex-grow: 1;
+    margin-right: 10px;
+}
 
 
 
@@ -83,6 +80,46 @@ li {
     font-weight: bold;
 
 }
+
+
+/*메모*/
+.memo-container {
+    display: flex;
+    /* Flexbox 사용 */
+    align-items: center;
+    /* 아이템을 수직 중앙 정렬 */
+}
+
+.memo-container label {
+    margin-right: 10px;
+    /* 라벨과 textarea 사이의 간격 조정 */
+}
+
+textarea {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+    width: 82%;
+    height: 70px;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.3);
+}
+
+/* Optional: Disabled textarea style */
+textarea:disabled {
+    background-color: #f8f8f8;
+    color: #555;
+    cursor: not-allowed;
+}
+
+
 
 /* 버튼====================================== */
 .btn-group {
@@ -101,7 +138,8 @@ table {
     width: 100%;
 }
 
-th, td {
+th,
+td {
     border: 1px solid black;
     padding: 8px;
     text-align: center;
@@ -113,7 +151,7 @@ th, td {
 
 .table {
     width: 100%;
-    overflow:auto;
+    overflow: auto;
 }
 
 th:nth-child(1),
@@ -127,34 +165,44 @@ td:nth-child(1) {
 
 
 
-@media (max-width: 1400px) { /* 화면 너비가 768px 이하일 때 적용 */
+@media (max-width: 1400px) {
+
+    /* 화면 너비가 768px 이하일 때 적용 */
     .table {
-        font-size: 14px; /* 원하는 작은 글자 크기로 설정 */
-        white-space: nowrap; /* 줄바꿈 방지 */
+        font-size: 14px;
+        /* 원하는 작은 글자 크기로 설정 */
+        white-space: nowrap;
+        /* 줄바꿈 방지 */
     }
 
     li {
-        font-size: 16px; /* 원하는 작은 글자 크기로 설정 */
-        white-space: nowrap; /* 줄바꿈 방지 */
+        font-size: 16px;
+        /* 원하는 작은 글자 크기로 설정 */
+        white-space: nowrap;
+        /* 줄바꿈 방지 */
     }
 
     #row-tr1 td,
     #row-tr1 th,
     #row-tr2 td,
     #row-tr2 th {
-        white-space: nowrap; /* 줄바꿈 방지 */
+        white-space: nowrap;
+        /* 줄바꿈 방지 */
     }
 }
 
 .card-table {
     /* overflow-x: auto; 가로 스크롤 가능한 영역으로 설정 */
-    white-space: nowrap; /* 줄바꿈 방지 */
+    white-space: nowrap;
+    /* 줄바꿈 방지 */
 }
 
 
 .title {
-    color: black; /* 텍스트 색상을 검은색으로 설정 */
-    margin-bottom: 10px; /* 표 제목과 표 사이의 간격 설정 */
+    color: black;
+    /* 텍스트 색상을 검은색으로 설정 */
+    margin-bottom: 10px;
+    /* 표 제목과 표 사이의 간격 설정 */
 }
 
 
@@ -165,12 +213,13 @@ input[type=file]::file-selector-button {
     width: 100px;
     height: 30px;
     background: #fff;
-    border: 1px solid rgb(77,77,77);
+    border: 1px solid rgb(77, 77, 77);
     border-radius: 10px;
     cursor: pointer;
 }
+
 input[type=file]::file-selector-button:hover {
-    background: rgb(77,77,77);
+    background: rgb(77, 77, 77);
     color: #fff;
 }
 
@@ -187,6 +236,27 @@ input[type=file]::file-selector-button:hover {
 }
 
 
+
+/*데이터 없을시 메세지 css*/
+.message {
+    font-size: 32px;
+    font-weight: bold;
+    color: #555;
+    text-align: center;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: #fff;
+    transition: transform 0.2s ease-in-out;
+}
+
+.message:hover {
+    transform: scale(1.05);
+}
+
+
+
+
 /* 차트 ============================================================*/
 
 #chart-title {
@@ -196,15 +266,16 @@ input[type=file]::file-selector-button:hover {
 }
 
 
-.chart {
+.alloy_chart {
     display: flex;
     justify-content: center;
     align-items: center;
     /* margin-top: 100px; */
     height: 50vh;
+
 }
 
-.chart1 {
+.material_chart {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -219,29 +290,26 @@ input[type=file]::file-selector-button:hover {
     justify-content: flex-end;
 }
 
- .checked-item {
-     /* 여기에 체크된 상태일 때의 스타일을 정의합니다. */
-     /* 예를 들어, 배경색을 변경하거나 테두리를 추가하는 등의 스타일을 적용할 수 있습니다. */
-     background-color: lightgray;
- }
+.checked-item {
+    /* 여기에 체크된 상태일 때의 스타일을 정의합니다. */
+    /* 예를 들어, 배경색을 변경하거나 테두리를 추가하는 등의 스타일을 적용할 수 있습니다. */
+    background-color: lightgray;
+}
 
- .list-header {
-     display: flex;
-     justify-content: space-between;
-     font-weight: bold;
- }
+.list-header {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+}
 
- .list-item {
-     display: flex;
-     justify-content: space-between;
-     cursor: pointer;
-     padding: 5px 10px;
-     border-bottom: 1px solid #ccc;
- }
+.list-item {
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-bottom: 1px solid #ccc;
+}
 
- .list-item:hover {
-     background-color: #f5f5f5;
- }
-
-
-
+.list-item:hover {
+    background-color: #f5f5f5;
+}

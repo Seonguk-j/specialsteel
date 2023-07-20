@@ -1,27 +1,16 @@
 package com.seah.specialsteel.controller;
 
-
-
 import com.seah.specialsteel.dto.ResultDTO;
-import com.seah.specialsteel.entity.OriResult;
 import com.seah.specialsteel.service.FileService;
 
 import com.seah.specialsteel.service.HistoryService;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-
-import org.json.simple.parser.ParseException;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.seah.specialsteel.dto.CompareDTO;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -40,11 +29,19 @@ public class UploadController {
     static ResultDTO oriResultDTO;
     List<ResultDTO> revResultDTOList;
 
-
     private final HistoryService historyService;
+    @PostMapping("/oriUploadAjax")
+    public ResponseEntity<List<String>> oriUploadfile(MultipartFile[] uploadfiles) throws Exception {
+        List<String> oriFileName = fileService.uploadResult(uploadfiles);
+
+        oriResultDTO = new ResultDTO(oriFileName.get(0));
+
+        fileService.deleteFile(oriFileName.get(0));
+        return new ResponseEntity<>(oriFileName, HttpStatus.OK);
+    }
 
     //파일 저장
-    @PostMapping("/uploadAjax")
+    @PostMapping("/revUploadAjax")
     public ResponseEntity<List<ResultDTO>> resultDTO(MultipartFile[] uploadfiles) throws Exception {
         List<String> uploadResultList = fileService.uploadResult(uploadfiles);
         int i = 0;
@@ -56,18 +53,10 @@ public class UploadController {
             i++;
             fileService.deleteFile(str);
         }
+
         return new ResponseEntity<>(revResultDTOList, HttpStatus.OK);
     }
 
-    @PostMapping("/oriUploadAjax")
-    public ResponseEntity<List<String>> oriUploadfile(MultipartFile[] uploadfiles) throws Exception {
-        List<String> oriFileName = fileService.uploadResult(uploadfiles);
-
-        oriResultDTO = new ResultDTO(oriFileName.get(0));
-
-        fileService.deleteFile(oriFileName.get(0));
-        return new ResponseEntity<>(oriFileName, HttpStatus.OK);
-    }
 
     //기존 알고리즘 json파일을 dto에 담아서 보내기
     @PostMapping("/sendOriFileName")
@@ -129,9 +118,11 @@ public class UploadController {
     }
 
     @PostMapping("/saveHistory")
-    public ResponseEntity<String>saveHistory(@RequestParam ("index")int index, @RequestParam ("revComment")String revComment, @RequestParam ("oriComment")String oriComment) {
+    public ResponseEntity<String>saveHistory(@RequestParam ("index")int index, @RequestParam ("revComment")String revComment, @RequestParam ("oriComment")String oriComment,@RequestParam ("title")String title) {
+  
         if(oriResultDTO != null) {
             revResultDTOList.get(index).setComment(revComment);
+            oriResultDTO.setTitle(title);
             oriResultDTO.setComment(oriComment);
 
             historyService.saveHistory(oriResultDTO, revResultDTOList.get(index));
@@ -142,10 +133,11 @@ public class UploadController {
     }
 
     @PostMapping("/allSaveHistory")
-    public ResponseEntity<String>allSaveHistory(@RequestParam ("index") int index, @RequestParam ("revComment")String revComment, @RequestParam ("oriComment")String oriComment) {
+    public ResponseEntity<String>allSaveHistory(@RequestParam ("index") int index, @RequestParam ("revComment")String revComment, @RequestParam ("oriComment")String oriComment, @RequestParam ("title")String title) {
         if(oriResultDTO != null) {
             revResultDTOList.get(index).setComment(revComment);
             oriResultDTO.setComment(oriComment);
+            oriResultDTO.setTitle(title);
             historyService.saveAllHistory(oriResultDTO, revResultDTOList);
 
             return new ResponseEntity(HttpStatus.OK);

@@ -3,8 +3,6 @@ package com.seah.specialsteel.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
@@ -33,5 +31,7 @@ public class OriResult extends BaseEntity{
     @Column
     private String comment;
 
+    @Column
+    private String title;
 
 }

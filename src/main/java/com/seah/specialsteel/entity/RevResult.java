@@ -3,7 +3,6 @@ package com.seah.specialsteel.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Getter
@@ -35,8 +34,4 @@ public class RevResult extends BaseEntity{
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "OriResult_id")
     private OriResult oriResult;
-
-
-
-
 }
