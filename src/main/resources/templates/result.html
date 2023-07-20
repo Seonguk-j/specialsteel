@@ -24,55 +24,55 @@
 <!-- content 영역 -->
 <div class="content">
     <div class="container-fluid">
-            <div class="clear">
-                <div class="row">
-                    <div class="card1 card col-12">
-                        <div class="date-search-container">
-                            <button onclick="showModal()">조회</button>
+        <div class="clear">
+            <div class="row">
+                <div class="card1 card col-12">
+                    <div class="date-search-container">
+                        <button onclick="showModal()">조회</button>
+                    </div>
+                </div>
+            </div>
+            <!--날짜 조회 모달 -->
+            <th:block th:insert="Modal"></th:block>
+
+            <div class="row">
+                <div class="card col-6" id="ori">
+                    <div class="card-body">
+                        <div class="title-file-group row">
+                            <h5 class="h5 col-5">기존 알고리즘 결과</h5>
+                            <div class="file-group col-7">
+                                <input type="file" name="file" id="originalFile1"/>
+                                <button class="btn btn-primary uploadBtn" id="oriUploadBtn">Upload</button>
+                            </div>
+                        </div>
+                        <div class="oriInsert">
+                            <li>합금철 총 투입비용 : </li>
+                            <li>합금철 총 투입량 : </li>
+                            <li>예상 용강량 : </li>
+                            <li>방법 :</li>
                         </div>
                     </div>
                 </div>
-                <!--날짜 조회 모달 -->
-                <th:block th:insert="Modal"></th:block>
-
-                <div class="row">
-                    <div class="card col-6" id="ori">
-                        <div class="card-body">
-                                <div class="title-file-group row">
-                                    <h5 class="h5 col-5">기존 알고리즘 결과</h5>
-                                    <div class="file-group col-7">
-                                        <input type="file" name="file" id="originalFile1"/>
-                                        <button class="btn btn-primary uploadBtn" id="oriUploadBtn">Upload</button>
-                                    </div>
-                                </div>
-                                <div class="oriInsert">
-                                    <li>합금철 총 투입비용 : </li>
-                                    <li>합금철 총 투입량 : </li>
-                                    <li>예상 용강량 : </li>
-                                    <li>방법 :</li>
-                                </div>
+                <div class="card col-6">
+                    <div class="card-body">
+                        <div class="title-file-group row">
+                            <h5 class="h5 col-5">수정 알고리즘 결과</h5>
+                            <div class="file-group col-7">
+                                <input name="uploadFiles" id="fileInput" type="file" multiple >
+                                <button class="btn btn-primary uploadBtn" id="revUploadBtn">Upload</button>
+                            </div>
                         </div>
-                    </div>
-                    <div class="card col-6">
-                        <div class="card-body">
-                            <div class="title-file-group row">
-                                <h5 class="h5 col-5">수정 알고리즘 결과</h5>
-                                <div class="file-group col-7">
-                                    <input name="uploadFiles" id="fileInput" type="file" multiple >
-                                    <button class="btn btn-primary uploadBtn" id="revUploadBtn">Upload</button>
-                                </div>
-                            </div>
-                            <div class="insert">
-                                <li>합금철 총 투입비용 : </li>
-                                <li>합금철 총 투입량 : </li>
-                                <li>예상 용강량 : </li>
-                                <li>방법 : </li>
-                                <div id="uploadResult"></div>
-                            </div>
+                        <div class="insert">
+                            <li>합금철 총 투입비용 : </li>
+                            <li>합금철 총 투입량 : </li>
+                            <li>예상 용강량 : </li>
+                            <li>방법 : </li>
+                            <div id="uploadResult"></div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
         <div class="hidden-group"></div>
         <!-- 세이브 버튼 2개 및 각 모달창 -->
 
@@ -84,21 +84,7 @@
         <div class="row">
             <div class="card col-12">
                 <div class="card-body">
-                    <div class="allchart">
-<!--                        <h5 id="chart-title">요약 지표</h5>-->
-<!--                        <div class="sort-group">-->
-<!--                            <select class="sort-list" id="sort-select" style="margin-right: 10px" onchange="sendSortData()">-->
-<!--                                <option>정렬기준</option>-->
-<!--                                <option>이름</option>-->
-<!--                                <option>차이값</option>-->
-<!--                            </select>-->
-<!--                            <div>-->
-<!--                                <input type="radio" id="asc" name="order" value="asc" checked onchange="sendSortData()">오름차순-->
-<!--                                <input type="radio" id="desc" name="order" value="desc" onchange="sendSortData()">내림차순-->
-<!--                            </div>-->
-<!--                         </div>-->
-
-                    </div>
+                    <div class="allchart"></div>
                     <div class="alloy_chart">
                         <div id="alloy_chart" style="width: 800px; height: 500px;"></div>
                     </div>
@@ -112,7 +98,7 @@
         <!-- 표 -->
         <div class="row">
             <div class="card col-12">
-                <div class="card-body">
+                <div class="card-body table-container">
                     <div class="alloy-table"></div>
                     <div class="material-table"></div>
                 </div>
@@ -120,6 +106,7 @@
         </div>
     </div>
 </div>
+
 <!-- JQuery -->
 <script
         src="https://code.jquery.com/jquery-3.5.1.min.js"
@@ -150,7 +137,7 @@
             type: 'POST',
             dataType: 'json',
             success: function (result){
-             sendOriFileName(result[0]);
+                sendOriFileName(result[0]);
             },
             error:function (){
             }
@@ -182,11 +169,12 @@
         html += "<li>합금철 총 투입량 : " + response.totalAmount + "</li>";
         html += "<li>예상 용강량 : " + response.expectOutput + "</li>";
         html += "<li>방법 : " + response.method + "</li>";
-        html += "<label> 메모 : <textarea id='commentOriTextarea' placeholder='메모를 입력하세요'></textarea></label>";
+        html += "<div class='memo-container'><label>메모 : </label>"
+        html += "<textarea id='commentOriTextarea' placeholder='메모를 입력하세요'></textarea></div>";
         html += "</div>";
 
         $(".oriInsert").html(html);
-         nowOriComment = $("#commentOriTextarea").val();
+        nowOriComment = $("#commentOriTextarea").val();
     }
 
     //업로드 버튼을 누르면 파일을 MultipartFile[]에 담아 백으로 전달
@@ -263,9 +251,13 @@
 
                 if(Object.keys(response.compareDTO.diffAlloyInputs).length === 0){
                     alert("합금철별 투입량에 차이가 없습니다.");
-                    var html ="<p>여기를 예쁘게</p>";
 
-                    $(".alloy_chart").html(html);
+                    var html ="";
+                    html += "<div id='alloy_chart'>";
+                    html += "<div class='message'>데이터가 없습니다.</div>";
+                    html += "</div>";
+
+                    $("#alloy_chart").html(html);
                 }
                 else {
                     var order = [];
@@ -280,8 +272,13 @@
                 }
                 if(Object.keys(response.compareDTO.diffMaterials).length === 0){
                     alert("예상 성분에 차이가 없습니다.");
-                    var html ="<p>여기를 예쁘게</p>";
-                    $(".material_chart").html(html);
+
+                    var html ="";
+                    html += "<div id='material_chart'>";
+                    html += "<div class='message'>데이터가 없습니다.</div>";
+                    html += "</div>";
+
+                    $("#material_chart").html(html);
                 }else {
                     var order = [];
                     var i = 0;
@@ -308,12 +305,22 @@
         html += "<li>합금철 총 투입량 : " + response.totalAmount + "</li>";
         html += "<li>예상 용강량 : " + response.expectOutput + "</li>";
         html += "<li>방법 : " + response.method + "</li>";
-        html += "<label> 메모 : <textarea id='commentRevTextarea' placeholder='메모를 입력하세요'>" + response.comment + "</textarea></label>";
+        html += "<div class='memo-container'><label>메모 : </label>"
+        html += "<textarea id='commentRevTextarea' placeholder='메모를 입력하세요'>" + response.comment + "</textarea></div>";
         html += "<div>";
 
+        // for (var i = 0; i < response.length; i++) {
+        //     html += "<a href='#' id='uploadResult' class='btn btn-primary m-1' onclick='saveComment(\"" + i + "\",\"" + response.index + "\", $(\"#commentRevTextarea\").val())'>" + (i + 1) + "</a>";
+        // }
+        //test
         for (var i = 0; i < response.length; i++) {
-            html += "<a href='#' id='uploadResult' class='btn btn-primary m-1' onclick='saveComment(\"" + i + "\",\"" + response.index + "\", $(\"#commentRevTextarea\").val())'>" + (i + 1) + "</a>";
+            if (i === nowIndex) {
+                html += "<a href='#' id='uploadResult' class='btn btn-primary active m-1 btn-colored' onclick='saveComment(\"" + i + "\",\"" + response.index + "\", $(\"#commentRevTextarea\").val())'>" + (i + 1) + "</a>";
+            } else {
+                html += "<a href='#' id='uploadResult' class='btn btn-primary m-1' onclick='saveComment(\"" + i + "\",\"" + response.index + "\", $(\"#commentRevTextarea\").val())'>" + (i + 1) + "</a>";
+            }
         }
+
 
         html += "</div>";
         html += "<button class='deleteBtn bg-danger' data-index='" + response.index + "'> 삭제</button>";
@@ -346,8 +353,8 @@
             url: '/saveComment',
             method: 'POST',
             data: { index: index,
-                    saveIndex: saveIndex,
-                    comment: comment},
+                saveIndex: saveIndex,
+                comment: comment},
             success: function(response) {
                 // 요청이 성공한 경우의 동작
                 showRevFile(response.revResultDTO);
@@ -372,9 +379,13 @@
                 if(Object.keys(response.compareDTO.diffAlloyInputs).length === 0){
                     alert("합금철별 투입량에 차이가 없습니다.");
 
-                    var html ="<p>여기를 예쁘게</p>";
+                    var html ="";
+                    html += "<div id='alloy_chart'>";
+                    html += "<div class='message'>데이터가 없습니다.</div>";
+                    html += "</div>";
 
-                    $(".alloy_chart").html(html);
+
+                    $("#alloy_chart").html(html);
 
                 }
                 else {
@@ -391,9 +402,12 @@
                 if(Object.keys(response.compareDTO.diffMaterials).length === 0){
                     alert("예상 성분에 차이가 없습니다.");
 
-                    var html ="<p>여기를 예쁘게</p>";
+                    var html ="";
+                    html += "<div id='material_chart'>";
+                    html += "<div class='message'>데이터가 없습니다.</div>";
+                    html += "</div>";
 
-                    $(".material_chart").html(html);
+                    $("#material_chart").html(html);
                 }else {
                     var order = [];
                     var i = 0;

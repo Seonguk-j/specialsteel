@@ -1,14 +1,12 @@
 
 
-
-
 // 합금철 투입량 표 생성 함수
 function createAlloyTable(response, order) {
     var table = document.createElement("table");
     var caption = document.createElement("caption");
     caption.classList.add("title");
 
-        table.appendChild(caption);
+    table.appendChild(caption);
 
     var ori = response.oriAlloyInputs;
     var rev = response.revAlloyInputs;
@@ -50,53 +48,133 @@ function createAlloyTable(response, order) {
     return table;
 }
 
-// result 예상 성분 표 생성 함수
+
+
+// test
+// result 예상성분 표
 function createMaterialTable(response, order) {
     var table = document.createElement("table");
     var caption = document.createElement("caption");
     caption.classList.add("title");
-
-        table.appendChild(caption);
+    table.appendChild(caption);
 
     var ori = response.oriMaterials;
     var rev = response.revMaterials;
 
-    var row1 = document.createElement("tr");
-    var row2 = document.createElement("tr");
-    var row3 = document.createElement("tr");
+    var totalKeys = order.length;
 
-    head = document.createElement("th");
-    head.textContent = "예상 성분";
-    cell1 = document.createElement("td");
-    cell1.textContent = "기존 알고리즘";
-    cell2 = document.createElement("td");
-    cell2.textContent = "수정 알고리즘";
+    if (totalKeys > 10) { // 예상 성분의 데이터가 10개 이상이면 두 개의 표로 나누어 보여줌
+        var halfKeys = Math.ceil(totalKeys / 2);
 
-    row1.appendChild(head);
-    row2.appendChild(cell1);
-    row3.appendChild(cell2);
+        //첫번째 표
+        var row1 = document.createElement("tr");
+        var row2 = document.createElement("tr");
+        var row3 = document.createElement("tr");
 
-
-    var head, cell1,cell2;
-    for(var i = 0; i < order.length; i++) {
-        var key = order[i];
         head = document.createElement("th");
-        head.textContent = key;
+        head.textContent = "예상 성분";
         cell1 = document.createElement("td");
-        cell1.textContent = ori[key];
+        cell1.textContent = "기존 알고리즘";
         cell2 = document.createElement("td");
-        cell2.textContent = rev[key];
+        cell2.textContent = "수정 알고리즘";
+
         row1.appendChild(head);
         row2.appendChild(cell1);
         row3.appendChild(cell2);
-    }
 
-    table.appendChild(row1);
-    table.appendChild(row2);
-    table.appendChild(row3);
+        var head, cell1, cell2;
+        for (var i = 0; i < halfKeys; i++) {
+            var key = order[i];
+            head = document.createElement("th");
+            head.textContent = key;
+            cell1 = document.createElement("td");
+            cell1.textContent = ori[key];
+            cell2 = document.createElement("td");
+            cell2.textContent = rev[key];
+            row1.appendChild(head);
+            row2.appendChild(cell1);
+            row3.appendChild(cell2);
+        }
+
+        table.appendChild(row1);
+        table.appendChild(row2);
+        table.appendChild(row3);
+        table.appendChild(document.createElement("br")); // 첫 번째 표와 두 번째 표 사이에 빈 줄 삽입
+
+        // 두번째표
+        var row4 = document.createElement("tr");
+        var row5 = document.createElement("tr");
+        var row6 = document.createElement("tr");
+
+
+        head = document.createElement("th");
+        head.textContent = "예상 성분";
+        cell1 = document.createElement("td");
+        cell1.textContent = "기존 알고리즘";
+        cell2 = document.createElement("td");
+        cell2.textContent = "수정 알고리즘";
+
+        row4.appendChild(head);
+        row5.appendChild(cell1);
+        row6.appendChild(cell2);
+
+        for (var i = halfKeys; i < totalKeys; i++) {
+            var key = order[i];
+            head = document.createElement("th");
+            head.textContent = key;
+            cell1 = document.createElement("td");
+            cell1.textContent = ori[key];
+            cell2 = document.createElement("td");
+            cell2.textContent = rev[key];
+            row4.appendChild(head);
+            row5.appendChild(cell1);
+            row6.appendChild(cell2);
+        }
+
+        table.appendChild(row4);
+        table.appendChild(row5);
+        table.appendChild(row6);
+
+    } else { // 예상 성분의 데이터가 10개 이하이면 하나의 표로 보여줌
+        var row1 = document.createElement("tr");
+        var row2 = document.createElement("tr");
+        var row3 = document.createElement("tr");
+
+        head = document.createElement("th");
+        head.textContent = "예상 성분";
+        cell1 = document.createElement("td");
+        cell1.textContent = "기존 알고리즘";
+        cell2 = document.createElement("td");
+        cell2.textContent = "수정 알고리즘";
+
+        row1.appendChild(head);
+        row2.appendChild(cell1);
+        row3.appendChild(cell2);
+
+        var head, cell1, cell2;
+        for (var i = 0; i < totalKeys; i++) {
+            var key = order[i];
+            head = document.createElement("th");
+            head.textContent = key;
+            cell1 = document.createElement("td");
+            cell1.textContent = ori[key];
+            cell2 = document.createElement("td");
+            cell2.textContent = rev[key];
+            row1.appendChild(head);
+            row2.appendChild(cell1);
+            row3.appendChild(cell2);
+        }
+
+        table.appendChild(row1);
+        table.appendChild(row2);
+        table.appendChild(row3);
+    }
 
     return table;
 }
+
+
+
 
 function drawAlloyTable(response, order) {
     // 표를 추가할 컨테이너 요소
@@ -141,33 +219,72 @@ function drawMaterialTable(response, order) {
     container.appendChild(materialTableContainer);
 }
 
-// 합금철별 투입량 차트
-google.charts.load('current', {'packages':['bar']});
-google.charts.setOnLoadCallback();
 
+
+// 차트 =============================================
+//test
 function drawAlloyChart(response, order) {
     var data = new google.visualization.DataTable();
-    // console.log(JSON.stringify(response));
     data.addColumn('string', 'Ingredient');
     data.addColumn('number', 'Diff');
 
-    for(var i = 0; i < order.length; i++) {
-        var key = order[i];
-        var value = response[key];
-        data.addRow([key, value]);
+    // 데이터가 하나뿐인 경우에도 두 개의 데이터로 인식하도록 빈 데이터 추가
+    if (order.length === 1) {
+        data.addRow([order[0], response[order[0]]]);
+        data.addRow(['', null]);
+    } else {
+        for (var i = 0; i < order.length; i++) {
+            var key = order[i];
+            var value = response[key];
+            data.addRow([key, value]);
+        }
     }
 
     var options = {
         chart: {
             title: '합금철별 투입량',
             subtitle: '',
-        }
+        },
     };
 
     var chart = new google.charts.Bar(document.getElementById('alloy_chart'));
 
     chart.draw(data, google.charts.Bar.convertOptions(options));
 }
+
+
+// // 합금철별 투입량 차트
+// google.charts.load('current', {'packages':['bar']});
+// google.charts.setOnLoadCallback();
+//
+// function drawAlloyChart(response, order) {
+//     var data = new google.visualization.DataTable();
+//     // console.log(JSON.stringify(response));
+//     data.addColumn('string', 'Ingredient');
+//     data.addColumn('number', 'Diff');
+//
+//     for(var i = 0; i < order.length; i++) {
+//         var key = order[i];
+//         var value = response[key];
+//         data.addRow([key, value]);
+//     }
+//
+//     var options = {
+//         chart: {
+//             title: '합금철별 투입량',
+//             subtitle: '',
+//         },
+//
+//     };
+//
+//     var chart = new google.charts.Bar(document.getElementById('alloy_chart'));
+//
+//     chart.draw(data, google.charts.Bar.convertOptions(options));
+// }
+
+
+
+
 
 // 예상 성분 차트
 google.charts.load('current', {'packages':['bar']});
