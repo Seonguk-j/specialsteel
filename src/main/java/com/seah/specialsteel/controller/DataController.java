@@ -45,9 +45,7 @@ public class DataController {
 
         // 조회에 필요한 작업을 수행합니다.
         List<OriResult> oriResults = oriResultRepository.findByModDateBetween(startDate, endDate);
-        System.out.println("---------------여기3-----------------------");
-        System.out.println(oriResults);
-        System.out.println("---------------여기3-----------------------");
+
         // 결과를 저장할 리스트를 초기화합니다.
         List<DataDTO> resultData = new ArrayList<>();
 
@@ -78,9 +76,7 @@ public class DataController {
         // RevResult 조회
         List<RevResult> revResults = revResultRepository.findByOriResultId(id);
         Optional<OriResult> oriResults = oriResultRepository.findById(id);
-        System.out.println("------------------여기5----------------");
-        System.out.println(revResults);
-        System.out.println("------------------여기5----------------");
+
         resultMap.put("oriResults",oriResults);
         if (!revResults.isEmpty()) {
             resultMap.put("revResults", revResults); // 모든 RevResult를 담는 List로 수정
@@ -94,9 +90,7 @@ public class DataController {
         } else {
             resultMap.put("error", "RevResult not found with ID: " + id);
         }
-        System.out.println("------------------여기6----------------");
-        System.out.println(resultMap);
-        System.out.println("------------------여기6----------------");
+
         return resultMap;
     }
 

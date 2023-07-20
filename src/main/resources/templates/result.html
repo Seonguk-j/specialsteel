@@ -211,7 +211,7 @@
     function showUploadedList(arr) {
         event.preventDefault();
         var html = "";
-
+        html += "<div class='changeTest'>";
         for (var i = 0; i < arr.length; i++) {
             html += "<a href='#' class='btn btn-primary m-1'  onclick='sendRevFileName(\"" + i + "\")'>" + (i+1) + "</a>";
         }
@@ -723,8 +723,10 @@
                     // 서버에서 받은 데이터를 원하는 방식으로 화면에 표시합니다.
                     console.log(data);
                     showOriFile(data.oriResults);
-                    //showRevFile(data.revResults);
+                    // showRevFile(data.revResults);
+
                     showUploadedList1(data.revResults);
+
                 })
                 .catch(error => {
                     console.error('Error:', error);
@@ -736,13 +738,39 @@
         //event.preventDefault();
         var html = "";
 
-        html += "<div class='changeTest'>";
 
         for (var i = 0; i < revResults.length; i++) {
-            html += "<a href='#' class='btn btn-primary m-1' onclick='sendRevFileName(\"" + i + "\")'>" + (i + 1) + "</a>";
+            html += "<a href='#' class='btn btn-primary m-1' onclick='sendRevFileName1(\"" + i + "\")'>" + (i + 1) + "</a>";
         }
-        html += "</div>";
-        $(".uploadResult").html(html);
+        $("#uploadResult").html(html);
+    }
+
+    function sendRevFileName1(index) {
+
+        $.ajax({
+            url: '/sendRevFileName',
+            method: 'POST',
+            data: { index: index },
+            success: function(response) {
+                // 요청이 성공한 경우의 동작
+                showRevFile(response.revResultDTO);
+
+                if(Object.keys(response.compareDTO.diffAlloyInputs).length !== 0) {
+                    drawAlloyChart(response.compareDTO.diffAlloyInputs, orderAlloyInputs);
+                    drawAlloyTable(response.compareDTO, orderAlloyInputs);
+                    diffAlloyInputsMap = response.compareDTO.diffAlloyInputs;
+                }
+
+                if(Object.keys(response.compareDTO.diffMaterials).length !== 0) {
+                    drawMaterialChart(response.compareDTO.diffMaterials, orderMaterials);
+                    drawMaterialTable(response.compareDTO, orderMaterials);
+                    diffMaterialsMap = response.compareDTO.diffMaterials;
+                }
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
     }
 
 </script>

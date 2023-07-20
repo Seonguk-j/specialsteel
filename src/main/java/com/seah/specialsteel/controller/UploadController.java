@@ -88,6 +88,7 @@ public class UploadController {
 
     @PostMapping("/sendRevFileName")
     public ResponseEntity<Map<String, Object>> receiveRevResultDTO(@RequestParam ("index")int index) {
+        System.out.println("왜안되지?" + index);
         revResultDTOList.get(index).setLength(revResultDTOList.size());
         ResultDTO revResultDTO = revResultDTOList.get(index);
 
