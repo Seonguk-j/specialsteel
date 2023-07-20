@@ -11,32 +11,33 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="css/result.css">
+    <link rel="stylesheet" href="css/Modal.css">
 </head>
 <body>
 <!-- 날짜 검색 모달창 -->
 <div id="myModal" class="modal" tabindex="-1">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg" >
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">날짜 조회</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="closeModal()"></button>
             </div>
             <div class="searchBtn">
-                <input type="text" placeholder="검색어 입력">
-                <button type="button">검색</button>
+                <input id="search-bar" type="text" placeholder="검색어 입력">
+                <button type="button" id="search-Btn">검색</button>
             </div>
             <div class="modal-body">
                 <label class="date-search-label">기간</label>
-                <input type="date" id="startDate">
+                <input type="datetime-local" id="startDate">
                 <span> ~ </span>
-                <input type="date" id="endDate">
+                <input type="datetime-local" id="endDate">
             </div>
             <div id="listContainer">
                 <!-- 리스트 목록이 여기에 추가. -->
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary">조회</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeModal()">닫기</button>
+                <button class="btn btn-primary">조회</button>
+                <button class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeModal()">닫기</button>
             </div>
         </div>
     </div>

@@ -223,50 +223,21 @@ function drawMaterialTable(response, order) {
 
 // 차트 =============================================
 //test
-function drawAlloyChart(response, order) {
-    var data = new google.visualization.DataTable();
-    data.addColumn('string', 'Ingredient');
-    data.addColumn('number', 'Diff');
-
-    // 데이터가 하나뿐인 경우에도 두 개의 데이터로 인식하도록 빈 데이터 추가
-    if (order.length === 1) {
-        data.addRow([order[0], response[order[0]]]);
-        data.addRow(['', null]);
-    } else {
-        for (var i = 0; i < order.length; i++) {
-            var key = order[i];
-            var value = response[key];
-            data.addRow([key, value]);
-        }
-    }
-
-    var options = {
-        chart: {
-            title: '합금철별 투입량',
-            subtitle: '',
-        },
-    };
-
-    var chart = new google.charts.Bar(document.getElementById('alloy_chart'));
-
-    chart.draw(data, google.charts.Bar.convertOptions(options));
-}
-
-
-// // 합금철별 투입량 차트
-// google.charts.load('current', {'packages':['bar']});
-// google.charts.setOnLoadCallback();
-//
 // function drawAlloyChart(response, order) {
 //     var data = new google.visualization.DataTable();
-//     // console.log(JSON.stringify(response));
-//     data.addColumn('string', 'Ingredient');
-//     data.addColumn('number', 'Diff');
+//     // data.addColumn('string', 'Ingredient');
+//     // data.addColumn('number', 'Diff');
 //
-//     for(var i = 0; i < order.length; i++) {
-//         var key = order[i];
-//         var value = response[key];
-//         data.addRow([key, value]);
+//     // 데이터가 하나뿐인 경우에도 두 개의 데이터로 인식하도록 빈 데이터 추가
+//     if (order.length === 1) {
+//         data.addRow([order[0], response[order[0]]]);
+//         data.addRow(['', null]);
+//     } else {
+//         for (var i = 0; i < order.length; i++) {
+//             var key = order[i];
+//             var value = response[key];
+//             data.addRow([key, value]);
+//         }
 //     }
 //
 //     var options = {
@@ -274,13 +245,42 @@ function drawAlloyChart(response, order) {
 //             title: '합금철별 투입량',
 //             subtitle: '',
 //         },
-//
 //     };
 //
 //     var chart = new google.charts.Bar(document.getElementById('alloy_chart'));
 //
 //     chart.draw(data, google.charts.Bar.convertOptions(options));
 // }
+
+
+// 합금철별 투입량 차트
+google.charts.load('current', {'packages':['bar']});
+google.charts.setOnLoadCallback();
+
+function drawAlloyChart(response, order) {
+    var data = new google.visualization.DataTable();
+    // console.log(JSON.stringify(response));
+    data.addColumn('string', '');
+    data.addColumn('number', 'Diff');
+
+    for(var i = 0; i < order.length; i++) {
+        var key = order[i];
+        var value = response[key];
+        data.addRow([key, value]);
+    }
+
+    var options = {
+        chart: {
+            title: '합금철별 투입량',
+            subtitle: '',
+        },
+
+    };
+
+    var chart = new google.charts.Bar(document.getElementById('alloy_chart'));
+
+    chart.draw(data, google.charts.Bar.convertOptions(options));
+}
 
 
 
@@ -292,7 +292,7 @@ google.charts.setOnLoadCallback();
 function drawMaterialChart(response, order) {
     var data = new google.visualization.DataTable();
     // console.log(JSON.stringify(response));
-    data.addColumn('string', 'Ingredient');
+    data.addColumn('string', '');
     data.addColumn('number', 'Diff');
 
     // var output = response.diffAlloyInputList;
