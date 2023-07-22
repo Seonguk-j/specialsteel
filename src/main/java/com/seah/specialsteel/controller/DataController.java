@@ -40,7 +40,7 @@ public class DataController {
 
     }
 
-    private List<RevResult> revResults1;
+
 
     @PostMapping("/getDataByDate")
     public List<DataDTO> getDataByDate(@RequestBody DateRequestDTO dateRequest) {
@@ -53,6 +53,7 @@ public class DataController {
 
         // 결과를 저장할 리스트를 초기화합니다.
         List<DataDTO> resultData = new ArrayList<>();
+        List<RevResult> revResults1;
 
         // oriResults의 각 ID를 사용하여 RevResult를 조회하고 개수를 세어줍니다.
         for (OriResult oriResult : oriResults) {
@@ -200,8 +201,39 @@ public class DataController {
             return ResponseEntity.notFound().build();
         }
 
-
     }
+
+    @PostMapping("/searchByTitle")
+    public List<DataDTO> searchByTitle(@RequestBody String searchWord){
+        List<OriResult> oriResults = oriResultRepository.findByTitle(searchWord);
+        System.out.println("제목오리결과 - "+oriResults);
+        System.out.println("검색어 - "+searchWord);
+
+        // 결과를 저장할 리스트를 초기화합니다.
+        List<DataDTO> resultData1 = new ArrayList<>();
+        List<RevResult> revResultList;
+
+        // oriResults의 각 ID를 사용하여 RevResult를 조회하고 개수를 세어줍니다.
+        for (OriResult oriResult : oriResults) {
+            Long oriResultId = oriResult.getId();
+            revResultList = revResultRepository.findByOriResultId(oriResultId);
+            int revResultCount = revResultList.size();
+
+            // DataDTO 객체를 생성하여 원하는 정보를 추가합니다.
+            DataDTO dataDTO = new DataDTO();
+            dataDTO.setDate(oriResult.getModDate());
+            dataDTO.setComment(oriResult.getComment());
+            dataDTO.setId(oriResultId); // OriResult의 ID를 이름으로 지정
+            dataDTO.setAmount((double) revResultCount); // RevResult의 개수를 amount로 지정
+
+            // 리스트에 추가합니다.
+            resultData1.add(dataDTO);
+        }
+
+        return resultData1;
+    }
+
+
 
 
 

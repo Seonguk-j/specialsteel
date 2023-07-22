@@ -1,15 +1,21 @@
 // 날짜 조회 모달창 ======================================================================
 
+
 // 열기
 function showModal() {
+
     const modal = document.getElementById('myModal');
     modal.style.display = 'block';
+
+
 }
 
 //닫기
 function closeModal() {
     const modal = document.getElementById('myModal');
     modal.style.display = 'none';
+
+
 }
 
 

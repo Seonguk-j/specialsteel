@@ -69,6 +69,7 @@
                             <li>방법 : </li>
                             <div id="uploadResult"></div>
                             <div id="showResult"></div>
+                            <div id="showResult1"></div>
                         </div>
                     </div>
                 </div>
@@ -597,7 +598,25 @@
         }
     }
 
+    function titleSearch() {
+        const searchInput = document.getElementById("searchWord").value;
+        // 검색어만 서버로 전송합니다.
+        fetch('/api/searchByTitle', {
+            method: 'POST',
+            body: searchInput,
+        })
+            .then(response => response.json())
+            .then(data => {
+                // 받은 데이터를 리스트로 표시합니다.
+                displayData(data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+
     function fetchData() {
+
         // 선택한 날짜 정보를 가져옵니다.
         const startDate = document.getElementById("startDate").value;
         const endDate = document.getElementById("endDate").value;
@@ -750,6 +769,7 @@
 
     // 조회 버튼 클릭 시 실행될 함수를 정의합니다.
     function fetchDataById() {
+        closeModal();
         // 선택한 id 값으로 서버로 데이터를 요청합니다.
         if (selectedId !== null) {
             fetch(`/api/getDataById/${selectedId}`)
@@ -758,8 +778,20 @@
                     // 서버에서 받은 데이터를 원하는 방식으로 화면에 표시합니다.
 
                     console.log(data);
-
                     showOriFile(data.oriResults);
+
+                    var html = "";
+                    html += "<div class='insert'>";
+                    html += "<li>합금철 총 투입비용 : " +  "</li>";
+                    html += "<li>합금철 총 투입량 : " + "</li>";
+                    html += "<li>예상 용강량 : " + "</li>";
+                    html += "<li>방법 : " + "</li>";
+                    html += "<div>";
+                    html += "<div id='uploadResult'>" +"</div>";
+                    html += "<div id='showResult'>" + "</div>";
+                    html += "<div id='showResult1'>"+ "</div>";
+
+                    $(".insert").html(html);
 
                     showUploadedList1(data.revResults);
                 })
@@ -770,16 +802,21 @@
     }
 
     function showUploadedList1(revResults) {
+        console.log("여기들어옴")
+        //event.preventDefault()
         var html = "";
-
+        html += "<div class='changeTest'>";
         for (var i = 0; i < revResults.length; i++) {
             html += "<a href='#' class='btn btn-primary m-1' onclick='sendRevFileName1(\"" + i + "\")'>" + (i + 1) + "</a>";
         }
+        html += "</div>";
+
         $("#showResult").html(html);
     }
 
 
     function sendRevFileName1(index) {
+
         console.log(index)
         $.ajax({
             url:'/api/getRevData',
@@ -854,6 +891,7 @@
     }
 
     function showRevFile1(response) {
+
         console.log("리스폰스 - "+response)
         nowIndex = response.index;
         var html = "";
@@ -867,7 +905,7 @@
         console.log("리스폰스길이 - "+response.length);
         for(var i = 0; i < response.length; i++) {
             //$("#showResult").empty();
-            html += "<a href='#' id='showResult' class='btn btn-primary m-1' onclick='sendRevFileName1(\"" + i + "\",\"" + response.index + "\", $(\"#commentRevTextarea\").val())'>" + (i + 1) + "</a>";
+            html += "<a href='#' id='showResult1' class='btn btn-primary m-1' onclick='sendRevFileName1(\"" + i + "\",\"" + response.index + "\", $(\"#commentRevTextarea\").val())'>" + (i + 1) + "</a>";
         }
 
         // html += "</div>";
