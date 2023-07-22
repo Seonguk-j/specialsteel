@@ -3,6 +3,7 @@ package com.seah.specialsteel.service;
 import com.seah.specialsteel.entity.AlloyInput;
 import com.seah.specialsteel.entity.ExpectedResult;
 import com.seah.specialsteel.entity.OriResult;
+import com.seah.specialsteel.entity.RevResult;
 import com.seah.specialsteel.repository.AlloyInputRepository;
 import com.seah.specialsteel.repository.ExpectedResultRepository;
 import com.seah.specialsteel.repository.OriResultRepository;
@@ -45,8 +46,9 @@ public class ExcelService {
         return colName;
     }
 
-    private List<String> oriData(Long orResultId) {
-        OriResult oriResult = oriResultRepository.getOne(1L);
+    private List<String> data(Long orResultId, Long revResultId) {
+        if(orResultId!= null){
+        OriResult oriResult = oriResultRepository.getOne(orResultId);
         List<String> oriData = new ArrayList<>();
         oriData.add(oriResult.getTitle());
         oriData.add(Double.toString(oriResult.getTotalCost()));
@@ -56,22 +58,49 @@ public class ExcelService {
         oriData.add(oriResult.getComment());
 
         return oriData;
+        }else {
+            RevResult revResult = revResultRepository.getOne(revResultId);
+            List<String> revData = new ArrayList<>();
+
+            revData.add(Double.toString(revResult.getTotalCost()));
+            revData.add(Double.toString(revResult.getTotalAmount()));
+            revData.add(Double.toString(revResult.getExpectOutput()));
+            revData.add(revResult.getMethod());
+            revData.add(revResult.getComment());
+        return revData;
+        }
     }
 
-    private List<AlloyInput> alloyData(Long orResultId) {
-        OriResult oriResult = oriResultRepository.getOne(1L);
-        List<AlloyInput> alloyInputList = alloyInputRepository.findByOriResult(oriResult);
+    private List<AlloyInput> alloyData(Long orResultId, Long revResultId) {
+        List<AlloyInput> alloyInputList = new ArrayList<>();
+        if(orResultId!= null) {
+            OriResult oriResult = oriResultRepository.getOne(orResultId);
+             alloyInputList = alloyInputRepository.findByOriResult(oriResult);
 
 
-        return alloyInputList;
+            return alloyInputList;
+        }else {
+            RevResult revResult = revResultRepository.getOne(revResultId);
+            alloyInputList = alloyInputRepository.findByRevResult(revResult);
+
+            return alloyInputList;
+        }
     }
 
-    private List<ExpectedResult> expectData(Long orResultId) {
-        OriResult oriResult = oriResultRepository.getOne(1L);
-        List<ExpectedResult> expectedResultList = expectedResultRepository.findByOriResult(oriResult);
+    private List<ExpectedResult> expectData(Long orResultId, Long revResultId) {
+        List<ExpectedResult> expectedResultList = new ArrayList<>();
+        if(orResultId!= null) {
+            OriResult oriResult = oriResultRepository.getOne(orResultId);
+            expectedResultList = expectedResultRepository.findByOriResult(oriResult);
 
 
-        return expectedResultList;
+            return expectedResultList;
+        }else {
+            RevResult revResult = revResultRepository.getOne(revResultId);
+            expectedResultList = expectedResultRepository.findByRevResult(revResult);
+
+            return expectedResultList;
+        }
     }
 
     public Sheet createOriSheet(Workbook workbook) {
@@ -140,7 +169,7 @@ public class ExcelService {
         /**
          * body data
          */
-        List<String> oriBodyData = this.oriData(1L);
+        List<String> oriBodyData = this.data(1L,null);
         Row bodyRow = null;
         Cell bodyCell = null;
 
@@ -158,7 +187,7 @@ public class ExcelService {
         Row alloyBodyRow = sheet.createRow(7);
         Cell alloyBodyValue = null;
 
-        List<AlloyInput> alloyData = this.alloyData(1L);
+        List<AlloyInput> alloyData = this.alloyData(1L,null);
         for (int i = 0; i < alloyData.size(); i++) {
             alloyBodyName = alloyHeaderRow.createCell(i);
             alloyBodyName.setCellValue(alloyData.get(i).getName());
@@ -172,7 +201,7 @@ public class ExcelService {
         Row expectBodyRow = sheet.createRow(11);
         Cell expectBodyValue = null;
 
-        List<ExpectedResult> expectData = this.expectData(1L);
+        List<ExpectedResult> expectData = this.expectData(1L,null);
         for (int i = 0; i < expectData.size(); i++) {
             expectBodyName = expectHeaderRow.createCell(i);
             expectBodyName.setCellValue(expectData.get(i).getName());
@@ -183,7 +212,7 @@ public class ExcelService {
     }
     public Sheet createRevSheet(Workbook workbook) {
 
-        Sheet sheet = workbook.createSheet("수정 알고리즘"); // 엑셀 sheet 이름
+        Sheet sheet = workbook.createSheet("수정 알고리즘 및 비교 결과"); // 엑셀 sheet 이름
         sheet.setDefaultColumnWidth(28); // 디폴트 너비 설정
 
         // F 컬럼의 너비를 35로 설정
@@ -228,33 +257,33 @@ public class ExcelService {
          * header data
          */
         //A1 값 넣기
-        this.setValue(sheet, "A1", "수정 알고리즘 결과");
+        this.setValue(sheet, "A1", "수정 알고리즘 결과 및 비교 결과");
 
         int rowCount = 2; // 데이터가 저장될 행
-        List<String> revRowName = this.oriColName(1L);
+        List<String> revRowName = this.colName();
 
 
         Row headerRow = null;
         Cell headerCell = null;
 
         headerRow = sheet.createRow(rowCount++);
-        for (int i = 0; i < oriRowName.size(); i++) {
+        for (int i = 0; i < revRowName.size(); i++) {
             headerCell = headerRow.createCell(i);
-            headerCell.setCellValue(oriRowName.get(i)); // 데이터 추가
+            headerCell.setCellValue(revRowName.get(i)); // 데이터 추가
             headerCell.setCellStyle(headerXssfCellStyle); // 스타일 추가
         }
 
         /**
          * body data
          */
-        List<String> oriBodyData = this.oriData(1L);
+        List<String> revBodyData = this.data(null, 1L);
         Row bodyRow = null;
         Cell bodyCell = null;
 
         bodyRow = sheet.createRow(rowCount++);
-        for (int i = 0; i < oriBodyData.size(); i++) {
+        for (int i = 0; i < revBodyData.size(); i++) {
             bodyCell = bodyRow.createCell(i);
-            bodyCell.setCellValue(oriBodyData.get(i)); // 데이터 추가
+            bodyCell.setCellValue(revBodyData.get(i)); // 데이터 추가
 //                bodyCell.setCellStyle(bodyXssfCellStyle); // 스타일 추가
         }
 
@@ -265,7 +294,7 @@ public class ExcelService {
         Row alloyBodyRow = sheet.createRow(7);
         Cell alloyBodyValue = null;
 
-        List<AlloyInput> alloyData = this.alloyData(1L);
+        List<AlloyInput> alloyData = this.alloyData(null, 1L);
         for (int i = 0; i < alloyData.size(); i++) {
             alloyBodyName = alloyHeaderRow.createCell(i);
             alloyBodyName.setCellValue(alloyData.get(i).getName());
@@ -279,7 +308,115 @@ public class ExcelService {
         Row expectBodyRow = sheet.createRow(11);
         Cell expectBodyValue = null;
 
-        List<ExpectedResult> expectData = this.expectData(1L);
+        List<ExpectedResult> expectData = this.expectData(null, 1L);
+        for (int i = 0; i < expectData.size(); i++) {
+            expectBodyName = expectHeaderRow.createCell(i);
+            expectBodyName.setCellValue(expectData.get(i).getName());
+            expectBodyValue = expectBodyRow.createCell(i);
+            expectBodyValue.setCellValue(expectData.get(i).getAmount());
+        }
+        return sheet;
+    }
+
+    public Sheet createMinMaxscaler(Workbook workbook) {
+
+        Sheet sheet = workbook.createSheet("수정 알고리즘 및 비교 결과"); // 엑셀 sheet 이름
+        sheet.setDefaultColumnWidth(28); // 디폴트 너비 설정
+
+        // F 컬럼의 너비를 35로 설정
+//        int columnIndexF = 4; // F 컬럼은 0부터 시작하여 5번째 컬럼.
+//        sheet.setColumnWidth(columnIndexF, 100);
+
+        /**
+         * header font style
+         */
+        XSSFFont headerXSSFFont = (XSSFFont) workbook.createFont();
+        headerXSSFFont.setColor(new XSSFColor(new byte[]{(byte) 255, (byte) 255, (byte) 255}, null));
+
+        /**
+         * header cell style
+         */
+        XSSFCellStyle headerXssfCellStyle = (XSSFCellStyle) workbook.createCellStyle();
+
+        // 테두리 설정
+        headerXssfCellStyle.setBorderLeft(BorderStyle.THIN);
+        headerXssfCellStyle.setBorderRight(BorderStyle.THIN);
+        headerXssfCellStyle.setBorderTop(BorderStyle.THIN);
+        headerXssfCellStyle.setBorderBottom(BorderStyle.THIN);
+
+        // 배경 설정
+        headerXssfCellStyle.setFillForegroundColor(new XSSFColor(new byte[]{34, 37, 41}, null));
+
+        headerXssfCellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        headerXssfCellStyle.setFont(headerXSSFFont);
+
+        /**
+         * body cell style
+         */
+//        XSSFCellStyle bodyXssfCellStyle = (XSSFCellStyle) workbook.createCellStyle();
+//
+//        // 테두리 설정
+//        bodyXssfCellStyle.setBorderLeft(BorderStyle.THIN);
+//        bodyXssfCellStyle.setBorderRight(BorderStyle.THIN);
+//        bodyXssfCellStyle.setBorderTop(BorderStyle.THIN);
+//        bodyXssfCellStyle.setBorderBottom(BorderStyle.THIN);
+
+        /**
+         * header data
+         */
+        //A1 값 넣기
+        this.setValue(sheet, "A1", "수정 알고리즘 결과 및 비교 결과");
+
+        int rowCount = 2; // 데이터가 저장될 행
+        List<String> revRowName = this.colName();
+
+
+        Row headerRow = null;
+        Cell headerCell = null;
+
+        headerRow = sheet.createRow(rowCount++);
+        for (int i = 0; i < revRowName.size(); i++) {
+            headerCell = headerRow.createCell(i);
+            headerCell.setCellValue(revRowName.get(i)); // 데이터 추가
+            headerCell.setCellStyle(headerXssfCellStyle); // 스타일 추가
+        }
+
+        /**
+         * body data
+         */
+        List<String> revBodyData = this.data(null, 1L);
+        Row bodyRow = null;
+        Cell bodyCell = null;
+
+        bodyRow = sheet.createRow(rowCount++);
+        for (int i = 0; i < revBodyData.size(); i++) {
+            bodyCell = bodyRow.createCell(i);
+            bodyCell.setCellValue(revBodyData.get(i)); // 데이터 추가
+//                bodyCell.setCellStyle(bodyXssfCellStyle); // 스타일 추가
+        }
+
+
+        Row alloyHeaderRow = sheet.createRow(6);
+        Cell alloyBodyName = null;
+
+        Row alloyBodyRow = sheet.createRow(7);
+        Cell alloyBodyValue = null;
+
+        List<AlloyInput> alloyData = this.alloyData(null, 1L);
+        for (int i = 0; i < alloyData.size(); i++) {
+            alloyBodyName = alloyHeaderRow.createCell(i);
+            alloyBodyName.setCellValue(alloyData.get(i).getName());
+            alloyBodyValue = alloyBodyRow.createCell(i);
+            alloyBodyValue.setCellValue(alloyData.get(i).getAmount());
+        }
+
+        Row expectHeaderRow = sheet.createRow(10);
+        Cell expectBodyName = null;
+
+        Row expectBodyRow = sheet.createRow(11);
+        Cell expectBodyValue = null;
+
+        List<ExpectedResult> expectData = this.expectData(null, 1L);
         for (int i = 0; i < expectData.size(); i++) {
             expectBodyName = expectHeaderRow.createCell(i);
             expectBodyName.setCellValue(expectData.get(i).getName());
