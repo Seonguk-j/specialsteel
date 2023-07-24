@@ -78,6 +78,8 @@
         <div class="hidden-group"></div>
         <!-- 세이브 버튼 2개 및 각 모달창 -->
 
+        <!-- 파일 모달 부분 -->
+
         <!-- 차트 -->
         <div class="row">
             <div class="card col-12">
@@ -97,10 +99,15 @@
         <div class="row">
             <div class="card col-12">
                 <div class="card-body">
-                    <div class="alloy-table"></div>
-                    <div class="material-table"></div>
+                    <div class="table-container">
+                        <div class="alloy-table"></div>
+                        <div class="material-table"></div>
+                    </div>
                 </div>
             </div>
+        </div>
+        <div class="top-button">
+            <img src="../image/TopBtn.png" onclick="scrollToTop()"></img>
         </div>
     </div>
 </div>
@@ -331,8 +338,8 @@
         html += "<div class='card col-12'>";
         html += "<div class='card-body'>";
         html += "<div class='result-save'>";
-        html += "<button class='saveBtn'>저장하기</button>";
-        html += "<button class='allSaveBtn'>일괄 저장하기</button>";
+        html += "<button class='saveBtn'>저장</button>";
+        html += "<button class='allSaveBtn'>일괄 저장</button>";
         html += "</div>";
         html += "</div>";
         html += "</div>";
@@ -429,7 +436,7 @@
         html += "<li class='list-group-item'>합금철 총 투입량 : </li>";
         html += "<li class='list-group-item'>예상 용강량 :</li>";
         html += "<li class='list-group-item'>방법 : </li>";
-        html += "<div id=\"uploadResult\"></div>";
+        html += "<div id='uploadResult'></div>";
         html += "</div>";
 
         $(".insert").html(html);
