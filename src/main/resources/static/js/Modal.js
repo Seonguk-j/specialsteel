@@ -50,7 +50,7 @@ function closeAllSaveModal() {
 }
 
 
-// 모달
+// 모달====================================
 
 // 타이틀 검색
 function titleSearch() {
@@ -103,6 +103,8 @@ function fetchData() {
 
 // 클릭한 리스트 아이템의 id 값을 저장할 변수를 추가합니다.
 let selectedId = null;
+
+
 
 let currentPage = 1;
 const itemsPerPage = 10;
