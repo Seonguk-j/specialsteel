@@ -792,15 +792,16 @@
                     showOriFile(data.oriResults);
 
                     var html = "";
-                    html += "<div class='insert'>";
-                    html += "<li>합금철 총 투입비용 : " +  "</li>";
-                    html += "<li>합금철 총 투입량 : " + "</li>";
-                    html += "<li>예상 용강량 : " + "</li>";
-                    html += "<li>방법 : " + "</li>";
-                    html += "<div>";
-                    html += "<div id='uploadResult'>" +"</div>";
-                    html += "<div id='showResult'>" + "</div>";
-                    html += "<div id='showResult1'>"+ "</div>";
+
+                    html += "<div class='insert list-group'>"
+                    html += "<li class='list-group-item'>합금철 총 투입비용 : </li>";
+                    html += "<li class='list-group-item'>합금철 총 투입량 : </li>";
+                    html += "<li class='list-group-item'>예상 용강량 :</li>";
+                    html += "<li class='list-group-item'>방법 : </li>";
+                    html += "<div id='uploadResult'></div>";
+                    html += "<div id='showResult'></div>";
+                    html += "<div id='showResult1'></div>";
+                    html += "</div>";
 
                     $(".insert").html(html);
 
@@ -905,13 +906,15 @@
 
         console.log("리스폰스 - "+response)
         nowIndex = response.index;
+
         var html = "";
-        html += "<div class='insert'>";
-        html += "<li>합금철 총 투입비용 : " + response.totalCost + "</li>";
-        html += "<li>합금철 총 투입량 : " + response.totalAmount + "</li>";
-        html += "<li>예상 용강량 : " + response.expectOutput + "</li>";
-        html += "<li>방법 : " + response.method + "</li>";
-        html += "<label> 메모 : <textarea id='commentRevTextarea' placeholder='메모를 입력하세요'>" + response.comment + "</textarea></label>";
+        html += "<div class='insert list-group'>";
+        html += "<li class='list-group-item'>합금철 총 투입비용 : " + response.totalCost + "</li>";
+        html += "<li class='list-group-item'>>합금철 총 투입량 : " + response.totalAmount + "</li>";
+        html += "<li class='list-group-item'>>예상 용강량 : " + response.expectOutput + "</li>";
+        html += "<li class='list-group-item'>>방법 : " + response.method + "</li>";
+        html += "<div class='memo-container list-group-item'><label>메모 : </label>"
+        html += "<textarea id='commentRevTextarea' placeholder='메모를 입력하세요'>" + response.comment + "</textarea></div>";
         html += "<div>";
         console.log("리스폰스길이 - "+response.length);
         for(var i = 0; i < response.length; i++) {
