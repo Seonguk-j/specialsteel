@@ -17,5 +17,6 @@ public class DataDTO {
     private String name;
     private Double amount;
     private Long id;
+    private String title;
 
 }

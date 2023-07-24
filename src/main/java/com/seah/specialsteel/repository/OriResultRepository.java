@@ -15,5 +15,6 @@ public interface OriResultRepository extends JpaRepository<OriResult, Long> {
 
     List<OriResult> findByModDateBetween(LocalDateTime startDate, LocalDateTime endDate);
 
-    List<OriResult> findByTitle(String Title);
+//    List<OriResult> findByTitle(String Title);
+    List<OriResult> findByTitleContaining(String keyword);
 }

@@ -64,6 +64,7 @@ public class DataController {
             // DataDTO 객체를 생성하여 원하는 정보를 추가합니다.
             DataDTO dataDTO = new DataDTO();
             dataDTO.setDate(oriResult.getModDate());
+            dataDTO.setTitle(oriResult.getTitle());
             dataDTO.setComment(oriResult.getComment());
             dataDTO.setId(oriResultId); // OriResult의 ID를 이름으로 지정
             dataDTO.setAmount((double) revResultCount); // RevResult의 개수를 amount로 지정
@@ -205,7 +206,7 @@ public class DataController {
 
     @PostMapping("/searchByTitle")
     public List<DataDTO> searchByTitle(@RequestBody String searchWord){
-        List<OriResult> oriResults = oriResultRepository.findByTitle(searchWord);
+        List<OriResult> oriResults = oriResultRepository.findByTitleContaining(searchWord);
         System.out.println("제목오리결과 - "+oriResults);
         System.out.println("검색어 - "+searchWord);
 
@@ -222,6 +223,7 @@ public class DataController {
             // DataDTO 객체를 생성하여 원하는 정보를 추가합니다.
             DataDTO dataDTO = new DataDTO();
             dataDTO.setDate(oriResult.getModDate());
+            dataDTO.setTitle(oriResult.getTitle());
             dataDTO.setComment(oriResult.getComment());
             dataDTO.setId(oriResultId); // OriResult의 ID를 이름으로 지정
             dataDTO.setAmount((double) revResultCount); // RevResult의 개수를 amount로 지정

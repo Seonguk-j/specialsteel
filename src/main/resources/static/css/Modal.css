@@ -24,7 +24,7 @@
 
 /*검색버튼 css */
 
-#search-Btn {
+#titleButton {
     padding: 10px 20px;
     border-radius: 5px;
     background-color: #007bff;
@@ -39,12 +39,12 @@
     align-items: center; /* 세로 가운데 정렬 */
     justify-content: center; /* 가로 가운데 정렬 */
 }
-#search-Btn:hover {
+#titleButton:hover {
     background-color: #0056b3;
 }
 
 /*검색창 css*/
-#search-bar {
+#searchWord {
     margin-right: 10px;
 }
 
@@ -99,4 +99,38 @@
 /*모달 리스트 체크*/
 .checked-item {
     background-color: lightgray;
+}
+
+
+/*모달 리스트 페이징 버튼*/
+
+#paginationContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+.list-table {
+    width: 95%;
+}
+
+/* 넓은 컬럼 */
+th:nth-child(2),
+td:nth-child(2),
+th:nth-child(4),
+td:nth-child(4) {
+    width: 200px;
+}
+
+/* 좁은 컬럼 */
+th:nth-child(1),
+td:nth-child(1) {
+    width: 40px;
+}
+
+th:nth-child(5),
+td:nth-child(5) {
+    width: 100px;
 }
