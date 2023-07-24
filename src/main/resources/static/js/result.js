@@ -1,4 +1,16 @@
+// 기능
+// "Top" 버튼을 클릭하면 페이지 상단으로 스크롤 이동
+function scrollToTop() {
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth" // 부드러운 스크롤 이동
+    });
+}
 
+
+
+
+// 표 ===========================================================
 
 // 합금철 투입량 표 생성 함수
 function createAlloyTable(response, order) {
@@ -63,7 +75,7 @@ function createMaterialTable(response, order) {
 
     var totalKeys = order.length;
 
-    if (totalKeys > 10) { // 예상 성분의 데이터가 10개 이상이면 두 개의 표로 나누어 보여줌
+    if (totalKeys > 8) { // 예상 성분의 데이터가 10개 이상이면 두 개의 표로 나누어 보여줌
         var halfKeys = Math.ceil(totalKeys / 2);
 
         //첫번째 표

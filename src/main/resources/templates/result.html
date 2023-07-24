@@ -101,10 +101,15 @@
         <div class="row">
             <div class="card col-12">
                 <div class="card-body">
-                    <div class="alloy-table"></div>
-                    <div class="material-table"></div>
+                    <div class="table-container">
+                        <div class="alloy-table"></div>
+                        <div class="material-table"></div>
+                    </div>
                 </div>
             </div>
+        </div>
+        <div class="top-button">
+            <img src="../image/TopBtn.png" onclick="scrollToTop()"></img>
         </div>
     </div>
 </div>
@@ -335,8 +340,8 @@
         html += "<div class='card col-12'>";
         html += "<div class='card-body'>";
         html += "<div class='result-save'>";
-        html += "<button class='saveBtn'>저장하기</button>";
-        html += "<button class='allSaveBtn'>일괄 저장하기</button>";
+        html += "<button class='saveBtn'>저장</button>";
+        html += "<button class='allSaveBtn'>일괄 저장</button>";
         html += "</div>";
         html += "</div>";
         html += "</div>";
@@ -694,9 +699,9 @@
         var html = "";
         html += "<div class='insert list-group'>";
         html += "<li class='list-group-item'>합금철 총 투입비용 : " + response.totalCost + "</li>";
-        html += "<li class='list-group-item'>>합금철 총 투입량 : " + response.totalAmount + "</li>";
-        html += "<li class='list-group-item'>>예상 용강량 : " + response.expectOutput + "</li>";
-        html += "<li class='list-group-item'>>방법 : " + response.method + "</li>";
+        html += "<li class='list-group-item'>합금철 총 투입량 : " + response.totalAmount + "</li>";
+        html += "<li class='list-group-item'>예상 용강량 : " + response.expectOutput + "</li>";
+        html += "<li class='list-group-item'>방법 : " + response.method + "</li>";
         html += "<div class='memo-container list-group-item'><label>메모 : </label>"
         html += "<textarea id='commentRevTextarea' placeholder='메모를 입력하세요'>" + response.comment + "</textarea></div>";
         html += "<div>";

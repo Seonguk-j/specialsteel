@@ -57,7 +57,7 @@
     color: #fff;
     border: none;
     cursor: pointer;
-    margin: 10px;
+    margin: 5px;
 }
 
 
@@ -133,20 +133,20 @@
 }
 
 /* 넓은 컬럼 */
-th:nth-child(2),
-td:nth-child(2),
-th:nth-child(4),
-td:nth-child(4) {
+listContainer th:nth-child(2),
+listContainer td:nth-child(2),
+listContainer th:nth-child(4),
+listContainer td:nth-child(4) {
     width: 200px;
 }
 
 /* 좁은 컬럼 */
-th:nth-child(1),
-td:nth-child(1) {
+listContainer th:nth-child(1),
+listContainer td:nth-child(1) {
     width: 40px;
 }
 
-th:nth-child(5),
-td:nth-child(5) {
+listContainer th:nth-child(5),
+listContainer td:nth-child(5) {
     width: 100px;
 }
