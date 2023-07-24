@@ -50,7 +50,7 @@ function closeAllSaveModal() {
 }
 
 
-// 모달
+// 모달====================================
 
 // 타이틀 검색
 function titleSearch() {
@@ -103,6 +103,8 @@ function fetchData() {
 
 // 클릭한 리스트 아이템의 id 값을 저장할 변수를 추가합니다.
 let selectedId = null;
+
+
 
 let currentPage = 1;
 const itemsPerPage = 10;
@@ -187,15 +189,23 @@ function displayData(data) {
 
         // 각 리스트 아이템에 클릭 이벤트 리스너를 추가합니다.
         listItem.addEventListener("click", () => {
-            // 클릭 상태를 변경합니다.
-            isClicked = !isClicked;
-
-            // 클릭한 항목의 상태에 따라 체크된 스타일을 적용하거나 제거합니다.
+            // 이미 선택된 항목이 다시 클릭된 경우, 선택을 해제합니다.
             if (isClicked) {
-                listItem.classList.add("checked-item"); // "checked-item"이라는 CSS 클래스를 추가합니다.
-                // 클릭한 항목의 id 값을 저장합니다.
+                listItem.classList.remove("checked-item");
+                selectedId = null;
+                isClicked = false;
+                const fetchButton = document.getElementById("fetchButton");
+                //fetchButton.textContent = "조회";
+                fetchButton.setAttribute("onclick", "fetchData()");
+            } else {
+                // 다른 항목이 이미 선택된 경우, 선택을 해제하고 현재 항목을 선택합니다.
+                const previousSelectedItem = listContainer.querySelector(".checked-item");
+                if (previousSelectedItem) {
+                    previousSelectedItem.classList.remove("checked-item");
+                }
+                listItem.classList.add("checked-item");
                 selectedId = data[i].id;
-                // 날짜가 선택된 경우 버튼 이벤트를 변경합니다.
+                isClicked = true;
                 const fetchButton = document.getElementById("fetchButton");
                 //fetchButton.textContent = "조회";
                 fetchButton.setAttribute("onclick", "fetchDataById()");
@@ -237,6 +247,7 @@ function displayData(data) {
         paginationContainer.appendChild(pageButton);
     }
 }
+
 
 
 // 조회 버튼 클릭 시 실행될 함수를 정의합니다.
