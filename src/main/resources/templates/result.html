@@ -474,8 +474,10 @@
                 revComment: nowRevComment.toString(),
                 oriComment: nowOriComment.toString()
             },
-            success: function (result){
+            beforeSend: function () {
                 closeSaveModal();
+            },
+            success: function (result){
                 title = "";
             },
             error:function (error){
@@ -503,8 +505,10 @@
                 revComment: nowRevComment.toString(),
                 oriComment: nowOriComment.toString()
             },
-            success: function (result){
+            beforeSend: function () {
                 closeAllSaveModal();
+            },
+            success: function (result){
                 title = "";
             },
             error:function (error){
