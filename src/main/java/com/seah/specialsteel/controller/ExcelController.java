@@ -2,6 +2,7 @@ package com.seah.specialsteel.controller;
 
 import com.seah.specialsteel.entity.AlloyInput;
 import com.seah.specialsteel.entity.ExpectedResult;
+import com.seah.specialsteel.entity.RevResult;
 import com.seah.specialsteel.service.ExcelService;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -11,10 +12,7 @@ import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -28,15 +26,20 @@ import java.util.List;
 public class ExcelController {
     private final ExcelService excelService;
 
-    @GetMapping("/download")
-    public void download(HttpServletResponse res) throws Exception {
+    @GetMapping("/download/{oriId}")
+    public void download(HttpServletResponse res, @PathVariable Long oriId) throws Exception {
+
+        List<Long> revIdList = excelService.revIdList(oriId);
+
         /**
          * excel sheet 생성
          */
         Workbook workbook = new XSSFWorkbook();
-        Sheet sheet1 = excelService.createOriSheet(workbook);
-        Sheet sheet2 = excelService.createRevSheet(workbook);
-//        Sheet sheet3 = excelService.createSheet(workbook);
+        excelService.createOriSheet(workbook, oriId);
+
+        for(int i = 0; i < revIdList.size(); i++) {
+            excelService.createRevSheet(workbook, revIdList.get(i), i + 1);
+        }
 
 
         /**

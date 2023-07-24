@@ -17,4 +17,5 @@ public interface OriResultRepository extends JpaRepository<OriResult, Long> {
 
 //    List<OriResult> findByTitle(String Title);
     List<OriResult> findByTitleContaining(String keyword);
+
 }

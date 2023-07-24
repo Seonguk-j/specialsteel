@@ -193,19 +193,20 @@ function displayData(data) {
             // 클릭한 항목의 상태에 따라 체크된 스타일을 적용하거나 제거합니다.
             if (isClicked) {
                 listItem.classList.add("checked-item"); // "checked-item"이라는 CSS 클래스를 추가합니다.
+                // 클릭한 항목의 id 값을 저장합니다.
+                selectedId = data[i].id;
                 // 날짜가 선택된 경우 버튼 이벤트를 변경합니다.
                 const fetchButton = document.getElementById("fetchButton");
                 //fetchButton.textContent = "조회";
                 fetchButton.setAttribute("onclick", "fetchDataById()");
             } else {
                 listItem.classList.remove("checked-item"); // "checked-item"이라는 CSS 클래스를 제거합니다.
+                selectedId = null;
             }
-
-            // 클릭한 항목의 id 값을 저장합니다.
-            selectedId = data[i].id;
 
             // 원하는 동작을 수행합니다. (예를 들어, 더 자세한 정보 표시 또는 다른 페이지로 이동)
             console.log("클릭한 항목:", data[i]);
+            console.log("선택된 id :" + selectedId);
         });
 
         // 리스트 아이템을 클릭 가능하도록 CSS 클래스를 추가합니다 (선택사항)
@@ -306,10 +307,9 @@ function formatDate(date) {
     const minutes = String(date.getMinutes()).padStart(2, "0"); // 분도 두 자리로 만듭니다.
 
     return `${year}-${month}-${day} ${hours}:${minutes}`;
+}
+function excelDownload() {
 
-    function excelDownload() {
-        window.location.href = '/excel/download';
+    window.location.href = '/excel/download/' + selectedId;
 
-
-    }
 }

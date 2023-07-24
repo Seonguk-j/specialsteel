@@ -48,7 +48,7 @@ public class ExcelService {
 
     private List<String> data(Long orResultId, Long revResultId) {
         if(orResultId!= null){
-        OriResult oriResult = oriResultRepository.getOne(orResultId);
+        OriResult oriResult = oriResultRepository.findById(orResultId).orElseThrow();
         List<String> oriData = new ArrayList<>();
         oriData.add(oriResult.getTitle());
         oriData.add(Double.toString(oriResult.getTotalCost()));
@@ -59,7 +59,7 @@ public class ExcelService {
 
         return oriData;
         }else {
-            RevResult revResult = revResultRepository.getOne(revResultId);
+            RevResult revResult = revResultRepository.findById(revResultId).orElseThrow();
             List<String> revData = new ArrayList<>();
 
             revData.add(Double.toString(revResult.getTotalCost()));
@@ -103,7 +103,7 @@ public class ExcelService {
         }
     }
 
-    public Sheet createOriSheet(Workbook workbook) {
+    public Sheet createOriSheet(Workbook workbook, Long oriId) {
 
         Sheet sheet = workbook.createSheet("기존 알고리즘"); // 엑셀 sheet 이름
         sheet.setDefaultColumnWidth(28); // 디폴트 너비 설정
@@ -169,7 +169,7 @@ public class ExcelService {
         /**
          * body data
          */
-        List<String> oriBodyData = this.data(1L,null);
+        List<String> oriBodyData = this.data(oriId,null);
         Row bodyRow = null;
         Cell bodyCell = null;
 
@@ -187,7 +187,7 @@ public class ExcelService {
         Row alloyBodyRow = sheet.createRow(7);
         Cell alloyBodyValue = null;
 
-        List<AlloyInput> alloyData = this.alloyData(1L,null);
+        List<AlloyInput> alloyData = this.alloyData(oriId,null);
         for (int i = 0; i < alloyData.size(); i++) {
             alloyBodyName = alloyHeaderRow.createCell(i);
             alloyBodyName.setCellValue(alloyData.get(i).getName());
@@ -201,7 +201,7 @@ public class ExcelService {
         Row expectBodyRow = sheet.createRow(11);
         Cell expectBodyValue = null;
 
-        List<ExpectedResult> expectData = this.expectData(1L,null);
+        List<ExpectedResult> expectData = this.expectData(oriId,null);
         for (int i = 0; i < expectData.size(); i++) {
             expectBodyName = expectHeaderRow.createCell(i);
             expectBodyName.setCellValue(expectData.get(i).getName());
@@ -210,9 +210,10 @@ public class ExcelService {
         }
         return sheet;
     }
-    public Sheet createRevSheet(Workbook workbook) {
+    public Sheet createRevSheet(Workbook workbook, Long revId , int index) {
 
-        Sheet sheet = workbook.createSheet("수정 알고리즘 및 비교 결과"); // 엑셀 sheet 이름
+
+        Sheet sheet = workbook.createSheet("수정 알고리즘 및 비교 결과" + index); // 엑셀 sheet 이름
         sheet.setDefaultColumnWidth(28); // 디폴트 너비 설정
 
         // F 컬럼의 너비를 35로 설정
@@ -257,7 +258,7 @@ public class ExcelService {
          * header data
          */
         //A1 값 넣기
-        this.setValue(sheet, "A1", "수정 알고리즘 결과 및 비교 결과");
+        this.setValue(sheet, "A1", "수정 알고리즘 결과 및 비교 결과" + index);
 
         int rowCount = 2; // 데이터가 저장될 행
         List<String> revRowName = this.colName();
@@ -276,7 +277,7 @@ public class ExcelService {
         /**
          * body data
          */
-        List<String> revBodyData = this.data(null, 1L);
+        List<String> revBodyData = this.data(null, revId);
         Row bodyRow = null;
         Cell bodyCell = null;
 
@@ -294,7 +295,7 @@ public class ExcelService {
         Row alloyBodyRow = sheet.createRow(7);
         Cell alloyBodyValue = null;
 
-        List<AlloyInput> alloyData = this.alloyData(null, 1L);
+        List<AlloyInput> alloyData = this.alloyData(null, revId);
         for (int i = 0; i < alloyData.size(); i++) {
             alloyBodyName = alloyHeaderRow.createCell(i);
             alloyBodyName.setCellValue(alloyData.get(i).getName());
@@ -308,7 +309,7 @@ public class ExcelService {
         Row expectBodyRow = sheet.createRow(11);
         Cell expectBodyValue = null;
 
-        List<ExpectedResult> expectData = this.expectData(null, 1L);
+        List<ExpectedResult> expectData = this.expectData(null, revId);
         for (int i = 0; i < expectData.size(); i++) {
             expectBodyName = expectHeaderRow.createCell(i);
             expectBodyName.setCellValue(expectData.get(i).getName());
@@ -444,6 +445,15 @@ public class ExcelService {
         }
 
         c.setCellValue(value);
+    }
+
+    public List<Long> revIdList(Long oriId) {
+        List<Long> revIdList = new ArrayList<>();
+        List<RevResult> revResultList = revResultRepository.findByOriResultId(oriId);
+        for (RevResult revResult : revResultList) {
+            revIdList.add(revResult.getId());
+        }
+        return revIdList;
     }
 
 }
