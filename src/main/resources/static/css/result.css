@@ -146,6 +146,11 @@ textarea:disabled {
 }
 
 
+/*수정 알고리즘 결과 데이터파일 숫자 버튼*/
+#uploadResult {
+    margin-top: 20px;
+}
+
 
 /* 표 ======================================================*/
 
@@ -248,9 +253,17 @@ input[type=file]::file-selector-button:hover {
     background: rgb(77,77,77);
     color: #fff;
 }
+.title-file-group card-body {
+    display: flex;
+    justify-content: space-between;
+}
 
 .file-group {
     display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+
 }
 
 
