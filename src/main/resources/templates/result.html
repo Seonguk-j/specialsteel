@@ -386,8 +386,11 @@
                     html += "<div class='message'>데이터가 없습니다.</div>";
                     html += "</div>";
 
+
                     $("#alloy_chart").html(html);
 
+                    html = "<div class='alloy-table'></div>"
+                    $(".alloy-table").html(html);
                 }
                 else {
                     var order = [];
@@ -409,6 +412,9 @@
                     html += "</div>";
 
                     $("#material_chart").html(html);
+
+                    html = "<div class='material-table'></div>"
+                    $(".material-table").html(html);
                 }else {
                     var order = [];
                     var i = 0;
@@ -656,6 +662,9 @@
                     html += "</div>";
 
                     $("#alloy_chart").html(html);
+
+                    html = "<div class='alloy-table'></div>"
+                    $(".alloy-table").html(html);
                 }
                 else {
                     var order = [];
@@ -675,6 +684,9 @@
                     html += "<div class='message'>데이터가 없습니다.</div>";
                     html += "</div>";
                     $("#material_chart").html(html);
+
+                    html = "<div class='material-table'></div>"
+                    $(".material-table").html(html);
                 }else {
                     var order = [];
                     var i = 0;
