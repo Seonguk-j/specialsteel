@@ -103,7 +103,6 @@ function fetchData() {
 
 // 클릭한 리스트 아이템의 id 값을 저장할 변수를 추가합니다.
 let selectedId = null;
-
 let currentPage = 1;
 const itemsPerPage = 10;
 
@@ -187,21 +186,26 @@ function displayData(data) {
 
         // 각 리스트 아이템에 클릭 이벤트 리스너를 추가합니다.
         listItem.addEventListener("click", () => {
-            // 클릭 상태를 변경합니다.
-            isClicked = !isClicked;
-
-            // 클릭한 항목의 상태에 따라 체크된 스타일을 적용하거나 제거합니다.
+            // 이미 선택된 항목이 다시 클릭된 경우, 선택을 해제합니다.
             if (isClicked) {
-                listItem.classList.add("checked-item"); // "checked-item"이라는 CSS 클래스를 추가합니다.
-                // 클릭한 항목의 id 값을 저장합니다.
+                listItem.classList.remove("checked-item");
+                selectedId = null;
+                isClicked = false;
+                const fetchButton = document.getElementById("fetchButton");
+                //fetchButton.textContent = "조회";
+                fetchButton.setAttribute("onclick", "fetchData()");
+            } else {
+                // 다른 항목이 이미 선택된 경우, 선택을 해제하고 현재 항목을 선택합니다.
+                const previousSelectedItem = listContainer.querySelector(".checked-item");
+                if (previousSelectedItem) {
+                    previousSelectedItem.classList.remove("checked-item");
+                }
+                listItem.classList.add("checked-item");
                 selectedId = data[i].id;
-                // 날짜가 선택된 경우 버튼 이벤트를 변경합니다.
+                isClicked = true;
                 const fetchButton = document.getElementById("fetchButton");
                 //fetchButton.textContent = "조회";
                 fetchButton.setAttribute("onclick", "fetchDataById()");
-            } else {
-                listItem.classList.remove("checked-item"); // "checked-item"이라는 CSS 클래스를 제거합니다.
-                selectedId = null;
             }
 
             // 원하는 동작을 수행합니다. (예를 들어, 더 자세한 정보 표시 또는 다른 페이지로 이동)
@@ -236,7 +240,22 @@ function displayData(data) {
 
         paginationContainer.appendChild(pageButton);
     }
+
+    // 전체 리스트 컨테이너에 클릭 이벤트 리스너를 추가합니다.
+    listContainer.addEventListener("click", (event) => {
+        // 클릭한 대상이 리스트 아이템이 아닌 경우에만 처리합니다.
+        if (event.target.classList.contains(".list-item")) {
+            // 다른 항목을 클릭했을 때 선택이 해제되도록 처리합니다.
+            selectedIdx = -1;
+            listContainer.querySelectorAll(".list-item").forEach(item => item.classList.remove("checked-item"));
+            const fetchButton = document.getElementById("fetchButton");
+            //fetchButton.textContent = "조회";
+            fetchButton.setAttribute("onclick", "fetchData()");
+        }
+    });
+
 }
+
 
 
 // 조회 버튼 클릭 시 실행될 함수를 정의합니다.
