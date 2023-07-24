@@ -15,6 +15,12 @@ function closeModal() {
 
 
 }
+// 조회 Esc 키로 모달 창 닫기 처리
+window.addEventListener("keydown", function (event) {
+    if (event.key === "Escape" || event.key === "Esc") {
+        closeModal();
+    }
+});
 
 
 // 저장 모달창 ======================================================================
