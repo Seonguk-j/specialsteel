@@ -306,4 +306,10 @@ function formatDate(date) {
     const minutes = String(date.getMinutes()).padStart(2, "0"); // 분도 두 자리로 만듭니다.
 
     return `${year}-${month}-${day} ${hours}:${minutes}`;
+
+    function excelDownload() {
+        window.location.href = '/excel/download';
+
+
+    }
 }
