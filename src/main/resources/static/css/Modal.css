@@ -1,0 +1,78 @@
+/*기간 선택 버튼*/
+#startDate{
+    width: 30%;
+    margin-right: 10px;
+}
+
+#endDate {
+    margin-left: 10px;
+    width: 30%;
+}
+
+/*검색 버튼 부분*/
+.date-search-label {
+    margin-right: 10px;
+}
+
+/*검색버튼, 검색창 그룹*/
+.searchBtn {
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+/*검색버튼 css */
+
+#search-Btn {
+    padding: 10px 20px;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+
+    /*크기*/
+    width: 100px;
+    height: 30px;
+    display: flex; /* 가운데 정렬을 위해 flex 사용 */
+    align-items: center; /* 세로 가운데 정렬 */
+    justify-content: center; /* 가로 가운데 정렬 */
+}
+#search-Btn:hover {
+    background-color: #0056b3;
+}
+
+/*검색창 css*/
+#search-bar {
+    margin-right: 10px;
+}
+
+
+
+
+
+
+
+/*기간 검색 모달창*/
+.modal-body {
+    display: flex; /* 가운데 정렬을 위해 flex 사용 */
+    align-items: center; /* 세로 가운데 정렬 */
+    justify-content: center; /* 가로 가운데 정렬 */
+}
+
+/* 모달 날짜조회 버튼 css ===========================*/
+.date-search-label {
+    margin-right: 10px;
+}
+
+.modal-body {
+    display: flex;
+    align-items: center;
+}
+
+.modal-body input[type="date"] {
+    flex-grow: 1;
+    margin-right: 10px;
+}
+

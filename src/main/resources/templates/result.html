@@ -45,11 +45,11 @@
                                 <button class="btn btn-primary uploadBtn" id="oriUploadBtn">Upload</button>
                             </div>
                         </div>
-                        <div class="oriInsert">
-                            <li>합금철 총 투입비용 : </li>
-                            <li>합금철 총 투입량 : </li>
-                            <li>예상 용강량 : </li>
-                            <li>방법 :</li>
+                        <div class="oriInsert list-group">
+                            <li class="list-group-item">합금철 총 투입비용 : </li>
+                            <li class="list-group-item">합금철 총 투입량 : </li>
+                            <li class="list-group-item">예상 용강량 : </li>
+                            <li class="list-group-item">방법 :</li>
                         </div>
                     </div>
                 </div>
@@ -62,11 +62,11 @@
                                 <button class="btn btn-primary uploadBtn" id="revUploadBtn">Upload</button>
                             </div>
                         </div>
-                        <div class="insert">
-                            <li>합금철 총 투입비용 : </li>
-                            <li>합금철 총 투입량 : </li>
-                            <li>예상 용강량 : </li>
-                            <li>방법 : </li>
+                        <div class="insert list-group">
+                            <li class="list-group-item">합금철 총 투입비용 : </li>
+                            <li class="list-group-item">합금철 총 투입량 : </li>
+                            <li class="list-group-item">예상 용강량 : </li>
+                            <li class="list-group-item">방법 : </li>
                             <div id="uploadResult"></div>
                             <div id="showResult"></div>
                             <div id="showResult1"></div>
@@ -165,12 +165,13 @@
     //
     function showOriFile(response) {
         var html = "";
-        html += "<div class='oriInsert'>"
-        html += "<li>합금철 총 투입비용 : " + response.totalCost + "</li>";
-        html += "<li>합금철 총 투입량 : " + response.totalAmount + "</li>";
-        html += "<li>예상 용강량 : " + response.expectOutput + "</li>";
-        html += "<li>방법 : " + response.method + "</li>";
-        html += "<label> 메모 : <textarea id='commentOriTextarea' placeholder='메모를 입력하세요'></textarea></label>";
+        html += "<div class='oriInsert list-group'>"
+        html += "<li class='list-group-item'>합금철 총 투입비용 : " + response.totalCost + "</li>";
+        html += "<li class='list-group-item'>합금철 총 투입량 : " + response.totalAmount + "</li>";
+        html += "<li class='list-group-item'>예상 용강량 : " + response.expectOutput + "</li>";
+        html += "<li class='list-group-item'>방법 : " + response.method + "</li>";
+        html += "<div class='memo-container list-group-item'><label>메모 : </label>"
+        html += "<textarea id='commentOriTextarea' placeholder='메모를 입력하세요'></textarea></div>";
         html += "</div>";
 
         $(".oriInsert").html(html);
@@ -298,20 +299,24 @@
     function showRevFile(response) {
         nowIndex = response.index;
         var html = "";
-        html += "<div class='insert'>";
-        html += "<li>합금철 총 투입비용 : " + response.totalCost + "</li>";
-        html += "<li>합금철 총 투입량 : " + response.totalAmount + "</li>";
-        html += "<li>예상 용강량 : " + response.expectOutput + "</li>";
-        html += "<li>방법 : " + response.method + "</li>";
-        html += "<label> 메모 : <textarea id='commentRevTextarea' placeholder='메모를 입력하세요'>" + response.comment + "</textarea></label>";
+        html += "<div class='insert list-group'>";
+        html += "<li class='list-group-item'>합금철 총 투입비용 : " + response.totalCost + "</li>";
+        html += "<li class='list-group-item'>>합금철 총 투입량 : " + response.totalAmount + "</li>";
+        html += "<li class='list-group-item'>>예상 용강량 : " + response.expectOutput + "</li>";
+        html += "<li class='list-group-item'>>방법 : " + response.method + "</li>";
+        html += "<div class='memo-container list-group-item'><label>메모 : </label>"
+        html += "<textarea id='commentRevTextarea' placeholder='메모를 입력하세요'>" + response.comment + "</textarea></div>";
         html += "<div>";
+
 
         for (var i = 0; i < response.length; i++) {
             html += "<a href='#' id='uploadResult' class='btn btn-primary m-1' onclick='saveComment(\"" + i + "\",\"" + response.index + "\", $(\"#commentRevTextarea\").val())'>" + (i + 1) + "</a>";
         }
 
         html += "</div>";
+        html += "<div class='delete-group'>";
         html += "<button class='deleteBtn bg-danger' data-index='" + response.index + "'> 삭제</button>";
+        html += "</div>";
         html += "</div>";
 
 
@@ -417,11 +422,11 @@
     function showInit() {
         var html = "";
 
-        html += "<div class='insert'>"
-        html += "<li>합금철 총 투입비용 : </li>";
-        html += "<li>합금철 총 투입량 : </li>";
-        html += "<li>예상 용강량 :</li>";
-        html += "<li>방법 : </li>";
+        html += "<div class='insert list-group'>"
+        html += "<li class='list-group-item'>합금철 총 투입비용 : </li>";
+        html += "<li class='list-group-item'>합금철 총 투입량 : </li>";
+        html += "<li class='list-group-item'>예상 용강량 :</li>";
+        html += "<li class='list-group-item'>방법 : </li>";
         html += "<div id=\"uploadResult\"></div>";
         html += "</div>";
 
