@@ -146,18 +146,13 @@ textarea:disabled {
 }
 
 
-/*수정 알고리즘 결과 데이터파일 숫자 버튼*/
-#uploadResult {
-    margin-top: 20px;
-}
-
 
 /* 표 ======================================================*/
 
 
 table {
     border-collapse: collapse;
-    width: 95%;
+    width: 80%;
     margin: 20px;
 
 }
@@ -167,8 +162,6 @@ th, td {
     text-align: center;
     border: 1px solid #ddd;
     white-space: nowrap; /* 셀 내용이 줄바꿈되지 않도록 설정 */
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 caption {
@@ -193,45 +186,67 @@ caption {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.table-container {
-    margin-bottom: 20px;
+
+th, td {
+    padding: 8px;
+    text-align: center;
+    border: 1px solid #ddd;
+    white-space: nowrap; /* 셀 내용이 줄바꿈되지 않도록 설정 */
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+caption {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.alloy-table {
+    background-color: #f1f1f1;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.material-table{
+    background-color: #f1f1f1;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    table-layout: fixed;
 }
 
 
-
-
-
 @media (max-width: 1600px) {
-    .table-container table {
+    table {
         font-size: 14px;
         table-layout: fixed;
     }
 
-    .table-container th, .table-container td {
+    th, td {
         max-width: 100%;
         white-space: nowrap;
     }
 
     .table-container {
-        max-width: 95%; /* 적절한 값을 지정해주세요 */
+        max-width: 80%; /* 적절한 값을 지정해주세요 */
         margin: 0 auto; /* 중앙 정렬을 위해 추가 */
 
     }
 }
 
 @media (max-width: 1200px) {
-    .table-container table {
+    table {
         font-size: 12px;
         table-layout: fixed;
     }
 
-    .table-container th, .table-container td {
+    th, td {
         max-width: 100%;
         white-space: nowrap;
     }
 
     .table-container {
-        max-width: 95%; /* 적절한 값을 지정해주세요 */
+        max-width: 80%; /* 적절한 값을 지정해주세요 */
         margin: 0 auto; /* 중앙 정렬을 위해 추가 */
 
     }
@@ -253,17 +268,9 @@ input[type=file]::file-selector-button:hover {
     background: rgb(77,77,77);
     color: #fff;
 }
-.title-file-group card-body {
-    display: flex;
-    justify-content: space-between;
-}
 
 .file-group {
     display: flex;
-    align-items: center;
-    justify-content: flex-end;
-
-
 }
 
 
@@ -331,16 +338,3 @@ input[type=file]::file-selector-button:hover {
 
 
 
-/*상단으로가기 버튼 css*/
-/* "Top" 버튼 스타일 */
-.top-button {
-    position: fixed;
-    bottom: 10px;
-    right: 10px;
-    z-index: 999;
-}
-
-.top-button img {
-    width: 40px;
-    height: 40px;
-}
