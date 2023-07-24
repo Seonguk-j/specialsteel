@@ -102,10 +102,8 @@ function fetchData() {
 }
 
 // 클릭한 리스트 아이템의 id 값을 저장할 변수를 추가합니다.
+// 클릭한 리스트 아이템의 id 값을 저장할 변수를 추가합니다.
 let selectedId = null;
-
-let currentPage = 1;
-const itemsPerPage = 10;
 
 function displayData(data) {
     // 리스트 div를 찾습니다.
@@ -116,69 +114,59 @@ function displayData(data) {
     listContainer.innerHTML = "";
     paginationContainer.innerHTML = "";
 
+
+
+    let selectedIdx = -1; // 현재 선택된 아이템의 인덱스를 추적합니다.
+
+    let currentPage = 1;
+    const itemsPerPage = 10;
+
     // 현재 페이지의 시작과 끝 인덱스를 계산합니다.
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = Math.min(startIndex + itemsPerPage, data.length);
 
-    // Create the table element
-    const table = document.createElement("table");
-    table.classList.add("list-table");
+    // Create the header row with column headings
+    const headerRow = document.createElement("div");
+    headerRow.classList.add("list-header");
 
-    // Create the table header with column headings
-    const thead = document.createElement("thead");
-    const headerRow = document.createElement("tr");
-
-    const numberHeading = document.createElement("th");
-    numberHeading.textContent = "No";
+    const numberHeading = document.createElement("div");
+    numberHeading.textContent = "번호";
     headerRow.appendChild(numberHeading);
 
-    const titleHeading = document.createElement("th");
-    titleHeading.textContent = "제목";
-    headerRow.appendChild(titleHeading);
-
-    const dateHeading = document.createElement("th");
+    const dateHeading = document.createElement("div");
     dateHeading.textContent = "날짜";
     headerRow.appendChild(dateHeading);
 
-    const commentHeading = document.createElement("th");
-    commentHeading.textContent = "메모";
+    const commentHeading = document.createElement("div");
+    commentHeading.textContent = "코멘트";
     headerRow.appendChild(commentHeading);
 
-    const comparisonAlgorithmHeading = document.createElement("th");
-    comparisonAlgorithmHeading.textContent = "비교개수";
+    const comparisonAlgorithmHeading = document.createElement("div");
+    comparisonAlgorithmHeading.textContent = "비교알고리즘개수";
     headerRow.appendChild(comparisonAlgorithmHeading);
 
-    thead.appendChild(headerRow);
-    table.appendChild(thead);
+    listContainer.appendChild(headerRow);
 
-    // Create the table body
-    const tbody = document.createElement("tbody");
-
+    // 받은 데이터를 이용하여 리스트를 생성합니다.
+    //for (let i = 0; i < data.length; i++) {
     for (let i = startIndex; i < endIndex; i++) {
-        const listItem = document.createElement("tr");
+        const listItem = document.createElement("div");
+        listItem.classList.add("list-item");
 
         // Create elements for each column
-        const numberCell = document.createElement("td");
+        const numberCell = document.createElement("div");
         numberCell.textContent = i + 1;
         listItem.appendChild(numberCell);
 
-        const titleCell = document.createElement("td");
-        titleCell.textContent = data[i].title;
-        listItem.appendChild(titleCell);
-
-        const dateCell = document.createElement("td");
+        const dateCell = document.createElement("div");
         dateCell.textContent = data[i].date;
-        const date = new Date(data[i].date); // 받은 날짜 정보를 JavaScript Date 객체로 변환합니다.
-        const formattedDate = formatDate(date); // 원하는 형식으로 날짜를 변환하는 함수를 호출합니다.
-        dateCell.textContent = formattedDate;
-
         listItem.appendChild(dateCell);
 
-        const commentCell = document.createElement("td");
+        const commentCell = document.createElement("div");
         commentCell.textContent = data[i].comment;
         listItem.appendChild(commentCell);
 
-        const comparisonAlgorithmCell = document.createElement("td");
+        const comparisonAlgorithmCell = document.createElement("div");
         comparisonAlgorithmCell.textContent = data[i].amount;
         listItem.appendChild(comparisonAlgorithmCell);
 
@@ -187,36 +175,38 @@ function displayData(data) {
 
         // 각 리스트 아이템에 클릭 이벤트 리스너를 추가합니다.
         listItem.addEventListener("click", () => {
-            // 클릭 상태를 변경합니다.
-            isClicked = !isClicked;
-
-            // 클릭한 항목의 상태에 따라 체크된 스타일을 적용하거나 제거합니다.
-            if (isClicked) {
-                listItem.classList.add("checked-item"); // "checked-item"이라는 CSS 클래스를 추가합니다.
-                // 클릭한 항목의 id 값을 저장합니다.
-                selectedId = data[i].id;
-                // 날짜가 선택된 경우 버튼 이벤트를 변경합니다.
+            // 이미 선택된 항목이 다시 클릭된 경우, 선택을 해제합니다.
+            if (selectedIdx === i) {
+                selectedIdx = -1;
+                listItem.classList.remove("checked-item");
+                const fetchButton = document.getElementById("fetchButton");
+                //fetchButton.textContent = "조회";
+                fetchButton.setAttribute("onclick", "fetchData()");
+            } else {
+                // 다른 항목이 이미 선택된 경우, 선택을 해제하고 현재 항목을 선택합니다.
+                if (selectedIdx !== -1) {
+                    const previousSelectedItems = listContainer.querySelectorAll(".list-item.checked-item");
+                    previousSelectedItems.forEach(item => item.classList.remove("checked-item"));
+                }
+                selectedIdx = i;
+                listItem.classList.add("checked-item");
                 const fetchButton = document.getElementById("fetchButton");
                 //fetchButton.textContent = "조회";
                 fetchButton.setAttribute("onclick", "fetchDataById()");
-            } else {
-                listItem.classList.remove("checked-item"); // "checked-item"이라는 CSS 클래스를 제거합니다.
-                selectedId = null;
             }
+
+            // 클릭한 항목의 id 값을 저장합니다.
+            selectedId = data[i].id;
 
             // 원하는 동작을 수행합니다. (예를 들어, 더 자세한 정보 표시 또는 다른 페이지로 이동)
             console.log("클릭한 항목:", data[i]);
-            console.log("선택된 id :" + selectedId);
         });
 
         // 리스트 아이템을 클릭 가능하도록 CSS 클래스를 추가합니다 (선택사항)
         listItem.classList.add("clickable-list-item");
 
-        tbody.appendChild(listItem);
+        listContainer.appendChild(listItem);
     }
-
-    table.appendChild(tbody);
-    listContainer.appendChild(table);
 
     // 페이징 컨트롤을 생성합니다.
     const totalPages = Math.ceil(data.length / itemsPerPage);
@@ -236,6 +226,20 @@ function displayData(data) {
 
         paginationContainer.appendChild(pageButton);
     }
+
+    // 전체 리스트 컨테이너에 클릭 이벤트 리스너를 추가합니다.
+    listContainer.addEventListener("click", (event) => {
+        // 클릭한 대상이 리스트 아이템이 아닌 경우에만 처리합니다.
+        if (event.target.classList.contains(".list-item")) {
+            // 다른 항목을 클릭했을 때 선택이 해제되도록 처리합니다.
+            selectedIdx = -1;
+            listContainer.querySelectorAll(".list-item").forEach(item => item.classList.remove("checked-item"));
+            const fetchButton = document.getElementById("fetchButton");
+            //fetchButton.textContent = "조회";
+            fetchButton.setAttribute("onclick", "fetchData()");
+        }
+    });
+
 }
 
 
