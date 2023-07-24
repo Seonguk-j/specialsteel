@@ -174,7 +174,7 @@
         html += "<li class='list-group-item'>예상 용강량 : " + response.expectOutput + "</li>";
         html += "<li class='list-group-item'>방법 : " + response.method + "</li>";
         html += "<div class='memo-container list-group-item'><label>메모 : </label>"
-        html += "<textarea id='commentOriTextarea' placeholder='메모를 입력하세요'></textarea></div>";
+        html += "<textarea id='commentOriTextarea' placeholder='메모를 입력하세요'>" + response.comment + "</textarea></div>";
         html += "</div>";
 
         $(".oriInsert").html(html);
@@ -491,6 +491,7 @@
             },
             beforeSend: function () {
                 closeSaveModal();
+                alert("저장 성공");
             },
             success: function (result){
                 title = "";
@@ -522,6 +523,7 @@
             },
             beforeSend: function () {
                 closeAllSaveModal();
+                alert("저장 성공");
             },
             success: function (result){
                 title = "";
