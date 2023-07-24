@@ -71,17 +71,17 @@ public class ExcelService {
         }
     }
 
-    private List<AlloyInput> alloyData(Long orResultId, Long revResultId) {
+    private List<AlloyInput> alloyData(Long oriResultId, Long revResultId) {
         List<AlloyInput> alloyInputList = new ArrayList<>();
-        if(orResultId!= null) {
-            OriResult oriResult = oriResultRepository.getOne(orResultId);
-             alloyInputList = alloyInputRepository.findByOriResult(oriResult);
+        if(oriResultId!= null) {
+            OriResult oriResult = oriResultRepository.findById(oriResultId).orElseThrow();
+             alloyInputList = alloyInputRepository.findByOriResultId(oriResultId);
 
 
             return alloyInputList;
         }else {
-            RevResult revResult = revResultRepository.getOne(revResultId);
-            alloyInputList = alloyInputRepository.findByRevResult(revResult);
+            RevResult revResult = revResultRepository.findById(revResultId).orElseThrow();
+            alloyInputList = alloyInputRepository.findByRevResultId(revResultId);
 
             return alloyInputList;
         }
@@ -90,14 +90,14 @@ public class ExcelService {
     private List<ExpectedResult> expectData(Long orResultId, Long revResultId) {
         List<ExpectedResult> expectedResultList = new ArrayList<>();
         if(orResultId!= null) {
-            OriResult oriResult = oriResultRepository.getOne(orResultId);
-            expectedResultList = expectedResultRepository.findByOriResult(oriResult);
+            OriResult oriResult = oriResultRepository.findById(orResultId).orElseThrow();
+            expectedResultList = expectedResultRepository.findByOriResultId(orResultId);
 
 
             return expectedResultList;
         }else {
-            RevResult revResult = revResultRepository.getOne(revResultId);
-            expectedResultList = expectedResultRepository.findByRevResult(revResult);
+            RevResult revResult = revResultRepository.findById(revResultId).orElseThrow();
+            expectedResultList = expectedResultRepository.findByRevResultId(revResultId);
 
             return expectedResultList;
         }
