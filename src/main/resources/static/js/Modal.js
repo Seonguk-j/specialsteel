@@ -240,8 +240,18 @@ function displayData(data) {
 
 // 조회 버튼 클릭 시 실행될 함수를 정의합니다.
 function fetchDataById() {
-    closeModal();
-    // 선택한 id 값으로 서버로 데이터를 요청합니다.
+    const fetchButton = document.getElementById("fetchButton");
+    fetchButton.setAttribute("onclick", "fetchData()");
+    listContainer.innerHTML = "";
+    paginationContainer.innerHTML = "";
+
+    // 검색어 초기화
+    document.getElementById("searchWord").value = "";
+
+    // 날짜 초기화
+    document.getElementById("startDate").value = "";
+    document.getElementById("endDate").value = "";
+    closeModal();    // 선택한 id 값으로 서버로 데이터를 요청합니다.
     if (selectedId !== null) {
         fetch(`/api/getDataById/${selectedId}`)
             .then(response => response.json())
