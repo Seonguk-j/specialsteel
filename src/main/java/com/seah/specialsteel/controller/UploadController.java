@@ -27,7 +27,7 @@ public class UploadController {
 
     //    List<String> uploadResultList;
     static ResultDTO oriResultDTO;
-    static List<ResultDTO> revResultDTOList = new ArrayList<>();
+    List<ResultDTO> revResultDTOList;
 
     private final HistoryService historyService;
     @PostMapping("/oriUploadAjax")
@@ -45,7 +45,7 @@ public class UploadController {
     public ResponseEntity<List<ResultDTO>> resultDTO(MultipartFile[] uploadfiles) throws Exception {
         List<String> uploadResultList = fileService.uploadResult(uploadfiles);
         int i = 0;
-//        revResultDTOList = new ArrayList<>();
+        revResultDTOList = new ArrayList<>();
 
         for (String str : uploadResultList) {
             revResultDTOList.add(new ResultDTO(str));

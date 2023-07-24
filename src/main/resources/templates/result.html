@@ -253,10 +253,10 @@
                 if(Object.keys(response.compareDTO.diffAlloyInputs).length === 0){
                     alert("합금철별 투입량에 차이가 없습니다.");
 
-                    var html = "";
-                    html += "<div id='alloy_chart' '>"
-                    html += "<p>여기를 예쁘게</p>";
-                    html += "</div>"
+                    var html ="";
+                    html += "<div id='alloy_chart'>";
+                    html += "<div class='message'>데이터가 없습니다.</div>";
+                    html += "</div>";
 
                     $("#alloy_chart").html(html);
                 }
@@ -273,10 +273,12 @@
                 }
                 if(Object.keys(response.compareDTO.diffMaterials).length === 0){
                     alert("예상 성분에 차이가 없습니다.");
-                    var html = "";
-                    html += "<div id='material_chart' style='width: 800px; height: 500px;'>"
-                    html +="<p>여기를 예쁘게</p>";
-                    html += "</div>"
+
+                    var html ="";
+                    html += "<div id='material_chart'>";
+                    html += "<div class='message'>데이터가 없습니다.</div>";
+                    html += "</div>";
+
                     $("#material_chart").html(html);
                 }else {
                     var order = [];
@@ -310,7 +312,11 @@
 
 
         for (var i = 0; i < response.length; i++) {
-            html += "<a href='#' id='uploadResult' class='btn btn-primary m-1' onclick='saveComment(\"" + i + "\",\"" + response.index + "\", $(\"#commentRevTextarea\").val())'>" + (i + 1) + "</a>";
+            if (i === nowIndex) {
+                html += "<a href='#' id='uploadResult' class='btn btn-primary active m-1 btn-colored' onclick='saveComment(\"" + i + "\",\"" + response.index + "\", $(\"#commentRevTextarea\").val())'>" + (i + 1) + "</a>";
+            } else {
+                html += "<a href='#' id='uploadResult' class='btn btn-primary m-1' onclick='saveComment(\"" + i + "\",\"" + response.index + "\", $(\"#commentRevTextarea\").val())'>" + (i + 1) + "</a>";
+            }
         }
 
         html += "</div>";
@@ -372,10 +378,10 @@
                 if(Object.keys(response.compareDTO.diffAlloyInputs).length === 0){
                     alert("합금철별 투입량에 차이가 없습니다.");
 
-                    var html = "";
-                    html += "<div id='alloy_chart' style='width: 800px; height: 500px;'>"
-                    html +="<p>여기를 예쁘게</p>";
-                    html += "</div>"
+                    var html ="";
+                    html += "<div id='alloy_chart'>";
+                    html += "<div class='message'>데이터가 없습니다.</div>";
+                    html += "</div>";
 
                     $("#alloy_chart").html(html);
 
@@ -394,10 +400,10 @@
                 if(Object.keys(response.compareDTO.diffMaterials).length === 0){
                     alert("예상 성분에 차이가 없습니다.");
 
-                    var html = "";
-                    html += "<div id='material_chart' style='width: 800px; height: 500px;'>"
-                    html +="<p>여기를 예쁘게</p>";
-                    html += "</div>"
+                    var html ="";
+                    html += "<div id='material_chart'>";
+                    html += "<div class='message'>데이터가 없습니다.</div>";
+                    html += "</div>";
 
                     $("#material_chart").html(html);
                 }else {
@@ -852,10 +858,10 @@
                 if(Object.keys(response.compareDTO.diffAlloyInputs).length === 0){
                     alert("합금철별 투입량에 차이가 없습니다.");
 
-                    var html = "";
-                    html += "<div id='alloy_chart' '>"
-                    html += "<p>여기를 예쁘게</p>";
-                    html += "</div>"
+                    var html ="";
+                    html += "<div id='alloy_chart'>";
+                    html += "<div class='message'>데이터가 없습니다.</div>";
+                    html += "</div>";
 
                     $("#alloy_chart").html(html);
                 }
@@ -873,9 +879,9 @@
                 if(Object.keys(response.compareDTO.diffMaterials).length === 0){
                     alert("예상 성분에 차이가 없습니다.");
                     var html = "";
-                    html += "<div id='material_chart' style='width: 800px; height: 500px;'>"
-                    html +="<p>여기를 예쁘게</p>";
-                    html += "</div>"
+                    html += "<div id='material_chart'>"
+                    html += "<div class='message'>데이터가 없습니다.</div>";
+                    html += "</div>";
                     $("#material_chart").html(html);
                 }else {
                     var order = [];
