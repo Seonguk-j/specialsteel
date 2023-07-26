@@ -28,7 +28,7 @@
 #titleButton {
     padding: 10px 20px;
     border-radius: 5px;
-    background-color: #007bff;
+    background-color: rgb(59,73,81);
     color: #fff;
     border: none;
     cursor: pointer;
@@ -41,7 +41,8 @@
     justify-content: center; /* 가로 가운데 정렬 */
 }
 #titleButton:hover {
-    background-color: #0056b3;
+    background: rgb(229,78,43);
+    color: #fff;
 }
 
 /*검색창 css*/
@@ -149,4 +150,85 @@ listContainer td:nth-child(1) {
 listContainer th:nth-child(5),
 listContainer td:nth-child(5) {
     width: 100px;
+}
+
+
+
+
+/*조회 닫기 엑셀 버튼 css*/
+.fetchBtn {
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: rgb(59,73,81);
+    color: #fff;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+
+}
+.fetchBtn:hover{
+    background-color: rgba(59, 73, 81, 0.7);
+    color: #fff;
+}
+
+
+.Closebtn {
+    padding: 5px 10px;
+    border-radius: 5px;
+    background: rgb(229,78,43);
+    color: #fff;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+.Closebtn:hover {
+    background: rgba(229, 78, 43, 0.66);
+    color: #fff;
+}
+
+
+.Excelbtn {
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: #217346;
+    color: #fff;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+.Excelbtn:hover {
+    background-color: rgba(33, 115, 70, 0.62);
+    color: #fff;
+}
+
+/*페이징 버튼*/
+.pagination-button {
+    background-color: rgb(59,73,81);
+    color: #fff;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+.pagination-button:hover {
+    background-color: rgba(59, 73, 81, 0.7);
+    color: #fff;
+}
+
+
+
+/*파일저장 css*/
+.Savebtn {
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: rgb(59,73,81);
+    color: #fff;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+
+}
+.Savebtn:hover{
+    background-color: rgba(59, 73, 81, 0.7);
+    color: #fff;
 }

@@ -36,16 +36,12 @@
                 <!-- 리스트 목록이 여기에 추가될 것입니다. -->
             </div>
             <div id ="paginationContainer"></div>
+
             <div class="modal-footer">
-
-                <button id="fetchButton" type="button" class="btn btn-primary" onclick="fetchData()">조회</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeModal()">닫기</button>
-                <button  class="btn btn-secondary" data-bs-dismiss="modal" onclick="excelDownload()">엑셀 저장</button>
-
-<!--                <button  class="btn btn-primary">조회</button>-->
-<!--                <button  class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeModal()">닫기</button>-->
-<!--               -->
-<!--&gt;>>>>>> bong-->
+                <button id="fetchButton" class="fetchBtn" onclick="fetchData()">조회</button>
+                <button class="Closebtn" data-bs-dismiss="modal" onclick="closeModal()">닫기</button>
+                <button  class="Excelbtn" data-bs-dismiss="modal" onclick="excelDownload()">다운로드(.xlsx)</button>
+            </div>
             </div>
         </div>
     </div>
@@ -68,8 +64,8 @@
                 </label>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary" onclick="saveHistory()">저장</button>
-                <button class="btn btn-secondary" onclick="closeSaveModal()" data-bs-dismiss="modal">닫기</button>
+                <button class="Savebtn" onclick="saveHistory()">저장</button>
+                <button class="Closebtn" onclick="closeSaveModal()" data-bs-dismiss="modal">닫기</button>
             </div>
         </div>
     </div>
@@ -89,8 +85,8 @@
                 </label>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary" onclick="allSaveHistory()">저장</button>
-                <button class="btn btn-secondary" onclick="closeAllSaveModal()" data-bs-dismiss="modal">닫기</button>
+                <button class="Savebtn " onclick="allSaveHistory()">저장</button>
+                <button class="Closebtn" onclick="closeAllSaveModal()" data-bs-dismiss="modal">닫기</button>
             </div>
         </div>
     </div>
