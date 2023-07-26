@@ -214,3 +214,21 @@ listContainer td:nth-child(5) {
     background-color: rgba(59, 73, 81, 0.7);
     color: #fff;
 }
+
+
+
+/*파일저장 css*/
+.Savebtn {
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: rgb(59,73,81);
+    color: #fff;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+
+}
+.Savebtn:hover{
+    background-color: rgba(59, 73, 81, 0.7);
+    color: #fff;
+}

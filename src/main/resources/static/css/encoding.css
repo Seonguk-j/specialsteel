@@ -21,6 +21,21 @@
     color: #fff;
 }
 
+.Excelbtn {
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: #217346;
+    color: #fff;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+.Excelbtn:hover {
+    background-color: rgba(33, 115, 70, 0.62);
+    color: #fff;
+}
+
 
 
 

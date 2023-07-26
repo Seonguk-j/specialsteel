@@ -40,7 +40,7 @@
             <div class="modal-footer">
                 <button id="fetchButton" class="fetchBtn" onclick="fetchData()">조회</button>
                 <button class="Closebtn" data-bs-dismiss="modal" onclick="closeModal()">닫기</button>
-                <button  class="Excelbtn" data-bs-dismiss="modal" onclick="excelDownload()">엑셀 저장</button>
+                <button  class="Excelbtn" data-bs-dismiss="modal" onclick="excelDownload()">다운로드(.xlsx)</button>
             </div>
             </div>
         </div>
@@ -64,8 +64,8 @@
                 </label>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary" onclick="saveHistory()">저장</button>
-                <button class="btn btn-secondary" onclick="closeSaveModal()" data-bs-dismiss="modal">닫기</button>
+                <button class="Savebtn" onclick="saveHistory()">저장</button>
+                <button class="Closebtn" onclick="closeSaveModal()" data-bs-dismiss="modal">닫기</button>
             </div>
         </div>
     </div>
@@ -85,8 +85,8 @@
                 </label>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary" onclick="allSaveHistory()">저장</button>
-                <button class="btn btn-secondary" onclick="closeAllSaveModal()" data-bs-dismiss="modal">닫기</button>
+                <button class="Savebtn " onclick="allSaveHistory()">저장</button>
+                <button class="Closebtn" onclick="closeAllSaveModal()" data-bs-dismiss="modal">닫기</button>
             </div>
         </div>
     </div>
