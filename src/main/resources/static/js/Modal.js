@@ -117,6 +117,8 @@ function displayData(data) {
     // 리스트를 초기화합니다.
     listContainer.innerHTML = "";
     paginationContainer.innerHTML = "";
+    let selectedIdx = -1; // 현재 선택된 아이템의 인덱스를 추적합니다.
+
 
     // 현재 페이지의 시작과 끝 인덱스를 계산합니다.
     const startIndex = (currentPage - 1) * itemsPerPage;
@@ -189,34 +191,31 @@ function displayData(data) {
 
         // 각 리스트 아이템에 클릭 이벤트 리스너를 추가합니다.
         listItem.addEventListener("click", () => {
-            // 이미 선택된 항목이 다시 클릭된 경우, 선택을 해제합니다.
-            if (isClicked) {
+            if (selectedIdx === i) {
+                // 이미 선택된 항목을 클릭한 경우, 선택을 해제합니다.
+                selectedIdx = -1;
                 listItem.classList.remove("checked-item");
-                selectedId = null;
-                isClicked = false;
                 const fetchButton = document.getElementById("fetchButton");
                 //fetchButton.textContent = "조회";
                 fetchButton.setAttribute("onclick", "fetchData()");
+                selectedId = null;
             } else {
                 // 다른 항목이 이미 선택된 경우, 선택을 해제하고 현재 항목을 선택합니다.
-                const previousSelectedItem = listContainer.querySelector(".checked-item");
-                if (previousSelectedItem) {
+                if (selectedIdx !== -1) {
+                    const previousSelectedItem = listContainer.querySelector(".clickable-list-item.checked-item");
                     previousSelectedItem.classList.remove("checked-item");
                 }
+                selectedIdx = i;
                 listItem.classList.add("checked-item");
-                selectedId = data[i].id;
-                isClicked = true;
                 const fetchButton = document.getElementById("fetchButton");
                 //fetchButton.textContent = "조회";
                 fetchButton.setAttribute("onclick", "fetchDataById()");
-            } else {
-                listItem.classList.remove("checked-item"); // "checked-item"이라는 CSS 클래스를 제거합니다.
-                selectedId = null;
+                selectedId = data[i].id;
             }
 
             // 원하는 동작을 수행합니다. (예를 들어, 더 자세한 정보 표시 또는 다른 페이지로 이동)
             console.log("클릭한 항목:", data[i]);
-            console.log("선택된 id :" + selectedId);
+            console.log("선택된 id: " + selectedId);
         });
 
         // 리스트 아이템을 클릭 가능하도록 CSS 클래스를 추가합니다 (선택사항)
@@ -246,8 +245,21 @@ function displayData(data) {
 
         paginationContainer.appendChild(pageButton);
     }
-}
 
+    // 전체 리스트 컨테이너에 클릭 이벤트 리스너를 추가합니다.
+    listContainer.addEventListener("click", (event) => {
+        // 클릭한 대상이 리스트 아이템이 아닌 경우에만 처리합니다.
+        if (event.target.classList.contains("clickable-list-item")) {
+            // 다른 항목을 클릭했을 때 선택이 해제되도록 처리합니다.
+            selectedIdx = -1;
+            listContainer.querySelectorAll(".list-item").forEach(item => item.classList.remove("checked-item"));
+            const fetchButton = document.getElementById("fetchButton");
+            //fetchButton.textContent = "조회";
+            fetchButton.setAttribute("onclick", "fetchData()");
+            selectedId = null;
+        }
+    });
+}
 
 
 // 조회 버튼 클릭 시 실행될 함수를 정의합니다.

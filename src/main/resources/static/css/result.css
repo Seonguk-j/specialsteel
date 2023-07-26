@@ -5,6 +5,19 @@
     justify-content: flex-end;
 }
 
+.show-Btn {
+    padding: 10px 20px;
+    border-radius: 5px;
+    background: #fff;
+    border: 1px solid rgb(77,77,77);
+    border-radius: 10px;
+    cursor: pointer;
+}
+.show-Btn:hover {
+    background: rgb(229,78,43);
+    color: #fff;
+}
+
 
 
 
@@ -22,18 +35,18 @@
     margin-right: 10px;
 }
 
-.card button {
-    padding: 10px 20px;
-    border-radius: 5px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-}
+/*.card button {*/
+/*    padding: 10px 20px;*/
+/*    border-radius: 5px;*/
+/*    background-color: #007bff;*/
+/*    color: #fff;*/
+/*    border: none;*/
+/*    cursor: pointer;*/
+/*}*/
 
-.card button:hover {
-    background-color: #0056b3;
-}
+/*.card button:hover {*/
+/*    background-color: #0056b3;*/
+/*}*/
 
 
 
@@ -265,7 +278,7 @@ input[type=file]::file-selector-button {
     cursor: pointer;
 }
 input[type=file]::file-selector-button:hover {
-    background: rgb(77,77,77);
+    background: rgb(229,78,43);
     color: #fff;
 }
 
