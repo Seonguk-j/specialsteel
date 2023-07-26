@@ -1,4 +1,4 @@
-/*날짜 검색 조회 버튼 */
+/* 날짜 검색 조회 버튼 */
 .date-search-container {
     display: flex;
     align-items: center;
@@ -317,7 +317,7 @@ input[type=file]::file-selector-button {
     height: 30px;
     background: #fff;
     border: 1px solid rgb(77,77,77);
-    border-radius: 10px;
+    border-radius: 5px;
     cursor: pointer;
 }
 input[type=file]::file-selector-button:hover {
