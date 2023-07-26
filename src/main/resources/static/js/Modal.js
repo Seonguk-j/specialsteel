@@ -22,6 +22,21 @@ window.addEventListener("keydown", function (event) {
     }
 });
 
+// 날짜 지정=====================================================================================
+function formatDate(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // 월은 0부터 시작하므로 1을 더한 후, 두 자리로 만듭니다.
+    const day = String(date.getDate()).padStart(2, "0"); // 일도 두 자리로 만듭니다.
+    const hours = String(date.getHours()).padStart(2, "0"); // 시간도 두 자리로 만듭니다.
+    const minutes = String(date.getMinutes()).padStart(2, "0"); // 분도 두 자리로 만듭니다.
+
+    return `${year}-${month}-${day} ${hours}:${minutes}`;
+}
+function excelDownload() {
+
+    window.location.href = '/excel/download/' + selectedId;
+
+}
 
 // 저장 모달창 ======================================================================
 
@@ -312,7 +327,7 @@ function showUploadedList1(revResults) {
     var html = "";
     html += "<div class='changeTest'>";
     for (var i = 0; i < revResults.length; i++) {
-        html += "<a href='#' class='btn btn-primary m-1' onclick='sendRevFileName1(\"" + i + "\")'>" + (i + 1) + "</a>";
+        html += "<a href='#' class='pagebtn btn m-1' onclick='sendRevFileName1(\"" + i + "\")'>" + (i + 1) + "</a>";
     }
     html += "</div>";
 
@@ -320,19 +335,3 @@ function showUploadedList1(revResults) {
 }
 
 
-
-// 날짜 지정
-function formatDate(date) {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0"); // 월은 0부터 시작하므로 1을 더한 후, 두 자리로 만듭니다.
-    const day = String(date.getDate()).padStart(2, "0"); // 일도 두 자리로 만듭니다.
-    const hours = String(date.getHours()).padStart(2, "0"); // 시간도 두 자리로 만듭니다.
-    const minutes = String(date.getMinutes()).padStart(2, "0"); // 분도 두 자리로 만듭니다.
-
-    return `${year}-${month}-${day} ${hours}:${minutes}`;
-}
-function excelDownload() {
-
-    window.location.href = '/excel/download/' + selectedId;
-
-}
