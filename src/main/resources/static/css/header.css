@@ -5,9 +5,7 @@
 }
 
 .nav-link {
-    font-size: 18px;
-    /* 원하는 글자 크기로 변경 */
-    font-weight: bold;
+    font-size: 16px;
     margin-top: 8px;
 }
 
@@ -15,6 +13,3 @@
     margin-left: 15px;
 }
 
-/*#category {*/
-/*    margin-top: 10px;*/
-/*}*/

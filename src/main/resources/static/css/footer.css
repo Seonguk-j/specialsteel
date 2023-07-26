@@ -1,0 +1,13 @@
+/*상단으로가기 버튼 css*/
+/* "Top" 버튼 스타일 */
+.top-button {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    z-index: 999;
+}
+
+.top-button img {
+    width: 40px;
+    height: 40px;
+}
