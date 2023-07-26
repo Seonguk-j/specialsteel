@@ -110,7 +110,7 @@ function showUploadedList(arr) {
     var html = "";
     html += "<div class='changeTest'>";
     for (var i = 0; i < arr.length; i++) {
-        html += "<a href='#' class='pagebtn btn m-1'  onclick='sendRevFileName(\"" + i + "\")'>" + (i+1) + "</a>";
+        html += "<a href='#' class='pagebtn btn m-1' onclick='sendRevFileName(\"" + i + "\")'>" + (i+1) + "</a>";
     }
     html += "</div>";
     $("#uploadResult").html(html);

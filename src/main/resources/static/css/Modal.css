@@ -50,17 +50,6 @@
     margin-right: 10px;
 }
 
-/*페이지버튼 css*/
-.pagination-button {
-    padding: 5px 10px;
-    border-radius: 5px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-    margin: 5px;
-}
-
 
 
 
@@ -153,6 +142,23 @@ listContainer td:nth-child(5) {
 }
 
 
+/*날짜 조회 후 리스트 선택 조회 후 수정알고리즘 업로드 버튼*/
+.pagebtn {
+    background-color: rgb(59,73,81);
+    color: #fff;
+}
+
+.pagebtn.active {
+    background: rgb(229,78,43);
+    color: #fff;
+}
+
+.pagebtn:hover {
+    background-color: rgba(59, 73, 81, 0.7);
+    color: #fff;
+}
+
+
 
 
 /*조회 닫기 엑셀 버튼 css*/
@@ -204,11 +210,13 @@ listContainer td:nth-child(5) {
 
 /*페이징 버튼*/
 .pagination-button {
+    padding: 5px 10px;
     background-color: rgb(59,73,81);
     color: #fff;
     border-radius: 5px;
     border: none;
     cursor: pointer;
+    margin-bottom: 5px;
 }
 .pagination-button:hover {
     background-color: rgba(59, 73, 81, 0.7);
