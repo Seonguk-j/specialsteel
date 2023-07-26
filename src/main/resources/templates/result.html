@@ -42,7 +42,7 @@
                             <h5 class="h5 col-5">기존 알고리즘 결과</h5>
                             <div class="file-group col-7">
                                 <input type="file" name="file" id="originalFile1"/>
-                                <button class="btn btn-primary uploadBtn" id="oriUploadBtn">Upload</button>
+                                <button class="btn uploadBtn" id="oriUploadBtn">Upload</button>
                             </div>
                         </div>
                         <div class="oriInsert list-group">
@@ -59,7 +59,7 @@
                             <h5 class="h5 col-5">수정 알고리즘 결과</h5>
                             <div class="file-group col-7">
                                 <input name="uploadFiles" id="fileInput" type="file" multiple >
-                                <button class="btn btn-primary uploadBtn" id="revUploadBtn">Upload</button>
+                                <button class="btn uploadBtn" id="revUploadBtn">Upload</button>
                             </div>
                         </div>
                         <div class="insert list-group">
@@ -222,7 +222,7 @@
         var html = "";
         html += "<div class='changeTest'>";
         for (var i = 0; i < arr.length; i++) {
-            html += "<a href='#' class='btn btn-primary m-1'  onclick='sendRevFileName(\"" + i + "\")'>" + (i+1) + "</a>";
+            html += "<a href='#' class='pagebtn btn m-1'  onclick='sendRevFileName(\"" + i + "\")'>" + (i+1) + "</a>";
         }
         html += "</div>";
         $("#uploadResult").html(html);
@@ -325,15 +325,15 @@
 
         for (var i = 0; i < response.length; i++) {
             if (i === nowIndex) {
-                html += "<a href='#' id='uploadResult' class='btn btn-primary active m-1 btn-colored' onclick='saveComment(\"" + i + "\",\"" + response.index + "\", $(\"#commentRevTextarea\").val())'>" + (i + 1) + "</a>";
+                html += "<a href='#' id='uploadResult' class='pagebtn btn active m-1' onclick='saveComment(\"" + i + "\",\"" + response.index + "\", $(\"#commentRevTextarea\").val())'>" + (i + 1) + "</a>";
             } else {
-                html += "<a href='#' id='uploadResult' class='btn btn-primary m-1' onclick='saveComment(\"" + i + "\",\"" + response.index + "\", $(\"#commentRevTextarea\").val())'>" + (i + 1) + "</a>";
+                html += "<a href='#' id='uploadResult' class='pagebtn btn m-1' onclick='saveComment(\"" + i + "\",\"" + response.index + "\", $(\"#commentRevTextarea\").val())'>" + (i + 1) + "</a>";
             }
         }
 
         html += "</div>";
         html += "<div class='delete-group'>";
-        html += "<button class='deleteBtn bg-danger' data-index='" + response.index + "'> 삭제</button>";
+        html += "<button class='deleteBtn ' data-index='" + response.index + "'> 삭제</button>";
         html += "</div>";
         html += "</div>";
 
@@ -733,12 +733,8 @@
         console.log("리스폰스길이 - "+response.length);
         for(var i = 0; i < response.length; i++) {
             //$("#showResult").empty();
-            html += "<a href='#' id='showResult1' class='btn btn-primary m-1' onclick='sendRevFileName1(\"" + i + "\",\"" + response.index + "\", $(\"#commentRevTextarea\").val())'>" + (i + 1) + "</a>";
+            html += "<a href='#' id='showResult1' class='pagebtn btn m-1' onclick='sendRevFileName1(\"" + i + "\",\"" + response.index + "\", $(\"#commentRevTextarea\").val())'>" + (i + 1) + "</a>";
         }
-
-        // html += "</div>";
-        // html += "<button class='deleteBtn bg-danger' data-index='" + response.index + "'> 삭제</button>";
-        // html += "</div>";
 
 
         $(".insert").html(html);

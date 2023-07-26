@@ -6,17 +6,19 @@
 }
 
 .show-Btn {
-    padding: 10px 20px;
+    padding: 5px 10px;
     border-radius: 5px;
-    background: #fff;
-    border: 1px solid rgb(77,77,77);
-    border-radius: 10px;
+    background-color: rgb(59,73,81);
+    color: #fff;
+    border-radius: 5px;
+    border: none;
     cursor: pointer;
 }
 .show-Btn:hover {
     background: rgb(229,78,43);
     color: #fff;
 }
+
 
 
 
@@ -35,18 +37,7 @@
     margin-right: 10px;
 }
 
-/*.card button {*/
-/*    padding: 10px 20px;*/
-/*    border-radius: 5px;*/
-/*    background-color: #007bff;*/
-/*    color: #fff;*/
-/*    border: none;*/
-/*    cursor: pointer;*/
-/*}*/
 
-/*.card button:hover {*/
-/*    background-color: #0056b3;*/
-/*}*/
 
 
 
@@ -129,18 +120,54 @@ textarea:disabled {
 /*저장하기, 일괄저장 버튼 */
 .saveBtn {
     margin-left: 10px;
+    padding: 5px 10px;
+    background-color: rgb(59,73,81);
+    color: #fff;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
 }
-.allSaveBtn {
-    margin-left: 10px;
+.saveBtn:hover {
+    background-color: rgba(59,73,81,0.7);
+    color: #fff;
 }
 
+.allSaveBtn {
+    margin-left: 10px;
+    padding: 5px 10px;
+    background-color: rgb(59,73,81);
+    color: #fff;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+.allSaveBtn:hover {
+    background-color: rgba(59,73,81,0.7);
+    color: #fff;
+}
+
+
+
+
+
+/*업로드버튼*/
 .uploadBtn {
     width: 100px;
     height: 30px;
     display: flex; /* 가운데 정렬을 위해 flex 사용 */
     align-items: center; /* 세로 가운데 정렬 */
     justify-content: center; /* 가로 가운데 정렬 */
+    background-color: rgb(59,73,81);
+    color: #fff;
 }
+.uploadBtn:hover {
+    background: rgb(229,78,43);
+    color: #fff;
+}
+
+
+
+
 
 .delete-group {
     display: flex;
@@ -149,20 +176,51 @@ textarea:disabled {
 }
 
 .deleteBtn {
-    margin-top: 10px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
     width: 100px;
     height: 30px;
-    vertical-align: middle;
     display: flex; /* 가운데 정렬을 위해 flex 사용 */
     align-items: center; /* 세로 가운데 정렬 */
-    justify-content: center;
+    justify-content: center; /* 가로 가운데 정렬 */
+
+    background: rgb(229,78,43);
+    color: #fff;
+}
+
+.deleteBtn:hover {
+    background: rgba(229,78,43, 0.7);
+    color: #fff;
 }
 
 
 /*수정 알고리즘 결과 데이터파일 숫자 버튼*/
 #uploadResult {
     margin-top: 20px;
+
 }
+
+
+/*파일업로드 숫자 버튼*/
+.pagebtn {
+    background-color: rgb(59,73,81);
+    color: #fff;
+}
+
+.pagebtn.active {
+    background: rgb(229,78,43);
+    color: #fff;
+}
+
+.pagebtn:hover {
+    background-color: rgba(59, 73, 81, 0.7);
+    color: #fff;
+}
+
+
+
 
 
 /* 표 ======================================================*/
