@@ -28,7 +28,12 @@
             <div class="row">
                 <div class="card1 card col-12">
                     <div class="date-search-container">
+                        <!-- 테스트-->
+                        <input type="file" name="file" id="jsonFile"/>
+                        <button id="test" >파일 업로드</button>
+
                         <button class="show-Btn" onclick="showModal()">조회</button>
+
                     </div>
                 </div>
             </div>
@@ -122,6 +127,61 @@
 
 <script src="js/result.js"></script>.
 <script src="js/Modal.js"></script>
+<script>
+
+    $('#test').click(function (){
+        // event.preventDefault();
+        var inputFile = $("input[type='file']")[0];
+        console.log("if문 밖은 몇번?");
+
+        if (inputFile.files.length > 0) {
+            var file = inputFile.files[0];
+            var reader = new FileReader();
+            reader.readAsText(file);
+
+
+        reader.onload = function (e) {
+            var fileContent = e.target.result;
+            try {
+                //uplaod ajax
+                $.ajax({
+                    url: 'http://172.20.10.21:17080/mix',
+                    processData: false,
+                    contentType: false,
+                    data: fileContent,
+                    type: 'POST',
+                    success: function (result){
+                        postResponseJson(result);
+                    },
+                    error:function (){
+                    }
+                });
+                $(this).prev("input[type='file']").val("");
+            } catch (error) {
+                console.error("Error parsing JSON:", error);
+            }
+        };
+
+        };
+    });
+    //response json 파일 controller로 전송
+    function postResponseJson(result){
+
+        $.ajax({
+            url: '/oriResponseData',
+            contentType: 'application/json; charset=utf-8', // 인코딩 설정
+            data: result,
+            type: 'POST',
+            success: function (response){
+                console.log(response);
+            },
+            error: function (error){
+                alert("기존 알고리즘이 없습니다.");
+            }
+        });
+
+    }
+</script>
 </body>
 
 </html>

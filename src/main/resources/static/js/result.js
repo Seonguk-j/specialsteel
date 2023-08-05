@@ -19,8 +19,7 @@ $('#oriUploadBtn').click(function (){
     // event.preventDefault();
     var formData = new FormData();
     var inputFile = $("input[type='file']");
-    var files = inputFile[0].files;
-
+    var files = inputFile[1].files;
     formData.append("uploadfiles", files[0]);
 
     //uplaod ajax
@@ -39,6 +38,10 @@ $('#oriUploadBtn').click(function (){
     });
     $(this).prev("input[type='file']").val("");
 });
+
+//request json파일 api 전송
+
+
 
 function sendOriFileName() {
     // Ajax 요청을 사용하여 백엔드에 데이터를 전송

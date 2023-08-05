@@ -41,13 +41,13 @@ public class ResultDTO {
     public OriResult toOriEntity(){
         return new OriResult(id, totalCost, totalAmount, expectOutput, method, comment,title);
     }
-    public ResultDTO(String fileName) throws IOException, ParseException {
+    public ResultDTO(String oriResponseData) throws IOException, ParseException {
 
         JSONParser parser = new JSONParser();
 
-        Reader reader = new FileReader(fileName);
-
-        JSONObject jsonObject = (JSONObject) parser.parse(reader);
+//        Reader reader = new FileReader(fileName);
+        JSONObject jsonObject = (JSONObject) parser.parse(oriResponseData);
+//        JSONObject jsonObject = (JSONObject) parser.parse(reader);
 
         this.setTotalCost((Double) jsonObject.get("합금철_총_투입비용"));
         this.setTotalAmount((Double) jsonObject.get("합금철_총_투입량"));
@@ -64,7 +64,6 @@ public class ResultDTO {
 
         this.setExpectMaterials(jsonArrayToHashMap(jsonArray));
 
-        reader.close();
     }
 
     public LinkedHashMap<String, String> jsonArrayToHashMap(JSONArray jsonArray) {

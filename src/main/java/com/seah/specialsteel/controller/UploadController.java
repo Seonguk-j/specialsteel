@@ -30,6 +30,22 @@ public class UploadController {
     List<ResultDTO> revResultDTOList;
 
     private final HistoryService historyService;
+
+    @PostMapping("/oriResponseData")
+    public ResponseEntity<List<String>> oriResponseData(@RequestBody()String oriResponseData) throws Exception {
+        List<String> test = new ArrayList<>();
+        test.add("성공1");
+
+
+        ResultDTO resultDTO = new ResultDTO(oriResponseData);
+
+        log.info(resultDTO);
+
+
+        return new ResponseEntity<>(test, HttpStatus.OK);
+    }
+
+
     @PostMapping("/oriUploadAjax")
     public ResponseEntity<List<String>> oriUploadfile(MultipartFile[] uploadfiles) throws Exception {
         List<String> oriFileName = fileService.uploadResult(uploadfiles);

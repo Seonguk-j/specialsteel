@@ -58,19 +58,6 @@ public class FileService {
 
 }
 
-//    private String makeFolder() {
-//        String str = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
-//        String folderPath = str.replace("/", File.separator );
-//
-//        //make folder
-//        File uploadPathFolder = new File(uploadPath,folderPath);
-//
-//        if(uploadPathFolder.exists() == false){
-//            uploadPathFolder.mkdirs();
-//        }
-//        return folderPath;
-//    }
-
     public void deleteFile(String filePath) throws Exception{
         Path path = Path.of(filePath);
 
