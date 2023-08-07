@@ -26,7 +26,7 @@ public class UploadController {
     private final FileService fileService;
 
     //    List<String> uploadResultList;
-    static ResultDTO oriResultDTO;
+    List<ResultDTO> oriResultDTOList;
     List<ResultDTO> revResultDTOList;
 
     private final HistoryService historyService;
@@ -38,23 +38,42 @@ public class UploadController {
 
 
         ResultDTO resultDTO = new ResultDTO(oriResponseData);
+        oriResultDTOList.add(resultDTO);
 
         log.info(resultDTO);
-
 
         return new ResponseEntity<>(test, HttpStatus.OK);
     }
 
+    @PostMapping("/revResponseData")
+    public ResponseEntity<List<String>> revResponseData(@RequestBody()String oriResponseData) throws Exception {
+        List<String> test = new ArrayList<>();
+        test.add("성공1");
 
-    @PostMapping("/oriUploadAjax")
-    public ResponseEntity<List<String>> oriUploadfile(MultipartFile[] uploadfiles) throws Exception {
-        List<String> oriFileName = fileService.uploadResult(uploadfiles);
+        ResultDTO resultDTO = new ResultDTO(oriResponseData);
+        revResultDTOList.add(resultDTO);
 
-        oriResultDTO = new ResultDTO(oriFileName.get(0));
+        log.info(resultDTO);
 
-        fileService.deleteFile(oriFileName.get(0));
-        return new ResponseEntity<>(oriFileName, HttpStatus.OK);
+        return new ResponseEntity<>(test, HttpStatus.OK);
     }
+
+    @GetMapping("/showList")
+    public ResponseEntity<Integer> responseSuccess() {
+        System.out.println("응답확인: " + oriResultDTOList.size());
+        return new ResponseEntity<>(oriResultDTOList.size(), HttpStatus.OK);
+    }
+
+
+//    @PostMapping("/oriUploadAjax")
+//    public ResponseEntity<List<String>> oriUploadfile(MultipartFile[] uploadfiles) throws Exception {
+//        List<String> oriFileName = fileService.uploadResult(uploadfiles);
+//
+//        oriResultDTO = new ResultDTO(oriFileName.get(0));
+//
+//        fileService.deleteFile(oriFileName.get(0));
+//        return new ResponseEntity<>(oriFileName, HttpStatus.OK);
+//    }
 
     //파일 저장
     @PostMapping("/revUploadAjax")
@@ -76,30 +95,31 @@ public class UploadController {
 
     //기존 알고리즘 json파일을 dto에 담아서 보내기
     @PostMapping("/sendOriFileName")
-    public ResponseEntity<ResultDTO> receiveOriResultDTO() {
-        return new ResponseEntity<>(oriResultDTO, HttpStatus.OK);
+    public ResponseEntity<ResultDTO> receiveOriResultDTO(@RequestParam ("index")int index) {
+//        log.info("오리지널" + index);
+        return new ResponseEntity<>(oriResultDTOList.get(index), HttpStatus.OK);
     }
 
     //수정 알고리즘 json파일을 dto에 담아서 보내기
 
 
-    @PostMapping("/saveComment")
-    public ResponseEntity<Map<String, Object>> saveComment(@RequestParam("index") int index, @RequestParam("saveIndex") int saveIndex, @RequestParam("comment") String comment) {
-        revResultDTOList.get(index).setLength(revResultDTOList.size());
-        revResultDTOList.get(saveIndex).setComment(comment);
-
-        ResultDTO revResultDTO = revResultDTOList.get(index);
-
-        Map<String, Object> response = new HashMap<>();
-        response.put("revResultDTO", revResultDTO);
-
-        if (oriResultDTO != null) {
-            CompareDTO compareDTO = new CompareDTO(oriResultDTO, revResultDTO);
-            response.put("compareDTO", compareDTO);
-        }
-
-        return ResponseEntity.ok(response);
-    }
+//    @PostMapping("/saveComment")
+//    public ResponseEntity<Map<String, Object>> saveComment(@RequestParam("index") int index, @RequestParam("saveIndex") int saveIndex, @RequestParam("comment") String comment) {
+//        revResultDTOList.get(index).setLength(revResultDTOList.size());
+//        revResultDTOList.get(saveIndex).setComment(comment);
+//
+//        ResultDTO revResultDTO = revResultDTOList.get(index);
+//
+//        Map<String, Object> response = new HashMap<>();
+//        response.put("revResultDTO", revResultDTO);
+//
+//        if (oriResultDTO != null) {
+//            CompareDTO compareDTO = new CompareDTO(oriResultDTO, revResultDTO);
+//            response.put("compareDTO", compareDTO);
+//        }
+//
+//        return ResponseEntity.ok(response);
+//    }
 
 
     @PostMapping("/sendRevFileName")
@@ -111,9 +131,8 @@ public class UploadController {
         Map<String, Object> response = new HashMap<>();
         response.put("revResultDTO", revResultDTO);
 
-        if (oriResultDTO != null) {
-
-            CompareDTO compareDTO = new CompareDTO(oriResultDTO, revResultDTO);
+        if (oriResultDTOList != null) {
+            CompareDTO compareDTO = new CompareDTO(oriResultDTOList.get(index), revResultDTO);
             response.put("compareDTO", compareDTO);
         }
 
@@ -135,33 +154,33 @@ public class UploadController {
         }
     }
 
-    @PostMapping("/saveHistory")
-    public ResponseEntity<String>saveHistory(@RequestParam ("index")int index, @RequestParam ("revComment")String revComment, @RequestParam ("oriComment")String oriComment,@RequestParam ("title")String title) {
-  
-        if(oriResultDTO != null) {
-            revResultDTOList.get(index).setComment(revComment);
-            oriResultDTO.setTitle(title);
-            oriResultDTO.setComment(oriComment);
-
-            historyService.saveHistory(oriResultDTO, revResultDTOList.get(index));
-            return new ResponseEntity(HttpStatus.OK);
-        }else {
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    @PostMapping("/allSaveHistory")
-    public ResponseEntity<String>allSaveHistory(@RequestParam ("index") int index, @RequestParam ("revComment")String revComment, @RequestParam ("oriComment")String oriComment, @RequestParam ("title")String title) {
-        if(oriResultDTO != null) {
-            revResultDTOList.get(index).setComment(revComment);
-            oriResultDTO.setComment(oriComment);
-            oriResultDTO.setTitle(title);
-            historyService.saveAllHistory(oriResultDTO, revResultDTOList);
-
-            return new ResponseEntity(HttpStatus.OK);
-        }else {
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
-        }
-    }
+//    @PostMapping("/saveHistory")
+//    public ResponseEntity<String>saveHistory(@RequestParam ("index")int index, @RequestParam ("revComment")String revComment, @RequestParam ("oriComment")String oriComment,@RequestParam ("title")String title) {
+//
+//        if(oriResultDTO != null) {
+//            revResultDTOList.get(index).setComment(revComment);
+//            oriResultDTO.setTitle(title);
+//            oriResultDTO.setComment(oriComment);
+//
+//            historyService.saveHistory(oriResultDTO, revResultDTOList.get(index));
+//            return new ResponseEntity(HttpStatus.OK);
+//        }else {
+//            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+//        }
+//    }
+//
+//    @PostMapping("/allSaveHistory")
+//    public ResponseEntity<String>allSaveHistory(@RequestParam ("index") int index, @RequestParam ("revComment")String revComment, @RequestParam ("oriComment")String oriComment, @RequestParam ("title")String title) {
+//        if(oriResultDTO != null) {
+//            revResultDTOList.get(index).setComment(revComment);
+//            oriResultDTO.setComment(oriComment);
+//            oriResultDTO.setTitle(title);
+//            historyService.saveAllHistory(oriResultDTO, revResultDTOList);
+//
+//            return new ResponseEntity(HttpStatus.OK);
+//        }else {
+//            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+//        }
+//    }
 
 }
