@@ -31,6 +31,13 @@ public class UploadController {
 
     private final HistoryService historyService;
 
+    @GetMapping("/initResultDtoList")
+    public ResponseEntity<String> initResultDtoList() {
+        oriResultDTOList = new ArrayList<>();
+        revResultDTOList = new ArrayList<>();
+        return new ResponseEntity<>("초기화 완료", HttpStatus.OK);
+    }
+
     @PostMapping("/oriResponseData")
     public ResponseEntity<List<String>> oriResponseData(@RequestBody()String oriResponseData) throws Exception {
         List<String> test = new ArrayList<>();
@@ -40,7 +47,7 @@ public class UploadController {
         ResultDTO resultDTO = new ResultDTO(oriResponseData);
         oriResultDTOList.add(resultDTO);
 
-        log.info(resultDTO);
+//        log.info(resultDTO);
 
         return new ResponseEntity<>(test, HttpStatus.OK);
     }
@@ -60,7 +67,6 @@ public class UploadController {
 
     @GetMapping("/showList")
     public ResponseEntity<Integer> responseSuccess() {
-        System.out.println("응답확인: " + oriResultDTOList.size());
         return new ResponseEntity<>(oriResultDTOList.size(), HttpStatus.OK);
     }
 
