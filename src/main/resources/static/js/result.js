@@ -8,36 +8,36 @@
  */
 
 //1. 기존알고리즘 결과, 수정알고리즘 결과 ================================================================
-var nowIndex;
-var nowRevComment;
-var nowOriComment;
+// var nowIndex;
+// var nowRevComment;
+// var nowOriComment;
 var compareDTO;
 var diffAlloyInputsMap;
 var diffMaterialsMap;
 
-$('#oriUploadBtn').click(function (){
-    // event.preventDefault();
-    var formData = new FormData();
-    var inputFile = $("input[type='file']");
-    var files = inputFile[1].files;
-    formData.append("uploadfiles", files[0]);
-
-    //uplaod ajax
-    $.ajax({
-        url: '/oriUploadAjax',
-        processData: false,
-        contentType: false,
-        data: formData,
-        type: 'POST',
-        dataType: 'json',
-        success: function (result){
-            sendOriFileName(result[0]);
-        },
-        error:function (){
-        }
-    });
-    $(this).prev("input[type='file']").val("");
-});
+// $('#oriUploadBtn').click(function (){
+//     // event.preventDefault();
+//     var formData = new FormData();
+//     var inputFile = $("input[type='file']");
+//     var files = inputFile[1].files;
+//     formData.append("uploadfiles", files[0]);
+//
+//     //uplaod ajax
+//     $.ajax({
+//         url: '/oriUploadAjax',
+//         processData: false,
+//         contentType: false,
+//         data: formData,
+//         type: 'POST',
+//         dataType: 'json',
+//         success: function (result){
+//             sendOriFileName(result[0]);
+//         },
+//         error:function (){
+//         }
+//     });
+//     $(this).prev("input[type='file']").val("");
+// });
 
 //request json파일 api 전송
 
@@ -96,36 +96,36 @@ function showOriFile(response) {
 }
 
 //업로드 버튼을 누르면 파일을 MultipartFile[]에 담아 백으로 전달
-$('#revUploadBtn').click(function (){
-    // event.preventDefault();
-    var formData = new FormData();
-
-    var inputFile = $("input[type='file']");
-
-    var files = inputFile[1].files;
-
-    for(var i=0; i<files.length; i++){
-
-        formData.append("uploadfiles", files[i]);
-    }
-    //uplaod ajax
-    $.ajax({
-        url: '/revUploadAjax',
-        processData: false,
-        contentType: false,
-        data: formData,
-        type: 'POST',
-        dataType: 'json',
-        success: function (result){
-            showInit();
-            showUploadedList(result);
-        },
-        error:function (jqXHR, textStatus, errorThrown){
-            console.log(textStatus);
-        }
-    });
-    $(this).prev("input[type='file']").val("");
-});
+// $('#revUploadBtn').click(function (){
+//     // event.preventDefault();
+//     var formData = new FormData();
+//
+//     var inputFile = $("input[type='file']");
+//
+//     var files = inputFile[1].files;
+//
+//     for(var i=0; i<files.length; i++){
+//
+//         formData.append("uploadfiles", files[i]);
+//     }
+//     //uplaod ajax
+//     $.ajax({
+//         url: '/revUploadAjax',
+//         processData: false,
+//         contentType: false,
+//         data: formData,
+//         type: 'POST',
+//         dataType: 'json',
+//         success: function (result){
+//             showInit();
+//             showUploadedList(result);
+//         },
+//         error:function (jqXHR, textStatus, errorThrown){
+//             console.log(textStatus);
+//         }
+//     });
+//     $(this).prev("input[type='file']").val("");
+// });
 
 //전달 받은 파일의 개수 만큼 버튼 생성, 버튼을 누르면 해당 인덱스를 가지는 json파일 출력
 function showUploadedList(arr) {
@@ -252,9 +252,9 @@ function showRevFile(response) {
     // }
 
     html += "</div>";
-    html += "<div class='delete-group'>";
-    html += "<button class='deleteBtn ' data-index='" + response.index + "'> 삭제</button>";
-    html += "</div>";
+    // html += "<div class='delete-group'>";
+    // html += "<button class='deleteBtn ' data-index='" + response.index + "'> 삭제</button>";
+    // html += "</div>";
     html += "</div>";
 
 
@@ -489,21 +489,21 @@ function showRevFile1(response) {
 
 //2. 삭제, 파일저장, 일괄저장 =======================================================================
 // 삭제 버튼
-$('.insert').on('click', '.deleteBtn', function () {
-    var index = $(this).data('index');
-    $.ajax({
-        url: '/deleteList',
-        method: 'POST',
-        data: { index: index },
-        success: function(response) {
-            showRevFile(response);
-
-        },
-        error: function(error) {
-            showInit();
-        }
-    });
-});
+// $('.insert').on('click', '.deleteBtn', function () {
+//     var index = $(this).data('index');
+//     $.ajax({
+//         url: '/deleteList',
+//         method: 'POST',
+//         data: { index: index },
+//         success: function(response) {
+//             showRevFile(response);
+//
+//         },
+//         error: function(error) {
+//             showInit();
+//         }
+//     });
+// });
 
 // 파일 저장
 // $('.hidden-group').on('click', '.saveBtn', function (){

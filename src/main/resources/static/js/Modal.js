@@ -159,9 +159,9 @@ function displayData(data) {
     dateHeading.textContent = "날짜";
     headerRow.appendChild(dateHeading);
 
-    const commentHeading = document.createElement("th");
-    commentHeading.textContent = "메모";
-    headerRow.appendChild(commentHeading);
+    // const commentHeading = document.createElement("th");
+    // commentHeading.textContent = "메모";
+    // headerRow.appendChild(commentHeading);
 
     const comparisonAlgorithmHeading = document.createElement("th");
     comparisonAlgorithmHeading.textContent = "비교개수";
@@ -193,9 +193,9 @@ function displayData(data) {
 
         listItem.appendChild(dateCell);
 
-        const commentCell = document.createElement("td");
-        commentCell.textContent = data[i].comment;
-        listItem.appendChild(commentCell);
+        // const commentCell = document.createElement("td");
+        // commentCell.textContent = data[i].comment;
+        // listItem.appendChild(commentCell);
 
         const comparisonAlgorithmCell = document.createElement("td");
         comparisonAlgorithmCell.textContent = data[i].amount;
