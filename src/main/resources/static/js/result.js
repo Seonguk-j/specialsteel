@@ -87,8 +87,6 @@ function showOriFile(response) {
     html += "<li class='list-group-item'>합금철 총 투입량 : " + response.totalAmount + "</li>";
     html += "<li class='list-group-item'>예상 용강량 : " + response.expectOutput + "</li>";
     html += "<li class='list-group-item'>방법 : " + response.method + "</li>";
-    html += "<div class='memo-container list-group-item'><label>메모 : </label>"
-    html += "<textarea id='commentOriTextarea' placeholder='메모를 입력하세요'>" + response.comment + "</textarea></div>";
     html += "</div>";
 
     $(".oriInsert").html(html);
@@ -233,8 +231,6 @@ function showRevFile(response) {
     html += "<li class='list-group-item'>합금철 총 투입량 : " + response.totalAmount + "</li>";
     html += "<li class='list-group-item'>예상 용강량 : " + response.expectOutput + "</li>";
     html += "<li class='list-group-item'>방법 : " + response.method + "</li>";
-    html += "<div class='memo-container list-group-item'><label>메모 : </label>"
-    html += "<textarea id='commentRevTextarea' placeholder='메모를 입력하세요'>" + response.comment + "</textarea></div>";
     html += "<div>";
 
 
@@ -465,8 +461,6 @@ function showRevFile1(response) {
     html += "<li class='list-group-item'>합금철 총 투입량 : " + response.totalAmount + "</li>";
     html += "<li class='list-group-item'>예상 용강량 : " + response.expectOutput + "</li>";
     html += "<li class='list-group-item'>방법 : " + response.method + "</li>";
-    html += "<div class='memo-container list-group-item'><label>메모 : </label>"
-    html += "<textarea id='commentRevTextarea' placeholder='메모를 입력하세요'>" + response.comment + "</textarea></div>";
     html += "<div>";
     console.log("리스폰스길이 - "+response.length);
     for(var i = 0; i < response.length; i++) {

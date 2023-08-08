@@ -45,10 +45,6 @@
                     <div class="card-body">
                         <div class="title-file-group row">
                             <h5 class="h5 col-5">기존 알고리즘 결과</h5>
-                            <div class="file-group col-7">
-                                <input type="file" name="file" id="originalFile1"/>
-                                <button class="btn uploadBtn" id="oriUploadBtn">Upload</button>
-                            </div>
                         </div>
                         <div class="oriInsert list-group">
                             <li class="list-group-item">합금철 총 투입비용 : </li>
@@ -62,10 +58,6 @@
                     <div class="card-body">
                         <div class="title-file-group row">
                             <h5 class="h5 col-5">수정 알고리즘 결과</h5>
-                            <div class="file-group col-7">
-                                <input name="uploadFiles" id="fileInput" type="file" multiple >
-                                <button class="btn uploadBtn" id="revUploadBtn">Upload</button>
-                            </div>
                         </div>
                         <div class="insert list-group">
                             <li class="list-group-item">합금철 총 투입비용 : </li>
@@ -128,68 +120,6 @@
 <script src="js/result.js"></script>.
 <script src="js/Modal.js"></script>
 <script>
-
-    // $('#test').click(function () {
-    //     var inputFile = $("input[type='file']")[0];
-    //     handleFiles(Array.from(inputFile.files), 0);
-    // });
-    //
-    // function handleFiles(files, index) {
-    //     if (index >= files.length) {
-    //         // 파일 처리가 모두 끝났을 때 마지막에 실행할 코드
-    //         $.ajax({
-    //             url: '/showList',
-    //             processData: false,
-    //             contentType: false,
-    //             method: 'GET',
-    //             success: function (result) {
-    //                 showUploadedList(result);
-    //             },
-    //             error: function () {
-    //             }
-    //         });
-    //         return;
-    //     }
-    //
-    //     var file = files[index];
-    //     var reader = new FileReader();
-    //     reader.readAsText(file);
-    //
-    //     reader.onload = function (e) {
-    //         var fileContent = e.target.result;
-    //         try {
-    //             $.ajax({
-    //                 url: 'http://172.20.10.21:17080/mix',
-    //                 processData: false,
-    //                 contentType: false,
-    //                 data: fileContent,
-    //                 type: 'POST',
-    //                 success: function (result) {
-    //                     postOriResponseJson(result);
-    //                     // 다음 파일 처리를 위해 재귀 호출
-    //                     handleFiles(files, index + 1);
-    //                 },
-    //                 error: function () {
-    //                 }
-    //             });
-    //             $.ajax({
-    //                 url: 'http://172.20.10.21:17080/mix2',
-    //                 processData: false,
-    //                 contentType: false,
-    //                 data: fileContent,
-    //                 type: 'POST',
-    //                 success: function (result) {
-    //                     postRevResponseJson(result);
-    //                 },
-    //                 error: function () {
-    //                 }
-    //             });
-    //             $(this).prev("input[type='file']").val("");
-    //         } catch (error) {
-    //             console.error("Error parsing JSON:", error);
-    //         }
-    //     };
-    // }
 
 
 
