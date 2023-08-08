@@ -128,71 +128,6 @@
 <script src="js/result.js"></script>.
 <script src="js/Modal.js"></script>
 <script>
-
-    // $('#test').click(function () {
-    //     var inputFile = $("input[type='file']")[0];
-    //     handleFiles(Array.from(inputFile.files), 0);
-    // });
-    //
-    // function handleFiles(files, index) {
-    //     if (index >= files.length) {
-    //         // 파일 처리가 모두 끝났을 때 마지막에 실행할 코드
-    //         $.ajax({
-    //             url: '/showList',
-    //             processData: false,
-    //             contentType: false,
-    //             method: 'GET',
-    //             success: function (result) {
-    //                 showUploadedList(result);
-    //             },
-    //             error: function () {
-    //             }
-    //         });
-    //         return;
-    //     }
-    //
-    //     var file = files[index];
-    //     var reader = new FileReader();
-    //     reader.readAsText(file);
-    //
-    //     reader.onload = function (e) {
-    //         var fileContent = e.target.result;
-    //         try {
-    //             $.ajax({
-    //                 url: 'http://172.20.10.21:17080/mix',
-    //                 processData: false,
-    //                 contentType: false,
-    //                 data: fileContent,
-    //                 type: 'POST',
-    //                 success: function (result) {
-    //                     postOriResponseJson(result);
-    //                     // 다음 파일 처리를 위해 재귀 호출
-    //                     handleFiles(files, index + 1);
-    //                 },
-    //                 error: function () {
-    //                 }
-    //             });
-    //             $.ajax({
-    //                 url: 'http://172.20.10.21:17080/mix2',
-    //                 processData: false,
-    //                 contentType: false,
-    //                 data: fileContent,
-    //                 type: 'POST',
-    //                 success: function (result) {
-    //                     postRevResponseJson(result);
-    //                 },
-    //                 error: function () {
-    //                 }
-    //             });
-    //             $(this).prev("input[type='file']").val("");
-    //         } catch (error) {
-    //             console.error("Error parsing JSON:", error);
-    //         }
-    //     };
-    // }
-
-
-
     $('#fileUpload').click(async function (){
         await initList();
         await sendRequestFile(); // testUpload 실행 후 test2 실행
@@ -237,6 +172,7 @@
                                 data: fileContent,
                                 type: 'POST',
                                 success: function (result) {
+                                    // console.log(result);
                                     postOriResponseJson(result);
                                 },
                                 error: function () {
@@ -312,10 +248,10 @@
             data: result,
             type: 'POST',
             success: function (response){
-                console.log(response);
+                console.log(response[0]);
             },
             error: function (error){
-                // alert("기존 알고리즘이 없습니다.");
+                alert("기존 알고리즘이 없습니다.");
             }
         });
     }

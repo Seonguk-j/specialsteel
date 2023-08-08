@@ -29,14 +29,12 @@ public class OriResult extends BaseEntity{
     @Column
     private String method;
 
-    @Column
-    private String comment;
-
-    @Column
-    private String title;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "history_id")
+    private History history;
 
     public ResultDTO entityToDTO() {
-        return new ResultDTO(id, totalCost, totalAmount, null, expectOutput, null, method, 0, comment, 0, null, title);
+        return new ResultDTO(id, totalCost, totalAmount, null, expectOutput, null, method, 0, null);
     }
 
 }

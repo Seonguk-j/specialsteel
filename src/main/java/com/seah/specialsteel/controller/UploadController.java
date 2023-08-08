@@ -53,14 +53,16 @@ public class UploadController {
     }
 
     @PostMapping("/revResponseData")
-    public ResponseEntity<List<String>> revResponseData(@RequestBody()String oriResponseData) throws Exception {
+    public ResponseEntity<List<String>> revResponseData(@RequestBody()String revResponseData) throws Exception {
         List<String> test = new ArrayList<>();
-        test.add("성공1");
+//        test.add("성공rev");
 
-        ResultDTO resultDTO = new ResultDTO(oriResponseData);
+//        log.info("확인용" + revResponseData.toString());
+        ResultDTO resultDTO = new ResultDTO(revResponseData);
+//        log.info("확인용 : " + resultDTO.toString());
         revResultDTOList.add(resultDTO);
 
-        log.info(resultDTO);
+//        log.info(resultDTO);
 
         return new ResponseEntity<>(test, HttpStatus.OK);
     }
@@ -82,21 +84,21 @@ public class UploadController {
 //    }
 
     //파일 저장
-    @PostMapping("/revUploadAjax")
-    public ResponseEntity<List<ResultDTO>> resultDTO(MultipartFile[] uploadfiles) throws Exception {
-        List<String> uploadResultList = fileService.uploadResult(uploadfiles);
-        int i = 0;
-        revResultDTOList = new ArrayList<>();
-
-        for (String str : uploadResultList) {
-            revResultDTOList.add(new ResultDTO(str));
-            revResultDTOList.get(i).setIndex(i);
-            i++;
-            fileService.deleteFile(str);
-        }
-
-        return new ResponseEntity<>(revResultDTOList, HttpStatus.OK);
-    }
+//    @PostMapping("/revUploadAjax")
+//    public ResponseEntity<List<ResultDTO>> resultDTO(MultipartFile[] uploadfiles) throws Exception {
+//        List<String> uploadResultList = fileService.uploadResult(uploadfiles);
+//        int i = 0;
+//        revResultDTOList = new ArrayList<>();
+//
+//        for (String str : uploadResultList) {
+//            revResultDTOList.add(new ResultDTO(str));
+//            revResultDTOList.get(i).setIndex(i);
+//            i++;
+//            fileService.deleteFile(str);
+//        }
+//
+//        return new ResponseEntity<>(revResultDTOList, HttpStatus.OK);
+//    }
 
 
     //기존 알고리즘 json파일을 dto에 담아서 보내기
@@ -130,7 +132,7 @@ public class UploadController {
 
     @PostMapping("/sendRevFileName")
     public ResponseEntity<Map<String, Object>> receiveRevResultDTO(@RequestParam ("index")int index) {
-        System.out.println("왜안되지?" + index);
+//        System.out.println("왜안되지?" + index);
         revResultDTOList.get(index).setLength(revResultDTOList.size());
         ResultDTO revResultDTO = revResultDTOList.get(index);
 
@@ -144,37 +146,40 @@ public class UploadController {
 
         return ResponseEntity.ok(response);
     }
-
-    @PostMapping("/deleteList")
-    public ResponseEntity<ResultDTO> deleteFile(String index){
-
-        revResultDTOList.remove(Integer.parseInt(index));
-        if(revResultDTOList.isEmpty()){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }else {
-            revResultDTOList.get(0).setLength(revResultDTOList.size());
-            for (int i = 0; i < revResultDTOList.size(); i++) {
-                revResultDTOList.get(i).setIndex(i);
-            }
-            return new ResponseEntity<>(revResultDTOList.get(0), HttpStatus.OK);
-        }
-    }
-
-//    @PostMapping("/saveHistory")
-//    public ResponseEntity<String>saveHistory(@RequestParam ("index")int index, @RequestParam ("revComment")String revComment, @RequestParam ("oriComment")String oriComment,@RequestParam ("title")String title) {
 //
-//        if(oriResultDTO != null) {
+//    @PostMapping("/deleteList")
+//    public ResponseEntity<ResultDTO> deleteFile(String index){
+//
+//        revResultDTOList.remove(Integer.parseInt(index));
+//        if(revResultDTOList.isEmpty()){
+//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//        }else {
+//            revResultDTOList.get(0).setLength(revResultDTOList.size());
+//            for (int i = 0; i < revResultDTOList.size(); i++) {
+//                revResultDTOList.get(i).setIndex(i);
+//            }
+//            return new ResponseEntity<>(revResultDTOList.get(0), HttpStatus.OK);
+//        }
+//    }
+
+
+    // 원본
+//    @PostMapping("/saveHistory")
+//    public ResponseEntity<String>saveHistory(@RequestParam ("index")int index,@RequestParam ("revComment")String revComment, @RequestParam ("oriComment")String oriComment,@RequestParam ("title")String title) {
+//        if(!oriResultDTO == null) {
 //            revResultDTOList.get(index).setComment(revComment);
 //            oriResultDTO.setTitle(title);
 //            oriResultDTO.setComment(oriComment);
 //
-//            historyService.saveHistory(oriResultDTO, revResultDTOList.get(index));
+//            historyService.saveHistory(oriResultDTO, revResultDTOList.get(index)); --> 원본
 //            return new ResponseEntity(HttpStatus.OK);
 //        }else {
 //            return new ResponseEntity(HttpStatus.BAD_REQUEST);
 //        }
 //    }
-//
+
+
+    // 원본
 //    @PostMapping("/allSaveHistory")
 //    public ResponseEntity<String>allSaveHistory(@RequestParam ("index") int index, @RequestParam ("revComment")String revComment, @RequestParam ("oriComment")String oriComment, @RequestParam ("title")String title) {
 //        if(oriResultDTO != null) {
@@ -188,5 +193,16 @@ public class UploadController {
 //            return new ResponseEntity(HttpStatus.BAD_REQUEST);
 //        }
 //    }
+
+    // 수정
+    @PostMapping("/allSaveHistory")
+    public ResponseEntity<String> allSaveHistory(@RequestParam ("title")String title) {
+        if(!oriResultDTOList.isEmpty()) {
+            historyService.saveAllHistory(title, oriResultDTOList, revResultDTOList);
+            return new ResponseEntity(HttpStatus.OK);
+        }else {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+    }
 
 }

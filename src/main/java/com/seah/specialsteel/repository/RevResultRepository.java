@@ -12,6 +12,7 @@ import java.util.Optional;
 public interface RevResultRepository extends JpaRepository<RevResult, Long> {
     List<RevResult> findByModDateBetween(LocalDateTime startDate, LocalDateTime endDate);
 
-    List<RevResult> findByOriResultId(Long oriResultId);
+//    List<RevResult> findByOriResultId(Long oriResultId);
+    List<RevResult> findByHistoryId(Long HistoryId);
 
 }

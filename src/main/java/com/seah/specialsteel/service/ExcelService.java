@@ -50,12 +50,12 @@ public class ExcelService {
         if(orResultId!= null){
         OriResult oriResult = oriResultRepository.findById(orResultId).orElseThrow();
         List<String> oriData = new ArrayList<>();
-        oriData.add(oriResult.getTitle());
+//        oriData.add(oriResult.getTitle());
         oriData.add(Double.toString(oriResult.getTotalCost()));
         oriData.add(Double.toString(oriResult.getTotalAmount()));
         oriData.add(Double.toString(oriResult.getExpectOutput()));
         oriData.add(oriResult.getMethod());
-        oriData.add(oriResult.getComment());
+//        oriData.add(oriResult.getComment());
 
         return oriData;
         }else {
@@ -66,7 +66,7 @@ public class ExcelService {
             revData.add(Double.toString(revResult.getTotalAmount()));
             revData.add(Double.toString(revResult.getExpectOutput()));
             revData.add(revResult.getMethod());
-            revData.add(revResult.getComment());
+//            revData.add(revResult.getComment());
         return revData;
         }
     }
@@ -447,9 +447,9 @@ public class ExcelService {
         c.setCellValue(value);
     }
 
-    public List<Long> revIdList(Long oriId) {
+    public List<Long> revIdList(Long historyId) {
         List<Long> revIdList = new ArrayList<>();
-        List<RevResult> revResultList = revResultRepository.findByOriResultId(oriId);
+        List<RevResult> revResultList = revResultRepository.findByHistoryId(historyId);
         for (RevResult revResult : revResultList) {
             revIdList.add(revResult.getId());
         }

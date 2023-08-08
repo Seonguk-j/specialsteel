@@ -26,16 +26,16 @@ import java.util.List;
 public class ExcelController {
     private final ExcelService excelService;
 
-    @GetMapping("/download/{oriId}")
-    public void download(HttpServletResponse res, @PathVariable Long oriId) throws Exception {
+    @GetMapping("/download/{historyId}")
+    public void download(HttpServletResponse res, @PathVariable Long historyId) throws Exception {
 
-        List<Long> revIdList = excelService.revIdList(oriId);
+        List<Long> revIdList = excelService.revIdList(historyId);
 
         /**
          * excel sheet 생성
          */
         Workbook workbook = new XSSFWorkbook();
-        excelService.createOriSheet(workbook, oriId);
+        excelService.createOriSheet(workbook, historyId);
 
         for(int i = 0; i < revIdList.size(); i++) {
             excelService.createRevSheet(workbook, revIdList.get(i), i + 1);

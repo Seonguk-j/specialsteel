@@ -13,7 +13,7 @@ public class DataDTO {
 
 
     private LocalDateTime date;
-    private String comment;
+//    private String comment;
     private String name;
     private Double amount;
     private Long id;

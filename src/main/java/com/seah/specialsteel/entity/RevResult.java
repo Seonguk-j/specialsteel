@@ -34,14 +34,11 @@ public class RevResult extends BaseEntity{
     @Column
     private String method;
 
-    @Column
-    private String comment;
-
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "OriResult_id")
-    private OriResult oriResult;
+    @JoinColumn(name = "history_id")
+    private History history;
 
     public ResultDTO entityToDTO() {
-        return new ResultDTO(id, totalCost, totalAmount, null, expectOutput, null, method, 0, comment, 0, null, null);
+        return new ResultDTO(id, totalCost, totalAmount, null, expectOutput, null, method, 0, null);
     }
 }
