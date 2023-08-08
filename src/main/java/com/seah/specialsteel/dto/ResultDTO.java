@@ -1,11 +1,13 @@
 package com.seah.specialsteel.dto;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.seah.specialsteel.entity.History;
 import com.seah.specialsteel.entity.OriResult;
 import com.seah.specialsteel.entity.RevResult;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -20,6 +22,7 @@ import java.util.LinkedHashMap;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonSerialize
+@ToString
 public class ResultDTO {
 
     public Long id;
@@ -29,24 +32,25 @@ public class ResultDTO {
     public double expectOutput;                    // 예상 용강량
     public LinkedHashMap<String, String> expectMaterials; // result 예상 성분
     public String method;                          // 방법
-    public int index;                           //인덱스
-    public String comment = "";                         //메모
+//    public int index;                           //인덱스
+//    public String comment = "";                         //메모
     public int length;                              //사이즈
-    public OriResult oriResult;                     //저장용
-    public String title;                            //파일 제목,
+//    public OriResult oriResult;                     //저장용
+    public History history;
+//    public String title;                            //파일 제목,
 
     public RevResult toRevEntity(){
-        return new RevResult(id, totalCost, totalAmount, expectOutput, method, comment, oriResult);
+        return new RevResult(id, totalCost, totalAmount, expectOutput, method, history);
     }
     public OriResult toOriEntity(){
-        return new OriResult(id, totalCost, totalAmount, expectOutput, method, comment,title);
+        return new OriResult(id, totalCost, totalAmount, expectOutput, method, history);
     }
-    public ResultDTO(String oriResponseData) throws IOException, ParseException {
+    public ResultDTO(String responseData) throws IOException, ParseException {
 
         JSONParser parser = new JSONParser();
 
 //        Reader reader = new FileReader(fileName);
-        JSONObject jsonObject = (JSONObject) parser.parse(oriResponseData);
+        JSONObject jsonObject = (JSONObject) parser.parse(responseData);
 //        JSONObject jsonObject = (JSONObject) parser.parse(reader);
 
         this.setTotalCost((Double) jsonObject.get("합금철_총_투입비용"));
