@@ -30,7 +30,7 @@
                     <div class="date-search-container">
                         <!-- 테스트-->
                         <input type="file" name="file" id="jsonFile" multiple/>
-                        <button id="test" >파일 업로드</button>
+                        <button id="fileUpload" >파일 업로드</button>
 
                         <button class="show-Btn" onclick="showModal()">조회</button>
 
@@ -193,12 +193,31 @@
 
 
 
-    $('#test').click(async function (){
-        await testUpload(); // testUpload 실행 후 test2 실행
-        await test2();
+    $('#fileUpload').click(async function (){
+        await initList();
+        await sendRequestFile(); // testUpload 실행 후 test2 실행
+        await showList();
     });
 
-    function testUpload(){
+    function initList() {
+        return new Promise(async (resolve, reject) => {
+            $.ajax({
+                url: '/initResultDtoList',
+                processData: false,
+                contentType: false,
+                method: 'GET',
+                success: function (result) {
+                    console.log(result);
+                    resolve();
+                },
+                error: function () {
+                    reject();
+                }
+            });
+        })
+    }
+
+    function sendRequestFile(){
         return new Promise(async (resolve, reject) => {
             var inputFile = $("input[type='file']")[0];
             if(inputFile.files.length > 0) {
@@ -249,7 +268,7 @@
         });
     }
 
-    function test2(){
+    function showList(){
         return new Promise((resolve, reject) => {
             $.ajax({
                 url: '/showList',
