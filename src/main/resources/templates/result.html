@@ -28,7 +28,12 @@
             <div class="row">
                 <div class="card1 card col-12">
                     <div class="date-search-container">
+                        <!-- 테스트-->
+                        <input type="file" name="file" id="jsonFile" multiple/>
+                        <button id="test" >파일 업로드</button>
+
                         <button class="show-Btn" onclick="showModal()">조회</button>
+
                     </div>
                 </div>
             </div>
@@ -122,6 +127,180 @@
 
 <script src="js/result.js"></script>.
 <script src="js/Modal.js"></script>
+<script>
+
+    // $('#test').click(function () {
+    //     var inputFile = $("input[type='file']")[0];
+    //     handleFiles(Array.from(inputFile.files), 0);
+    // });
+    //
+    // function handleFiles(files, index) {
+    //     if (index >= files.length) {
+    //         // 파일 처리가 모두 끝났을 때 마지막에 실행할 코드
+    //         $.ajax({
+    //             url: '/showList',
+    //             processData: false,
+    //             contentType: false,
+    //             method: 'GET',
+    //             success: function (result) {
+    //                 showUploadedList(result);
+    //             },
+    //             error: function () {
+    //             }
+    //         });
+    //         return;
+    //     }
+    //
+    //     var file = files[index];
+    //     var reader = new FileReader();
+    //     reader.readAsText(file);
+    //
+    //     reader.onload = function (e) {
+    //         var fileContent = e.target.result;
+    //         try {
+    //             $.ajax({
+    //                 url: 'http://172.20.10.21:17080/mix',
+    //                 processData: false,
+    //                 contentType: false,
+    //                 data: fileContent,
+    //                 type: 'POST',
+    //                 success: function (result) {
+    //                     postOriResponseJson(result);
+    //                     // 다음 파일 처리를 위해 재귀 호출
+    //                     handleFiles(files, index + 1);
+    //                 },
+    //                 error: function () {
+    //                 }
+    //             });
+    //             $.ajax({
+    //                 url: 'http://172.20.10.21:17080/mix2',
+    //                 processData: false,
+    //                 contentType: false,
+    //                 data: fileContent,
+    //                 type: 'POST',
+    //                 success: function (result) {
+    //                     postRevResponseJson(result);
+    //                 },
+    //                 error: function () {
+    //                 }
+    //             });
+    //             $(this).prev("input[type='file']").val("");
+    //         } catch (error) {
+    //             console.error("Error parsing JSON:", error);
+    //         }
+    //     };
+    // }
+
+
+
+    $('#test').click(async function (){
+        await testUpload(); // testUpload 실행 후 test2 실행
+        await test2();
+    });
+
+    function testUpload(){
+        return new Promise(async (resolve, reject) => {
+            var inputFile = $("input[type='file']")[0];
+            if(inputFile.files.length > 0) {
+                for (var i = 0; i < inputFile.files.length; i++) {
+                    var file = inputFile.files[i];
+                    var reader = new FileReader();
+                    reader.readAsText(file);
+
+                    reader.onload = async function (e) {
+                        var fileContent = e.target.result;
+                        try {
+                            //uplaod ajax
+                            await $.ajax({
+                                url: 'http://172.20.10.21:17080/mix',
+                                processData: false,
+                                contentType: false,
+                                data: fileContent,
+                                type: 'POST',
+                                success: function (result) {
+                                    postOriResponseJson(result);
+                                },
+                                error: function () {
+                                }
+                            });
+                            await $.ajax({
+                                url: 'http://172.20.10.21:17080/mix2',
+                                processData: false,
+                                contentType: false,
+                                data: fileContent,
+                                type: 'POST',
+                                success: function (result) {
+                                    postRevResponseJson(result);
+                                },
+                                error: function () {
+                                }
+                            });
+                            $(this).prev("input[type='file']").val("");
+                            resolve();
+                        } catch (error) {
+                            console.error("Error parsing JSON:", error);
+                            reject(error);
+                        }
+                    };
+                }
+            } else {
+                resolve();
+            }
+        });
+    }
+
+    function test2(){
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: '/showList',
+                processData: false,
+                contentType: false,
+                method: 'GET',
+                success: function (result) {
+                    showUploadedList(result);
+                    resolve();
+                },
+                error: function () {
+                    reject();
+                }
+            });
+        });
+    }
+
+
+    // //response json 파일 controller로 전송
+    function postOriResponseJson(result){
+
+        $.ajax({
+            url: '/oriResponseData',
+            contentType: 'application/json; charset=utf-8', // 인코딩 설정
+            data: result,
+            type: 'POST',
+            success: function (response){
+                console.log(response);
+            },
+            error: function (error){
+                // alert("기존 알고리즘이 없습니다.");
+            }
+        });
+    }
+
+    function postRevResponseJson(result){
+
+        $.ajax({
+            url: '/revResponseData',
+            contentType: 'application/json; charset=utf-8', // 인코딩 설정
+            data: result,
+            type: 'POST',
+            success: function (response){
+                console.log(response);
+            },
+            error: function (error){
+                // alert("기존 알고리즘이 없습니다.");
+            }
+        });
+    }
+</script>
 </body>
 
 </html>

@@ -19,8 +19,7 @@ $('#oriUploadBtn').click(function (){
     // event.preventDefault();
     var formData = new FormData();
     var inputFile = $("input[type='file']");
-    var files = inputFile[0].files;
-
+    var files = inputFile[1].files;
     formData.append("uploadfiles", files[0]);
 
     //uplaod ajax
@@ -40,10 +39,33 @@ $('#oriUploadBtn').click(function (){
     $(this).prev("input[type='file']").val("");
 });
 
-function sendOriFileName() {
+//request json파일 api 전송
+
+
+
+// function sendOriFileName() {
+//     // Ajax 요청을 사용하여 백엔드에 데이터를 전송
+//     $.ajax({
+//         url: '/sendOriFileName',
+//         method: 'POST',
+//         success: function(response) {
+//             // 요청이 성공한 경우의 동작
+//             showOriFile(response);
+//         },
+//         error: function(error) {
+//             // 요청이 실패한 경우의 동작
+//             console.log(error);
+//         }
+//     });
+// }
+
+
+function sendOriFileName(index) {
+
     // Ajax 요청을 사용하여 백엔드에 데이터를 전송
     $.ajax({
         url: '/sendOriFileName',
+        data: { index: index },
         method: 'POST',
         success: function(response) {
             // 요청이 성공한 경우의 동작
@@ -55,6 +77,7 @@ function sendOriFileName() {
         }
     });
 }
+
 
 //
 function showOriFile(response) {
@@ -109,14 +132,18 @@ function showUploadedList(arr) {
     event.preventDefault();
     var html = "";
     html += "<div class='changeTest'>";
-    for (var i = 0; i < arr.length; i++) {
-        html += "<a href='#' class='pagebtn btn m-1' onclick='sendRevFileName(\"" + i + "\")'>" + (i+1) + "</a>";
+    for (var i = 0; i < arr; i++) {
+        html += "<a href='#' class='pagebtn btn m-1' onclick='sendFileName(\"" + i + "\")'>" + (i+1) + "</a>";
     }
     html += "</div>";
     $("#uploadResult").html(html);
 
 }
 
+function sendFileName(index) {
+    sendOriFileName(index);
+    sendRevFileName(index);
+}
 function sendRevFileName(index) {
 
     $.ajax({
