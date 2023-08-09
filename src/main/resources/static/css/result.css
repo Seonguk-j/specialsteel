@@ -359,4 +359,10 @@ input[type=file]::file-selector-button:hover {
 }
 
 
+#alloy_chart {
+    margin: 10px;
+}
+#material_chart {
+    margin: 10px;
+}
 

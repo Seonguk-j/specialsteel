@@ -123,23 +123,20 @@
 }
 
 /* 넓은 컬럼 */
-listContainer th:nth-child(2),
-listContainer td:nth-child(2),
-listContainer th:nth-child(4),
-listContainer td:nth-child(4) {
-    width: 200px;
+#listContainer th:nth-child(2),
+#listContainer td:nth-child(2),
+#listContainer th:nth-child(3),
+#listContainer td:nth-child(3) {
+    width: 300px;
 }
 
 /* 좁은 컬럼 */
-listContainer th:nth-child(1),
-listContainer td:nth-child(1) {
-    width: 40px;
+#listContainer th:nth-child(1),
+#listContainer td:nth-child(1) {
+    width: 60px;
 }
 
-listContainer th:nth-child(5),
-listContainer td:nth-child(5) {
-    width: 100px;
-}
+
 
 
 /*날짜 조회 후 리스트 선택 조회 후 수정알고리즘 업로드 버튼*/
@@ -192,7 +189,7 @@ listContainer td:nth-child(5) {
     color: #fff;
 }
 
-
+/*엑셀 다운 버튼*/
 .Excelbtn {
     padding: 5px 10px;
     border-radius: 5px;

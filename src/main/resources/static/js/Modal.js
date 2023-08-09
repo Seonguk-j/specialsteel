@@ -159,10 +159,6 @@ function displayData(data) {
     dateHeading.textContent = "날짜";
     headerRow.appendChild(dateHeading);
 
-    const commentHeading = document.createElement("th");
-    commentHeading.textContent = "메모";
-    headerRow.appendChild(commentHeading);
-
     const comparisonAlgorithmHeading = document.createElement("th");
     comparisonAlgorithmHeading.textContent = "비교개수";
     headerRow.appendChild(comparisonAlgorithmHeading);
@@ -179,10 +175,12 @@ function displayData(data) {
         // Create elements for each column
         const numberCell = document.createElement("td");
         numberCell.textContent = i + 1;
+        numberCell.classList.add("column-number"); // 클래스 추가
         listItem.appendChild(numberCell);
 
         const titleCell = document.createElement("td");
         titleCell.textContent = data[i].title;
+        titleCell.classList.add("column-title"); // 클래스 추가
         listItem.appendChild(titleCell);
 
         const dateCell = document.createElement("td");
@@ -190,15 +188,12 @@ function displayData(data) {
         const date = new Date(data[i].date); // 받은 날짜 정보를 JavaScript Date 객체로 변환합니다.
         const formattedDate = formatDate(date); // 원하는 형식으로 날짜를 변환하는 함수를 호출합니다.
         dateCell.textContent = formattedDate;
-
+        dateCell.classList.add("column-date"); // 클래스 추가
         listItem.appendChild(dateCell);
-
-        const commentCell = document.createElement("td");
-        commentCell.textContent = data[i].comment;
-        listItem.appendChild(commentCell);
 
         const comparisonAlgorithmCell = document.createElement("td");
         comparisonAlgorithmCell.textContent = data[i].amount;
+        comparisonAlgorithmCell.classList.add("column-comparison"); // 클래스 추가
         listItem.appendChild(comparisonAlgorithmCell);
 
         // 클릭 상태를 저장하는 변수를 추가합니다.
