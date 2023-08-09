@@ -131,6 +131,7 @@
     $('#fileUpload').click(async function (){
         await initList();
         await sendRequestFile(); // testUpload 실행 후 test2 실행
+        // await delay(200);
         await filterList();
         await showList();
     });
@@ -154,56 +155,67 @@
         })
     }
 
-    function sendRequestFile(){
+    async function sendRequestFile() {
         return new Promise(async (resolve, reject) => {
             var inputFile = $("input[type='file']")[0];
-            if(inputFile.files.length > 0) {
+            if (inputFile.files.length > 0) {
                 for (var i = 0; i < inputFile.files.length; i++) {
                     var file = inputFile.files[i];
-                    var reader = new FileReader();
-                    reader.readAsText(file);
-
-                    reader.onload = async function (e) {
-                        var fileContent = e.target.result;
-                        try {
-                            //uplaod ajax
-                            await $.ajax({
-                                url: 'http://172.20.10.21:17080/mix',
-                                processData: false,
-                                contentType: false,
-                                data: fileContent,
-                                type: 'POST',
-                                success: async function (result) {
-                                    // console.log(result);
-                                    postOriResponseJson(result);
-                                },
-                                error: function () {
-                                }
-                            });
-                            await $.ajax({
-                                url: 'http://172.20.10.21:17080/mix2',
-                                processData: false,
-                                contentType: false,
-                                data: fileContent,
-                                type: 'POST',
-                                success: async function (result) {
-                                    postRevResponseJson(result);
-                                },
-                                error: function () {
-                                }
-                            });
-                            $(this).prev("input[type='file']").val("");
-                            resolve();
-                        } catch (error) {
-                            console.error("Error parsing JSON:", error);
-                            reject(error);
-                        }
-                    };
+                    await processFile(file); // 비동기 파일 처리 함수를 await로 호출
                 }
-            } else {
-                resolve();
             }
+            resolve(); // sendRequestFile 함수 완료를 알림
         });
+    }
+
+    async function processFile(file) {
+        return new Promise(async (resolve, reject) => {
+            var reader = new FileReader();
+            reader.readAsText(file);
+
+            reader.onload = async function (e) {
+                var fileContent = e.target.result;
+                try {
+                    // uplaod ajax
+                    await $.ajax({
+                        url: 'http://172.20.10.21:17080/mix',
+                        processData: false,
+                        contentType: false,
+                        data: fileContent,
+                        type: 'POST',
+                        success: async function (result) {
+                            postOriResponseJson(result);
+                        },
+                        error: function () {
+                        }
+                    });
+
+                    await $.ajax({
+                        url: 'http://172.20.10.21:17080/mix2',
+                        processData: false,
+                        contentType: false,
+                        data: fileContent,
+                        type: 'POST',
+                        success: async function (result) {
+                            postRevResponseJson(result);
+                        },
+                        error: function () {
+                        }
+                    });
+
+                    $(this).prev("input[type='file']").val("");
+                    await delay(20);
+                    resolve(); // 파일 처리가 완료됨을 알림
+                } catch (error) {
+                    console.error("Error parsing JSON:", error);
+                    reject(error);
+                }
+            };
+        });
+    }
+
+    function delay(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
     }
 
     function filterList() {

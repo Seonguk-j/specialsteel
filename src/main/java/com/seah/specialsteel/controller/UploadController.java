@@ -52,17 +52,16 @@ public class UploadController {
     public ResponseEntity<List<String>> revResponseData(@RequestBody()String revResponseData) throws Exception {
         List<String> test = new ArrayList<>();
 
-        log.info("몇번되냐?");
         ResultDTO resultDTO = new ResultDTO(revResponseData);
         revResultDTOList.add(resultDTO);
 
         return new ResponseEntity<>(test, HttpStatus.OK);
     }
 
+
+    // 차이가 없을경우 리스트에서 제거하는 부분
     @GetMapping("/filterList")
     public ResponseEntity<String> filterList() {
-        log.info("몇이길래?" + oriResultDTOList.size());
-        log.info("얘는 몇이길래?" + revResultDTOList.size());
         if (!oriResultDTOList.isEmpty()) {
             for(int i = 0; i < oriResultDTOList.size(); i++) {
                 CompareDTO compareDTO = new CompareDTO(oriResultDTOList.get(i), revResultDTOList.get(i));
