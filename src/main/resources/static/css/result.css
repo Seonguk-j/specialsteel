@@ -161,10 +161,10 @@ li {
 
 
 /*수정 알고리즘 결과 데이터파일 숫자 버튼*/
-#uploadResult {
+.changeTest {
     margin-top: 20px;
-
 }
+
 
 
 /*파일업로드 숫자 버튼*/

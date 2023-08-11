@@ -235,10 +235,11 @@ function showRevFile(response) {
 
 
     //------------------------------ 수정중인부분
+    html += "<div class='changeTest'>";
     for(var i = 0; i < response.length; i++) {
         html += "<a href='#' id='uploadResult' class='pagebtn btn m-1' onclick='sendFileName(\"" + i + "\")'>" + (i + 1) + "</a>";
     }
-
+    html += "</div>";
     // for (var i = 0; i < response.length; i++) {
     //     if (i === nowIndex) {
     //         html += "<a href='#' id='uploadResult' class='pagebtn btn active m-1' onclick='saveComment(\"" + i + "\",\"" + response.index + "\", $(\"#commentRevTextarea\").val())'>" + (i + 1) + "</a>";
