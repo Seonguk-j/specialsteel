@@ -43,10 +43,14 @@ dependencies {
 	//excel
 	implementation group: 'org.apache.poi', name: 'poi', version: '5.0.0'
 	implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '5.0.0'
+	//utf-8
+	implementation 'com.github.albfernandez:juniversalchardet:2.4.0'
 	// querydsl 라이브러리
 	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
 	//  Querydsl 관련 코드 생성 기능 제공
 	annotationProcessor "com.querydsl:querydsl-apt:${queryDslVersion}"
+
+
 }
 
 tasks.named('test') {

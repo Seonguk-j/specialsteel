@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -15,33 +16,48 @@
 </head>
 
 <body>
-<!-- 네비바 -->
-<header th:insert="header"></header>
+    <!-- 네비바 -->
+    <header th:insert="header"></header>
 
-<!-- 버튼 그룹 -->
-<div class="groupbtn" aria-label="Button group">
-    <button class="Btn1 btn">데이터 업로드</button>
-    <button class="Btn1 btn">변환방법</button>
-    <button class="Excelbtn btn">다운로드(.xlsx)</button>
-</div>
+    <!-- 버튼 그룹 -->
+    <div class="groupbtn" aria-label="Button group">
+        <button class="Btn1 btn">데이터 업로드</button>
+        <button class="Btn1 btn">변환방법</button>
+        <button class="Excelbtn btn">다운로드(.xlsx)</button>
+    </div>
 
 
-<!-- content 영역 -->
-<div class="content">
-    <div class="card col-12">
-        <div class="card-body">
-            <div class="bodytable">
-                <h5 class="h5">미리보기</h5>
-                <li>Heat 정보 : </li>
-                <div class="card-table">
+    <!-- content 영역 -->
+    <div class="content">
+        <div class="container-fluid">
+            <!-- 버튼 그룹 -->
+            <div class="row1">
+                <div class="btn-group" role="group" aria-label="Button group">
+                    <button onclick="choiceFileModal()" type="button" class="btn btn-secondary">데이터 업로드</button>
+                    <button onclick="changeDbSave()" type="button" class="btn btn-secondary">DB저장</button>
+                    <button onclick="csvOrExcelDownload()" type="button" class="btn btn-secondary">다운로드(.xlsx)</button>
+                </div>
+            </div>
+            <th:block th:insert="Modal"></th:block>
+            <div class="row clear">
+                <div class="card col-12">
+                    <div class="card-body" id="previewArea">
+                        <h5 class="h5">미리보기</h5>
+                        <li>Heat 정보 : </li>
+                        <div class="card-table">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+        <div th:insert="footer"></div>
     </div>
-    <div th:insert="footer"></div>
-</div>
 
 
-<script src="js/encoding.js"></script>
+    <script src="js/encoding.js"></script>
+    <script src="js/Modal.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/encoding-japanese/1.0.30/encoding.min.js"></script>
 </body>
+
 </html>
