@@ -41,13 +41,9 @@ public class UploadController {
     @PostMapping("/oriResponseData")
     public ResponseEntity<List<String>> oriResponseData(@RequestBody()String oriResponseData) throws Exception {
         List<String> test = new ArrayList<>();
-        test.add("성공1");
-
 
         ResultDTO resultDTO = new ResultDTO(oriResponseData);
         oriResultDTOList.add(resultDTO);
-
-//        log.info(resultDTO);
 
         return new ResponseEntity<>(test, HttpStatus.OK);
     }
@@ -55,16 +51,28 @@ public class UploadController {
     @PostMapping("/revResponseData")
     public ResponseEntity<List<String>> revResponseData(@RequestBody()String revResponseData) throws Exception {
         List<String> test = new ArrayList<>();
-//        test.add("성공rev");
 
-//        log.info("확인용" + revResponseData.toString());
         ResultDTO resultDTO = new ResultDTO(revResponseData);
-//        log.info("확인용 : " + resultDTO.toString());
         revResultDTOList.add(resultDTO);
 
-//        log.info(resultDTO);
-
         return new ResponseEntity<>(test, HttpStatus.OK);
+    }
+
+
+    // 차이가 없을경우 리스트에서 제거하는 부분
+    @GetMapping("/filterList")
+    public ResponseEntity<String> filterList() {
+        if (!oriResultDTOList.isEmpty()) {
+            for(int i = 0; i < oriResultDTOList.size(); i++) {
+                CompareDTO compareDTO = new CompareDTO(oriResultDTOList.get(i), revResultDTOList.get(i));
+                if(compareDTO.diffAlloyInputs.isEmpty() && compareDTO.diffMaterials.isEmpty()){
+                    oriResultDTOList.remove(i);
+                    revResultDTOList.remove(i);
+                    i--;
+                }
+            }
+        }
+        return new ResponseEntity<>("필터 완료", HttpStatus.OK);
     }
 
     @GetMapping("/showList")
@@ -139,7 +147,7 @@ public class UploadController {
         Map<String, Object> response = new HashMap<>();
         response.put("revResultDTO", revResultDTO);
 
-        if (oriResultDTOList != null) {
+        if (!oriResultDTOList.isEmpty()) {
             CompareDTO compareDTO = new CompareDTO(oriResultDTOList.get(index), revResultDTO);
             response.put("compareDTO", compareDTO);
         }
