@@ -1,4 +1,21 @@
-/*기간 선택 버튼*/
+/*
+    1. 기간 선택 버튼
+    2. 검색 버튼 부분
+    3. 모달 날짜조회 버튼 css
+    4. 모달 리스트
+    5. 날짜 조회 후 리스트 선택 조회 후 수정알고리즘 업로드 버튼
+    6. encoding 버튼 및 모달
+
+    =================================================================================
+*/
+
+
+
+
+
+
+
+/* 1. 기간 선택 버튼*/
 #startDate{
     width: 30%;
     margin-right: 10px;
@@ -9,7 +26,8 @@
     width: 30%;
 }
 
-/*검색 버튼 부분*/
+
+/*2. 검색 버튼 부분*/
 .date-search-label {
     margin-right: 10px;
 }
@@ -60,7 +78,7 @@
     justify-content: center; /* 가로 가운데 정렬 */
 }
 
-/* 모달 날짜조회 버튼 css ===========================*/
+/* 3. 모달 날짜조회 버튼 css ===========================*/
 .date-search-label {
     margin-right: 10px;
 }
@@ -76,7 +94,7 @@
 }
 
 
-/*모달 리스트 */
+/* 4. 모달 리스트 */
 
 .list-table th {
     background-color: #2B3035;
@@ -139,7 +157,7 @@
 
 
 
-/*날짜 조회 후 리스트 선택 조회 후 수정알고리즘 업로드 버튼*/
+/* 5. 날짜 조회 후 리스트 선택 조회 후 수정알고리즘 업로드 버튼*/
 .pagebtn {
     background-color: rgb(59,73,81);
     color: #fff;
@@ -204,7 +222,7 @@
     color: #fff;
 }
 
-/*페이징 버튼*/
+/* 페이징 버튼*/
 .pagination-button {
     padding: 5px 10px;
     background-color: rgb(59,73,81);
@@ -236,3 +254,63 @@
     background-color: rgba(59, 73, 81, 0.7);
     color: #fff;
 }
+
+
+
+/*================================================================================*/
+/* 6. encoding 버튼 및 모달*/
+
+/*데이터업로드, 변환방법 버튼, 엑셀버튼*/
+.data-Btn{
+    margin-right: 10px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: rgb(59,73,81);
+    color: #fff;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+.data-Btn:hover {
+    background: rgb(229,78,43);
+    color: #fff;
+}
+
+.change-data-Btn {
+    margin-right: 10px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: rgb(59,73,81);
+    color: #fff;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+.change-data-Btn:hover {
+    background: rgb(229,78,43);
+    color: #fff;
+}
+
+
+/*변환, 닫기 css*/
+
+/*변환버튼*/
+.change-btn{
+
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: rgb(59,73,81);
+    color: #fff;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+.change-btn:hover{
+    background-color: rgba(59, 73, 81, 0.7);
+    color: #fff;
+}
+
+
+
+/*닫기버튼*/
+/*Closebtn 같이씀*/

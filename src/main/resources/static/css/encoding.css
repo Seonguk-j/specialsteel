@@ -6,35 +6,52 @@
     justify-content: flex-end;
 }
 
-.Btn1 {
-    margin-right: 10px;
-    padding: 5px 10px;
-    border-radius: 5px;
-    background-color: rgb(59,73,81);
-    color: #fff;
-    border-radius: 5px;
-    border: none;
-    cursor: pointer;
-}
-.Btn1:hover {
-    background: rgb(229,78,43);
-    color: #fff;
-}
+/*모달 css 로 넘어감*/
+/*!*데이터업로드, 변환방법 버튼, 엑셀버튼*!*/
+/*.data-Btn{*/
+/*    margin-right: 10px;*/
+/*    padding: 5px 10px;*/
+/*    border-radius: 5px;*/
+/*    background-color: rgb(59,73,81);*/
+/*    color: #fff;*/
+/*    border-radius: 5px;*/
+/*    border: none;*/
+/*    cursor: pointer;*/
+/*}*/
+/*.data-Btn:hover {*/
+/*    background: rgb(229,78,43);*/
+/*    color: #fff;*/
+/*}*/
 
-.Excelbtn {
-    padding: 5px 10px;
-    border-radius: 5px;
-    background-color: #217346;
-    color: #fff;
-    border-radius: 5px;
-    border: none;
-    cursor: pointer;
-}
+/*.change-data-Btn {*/
+/*    margin-right: 10px;*/
+/*    padding: 5px 10px;*/
+/*    border-radius: 5px;*/
+/*    background-color: rgb(59,73,81);*/
+/*    color: #fff;*/
+/*    border-radius: 5px;*/
+/*    border: none;*/
+/*    cursor: pointer;*/
+/*}*/
+/*.change-data-Btn:hover {*/
+/*    background: rgb(229,78,43);*/
+/*    color: #fff;*/
+/*}*/
 
-.Excelbtn:hover {
-    background-color: rgba(33, 115, 70, 0.62);
-    color: #fff;
-}
+/*.Excelbtn {*/
+/*    padding: 5px 10px;*/
+/*    border-radius: 5px;*/
+/*    background-color: #217346;*/
+/*    color: #fff;*/
+/*    border-radius: 5px;*/
+/*    border: none;*/
+/*    cursor: pointer;*/
+/*}*/
+
+/*.Excelbtn:hover {*/
+/*    background-color: rgba(33, 115, 70, 0.62);*/
+/*    color: #fff;*/
+/*}*/
 
 
 
