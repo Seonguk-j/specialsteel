@@ -20,14 +20,15 @@
         <!-- 버튼 그룹 -->
         <div class="row1">
             <div class="btn-group" role="group" aria-label="Button group">
-                <button type="button" class="btn btn-secondary">데이터 업로드</button>
-                <button type="button" class="btn btn-secondary">변환방법</button>
-                <button type="button" class="btn btn-secondary">다운로드(.xlsx)</button>
+                <button onclick="choiceFileModal()" type="button" class="btn btn-secondary">데이터 업로드</button>
+                <button onclick="changeDbSave()" type="button" class="btn btn-secondary">DB저장</button>
+                <button onclick="csvOrExcelDownload()" type="button" class="btn btn-secondary">다운로드(.xlsx)</button>
             </div>
         </div>
+        <th:block th:insert="Modal"></th:block>
         <div class="row clear">
             <div class="card col-12">
-                <div class="card-body">
+                <div class="card-body"id="previewArea">
                     <h5 class="h5">미리보기</h5>
                     <li>Heat 정보 : </li>
                     <div class="card-table">
@@ -38,5 +39,8 @@
     </div>
 </div>
 <script src="js/encoding.js"></script>
+<script src="js/Modal.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/encoding-japanese/1.0.30/encoding.min.js"></script>
 </body>
 </html>

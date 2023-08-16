@@ -130,6 +130,9 @@
         var inputFile = $("input[type='file']");
         var files = inputFile[0].files;
 
+        console.log("오리업로드왔어");
+        console.log(inputFile);
+
         formData.append("uploadfiles", files[0]);
 
         //uplaod ajax

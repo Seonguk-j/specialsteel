@@ -49,6 +49,40 @@ function closeAllSaveModal() {
     modal.style.display = 'none';
 }
 
+//변환 선택 모달 ==========================
+
+function closeChoiceModal() {
+    const modal = document.getElementById('choiceModal');
+    modal.style.display = 'none';
+}
+
+//변환 파일 선택 모달 ==========================
+function choiceFileModal() {
+
+    //미리보기 영역 초기화
+    const previewArea = document.getElementById('previewArea');
+    previewArea.innerHTML = '<h5 class="h5">미리보기</h5><li>Heat 정보 : </li><div class="card-table"></div>';
+
+
+    const modal = document.getElementById('choiceFileModal');
+    modal.style.display = 'block';
+}
+
+function closeChoiceFileModal() {
+    const modal = document.getElementById('choiceFileModal');
+    modal.style.display = 'none';
+
+    // 파일 입력 초기화
+    const changeFileInput = document.getElementById('changeFileInput');
+    changeFileInput.value = '';
+
+    // 라디오 버튼 초기화
+    const standardizationRadio = document.getElementById('standardizationRadio');
+    standardizationRadio.checked = true;
+    const normalizationRadio = document.getElementById('normalizationRadio');
+    normalizationRadio.checked = false;
+}
+
 
 // 모달====================================
 
