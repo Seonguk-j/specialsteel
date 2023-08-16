@@ -42,24 +42,6 @@ $('#oriUploadBtn').click(function (){
 //request json파일 api 전송
 
 
-
-// function sendOriFileName() {
-//     // Ajax 요청을 사용하여 백엔드에 데이터를 전송
-//     $.ajax({
-//         url: '/sendOriFileName',
-//         method: 'POST',
-//         success: function(response) {
-//             // 요청이 성공한 경우의 동작
-//             showOriFile(response);
-//         },
-//         error: function(error) {
-//             // 요청이 실패한 경우의 동작
-//             console.log(error);
-//         }
-//     });
-// }
-
-
 function sendOriFileName(index) {
 
     // Ajax 요청을 사용하여 백엔드에 데이터를 전송
@@ -240,14 +222,6 @@ function showRevFile(response) {
         html += "<a href='#' id='uploadResult' class='pagebtn btn m-1' onclick='sendFileName(\"" + i + "\")'>" + (i + 1) + "</a>";
     }
     html += "</div>";
-    // for (var i = 0; i < response.length; i++) {
-    //     if (i === nowIndex) {
-    //         html += "<a href='#' id='uploadResult' class='pagebtn btn active m-1' onclick='saveComment(\"" + i + "\",\"" + response.index + "\", $(\"#commentRevTextarea\").val())'>" + (i + 1) + "</a>";
-    //     } else {
-    //         html += "<a href='#' id='uploadResult' class='pagebtn btn m-1' onclick='saveComment(\"" + i + "\",\"" + response.index + "\", $(\"#commentRevTextarea\").val())'>" + (i + 1) + "</a>";
-        // }
-    // }
-
     html += "</div>";
     html += "<div class='delete-group'>";
     html += "<button class='deleteBtn ' data-index='" + response.index + "'> 삭제</button>";
@@ -276,88 +250,6 @@ function showSaveBtn(){
 }
 
 
-// function saveComment(index, saveIndex, comment) {
-//     $.ajax({
-//         url: '/saveComment',
-//         method: 'POST',
-//         data: { index: index,
-//             saveIndex: saveIndex,
-//             comment: comment},
-//         success: function(response) {
-//             // 요청이 성공한 경우의 동작
-//             showRevFile(response.revResultDTO);
-//             showSaveBtn();
-//             compareDTO = response.compareDTO;
-//
-//             var html ="";
-//             html += "<h5 id='chart-title'>요약 지표</h5>";
-//             html += "<div class='sort-group'>";
-//             html += "<select class='sort-list' id='sort-select' style='margin-right: 10px' onchange='sendSortData()'>";
-//             html += "<option>정렬기준</option>";
-//             html += "<option>이름</option>";
-//             html += "<option>차이값</option>";
-//             html += "</select>";
-//             html += "<div>";
-//             html += "<input type='radio' id='asc' name='order' value='asc' checked onchange='sendSortData()'>오름차순";
-//             html += "<input type='radio' id='desc' name='order' value='desc' onchange='sendSortData()'>내림차순";
-//             html += "</div>";
-//             html += "</div>";
-//             $(".allchart").html(html);
-//
-//             if(Object.keys(response.compareDTO.diffAlloyInputs).length === 0){
-//                 alert("합금철별 투입량에 차이가 없습니다.");
-//
-//                 var html ="";
-//                 html += "<div id='alloy_chart'>";
-//                 html += "<div class='message'>데이터가 없습니다.</div>";
-//                 html += "</div>";
-//
-//
-//                 $("#alloy_chart").html(html);
-//
-//                 html = "<div class='alloy-table'></div>"
-//                 $(".alloy-table").html(html);
-//             }
-//             else {
-//                 var order = [];
-//                 var i = 0;
-//                 for(var key in response.compareDTO.diffAlloyInputs){
-//                     order[i] = key;
-//                     i++;
-//                 }
-//                 drawAlloyChart(response.compareDTO.diffAlloyInputs, order);
-//                 drawAlloyTable(response.compareDTO, order);
-//                 diffAlloyInputsMap = response.compareDTO.diffAlloyInputs;
-//             }
-//             if(Object.keys(response.compareDTO.diffMaterials).length === 0){
-//                 alert("예상 성분에 차이가 없습니다.");
-//
-//                 var html ="";
-//                 html += "<div id='material_chart'>";
-//                 html += "<div class='message'>데이터가 없습니다.</div>";
-//                 html += "</div>";
-//
-//                 $("#material_chart").html(html);
-//
-//                 html = "<div class='material-table'></div>"
-//                 $(".material-table").html(html);
-//             }else {
-//                 var order = [];
-//                 var i = 0;
-//                 for(var key in response.compareDTO.diffMaterials){
-//                     order[i] = key;
-//                     i++;
-//                 }
-//                 drawMaterialChart(response.compareDTO.diffMaterials, order);
-//                 drawMaterialTable(response.compareDTO, order);
-//                 diffMaterialsMap = response.compareDTO.diffMaterials;
-//             }
-//         },
-//         error: function(error) {
-//             console.log(error);
-//         }
-//     });
-// }
 
 //
 function showInit() {
@@ -500,70 +392,14 @@ $('.insert').on('click', '.deleteBtn', function () {
     });
 });
 
-// 파일 저장
-// $('.hidden-group').on('click', '.saveBtn', function (){
-//     showSaveModal();
-// });
-// function saveHistory(){
-//     nowRevComment = $("#commentRevTextarea").val();
-//     nowOriComment = $("#commentOriTextarea").val();
-//     var title = $('#title').val();
-//     //uplaod ajax
-//     $.ajax({
-//         url: '/saveHistory',
-//         method: 'POST',
-//         data: {
-//             // index: nowIndex,
-//             title: title
-//             // revComment: nowRevComment.toString(),
-//             // oriComment: nowOriComment.toString()
-//         },
-//         beforeSend: function () {
-//             closeSaveModal();
-//             alert("저장 성공");
-//         },
-//         success: function (result){
-//             title = "";
-//         },
-//         error:function (error){
-//             alert("기존 알고리즘이 없습니다.");
-//         }
-//     });
-//
-// }
+
 
 // 파일 일괄 저장
 $('.hidden-group').on('click', '.allSaveBtn', function (){
     showAllSaveModal();
 });
 
-    //원본
-// function allSaveHistory(){
-//     nowRevComment = $("#commentRevTextarea").val();
-//     nowOriComment = $("#commentOriTextarea").val();
-//     var title = $('#allSaveTitle').val();
-//     //uplaod ajax
-//     $.ajax({
-//         url: '/allSaveHistory',
-//         method: 'POST',
-//         data: {
-//             index: nowIndex,
-//             title: title,
-//             revComment: nowRevComment.toString(),
-//             oriComment: nowOriComment.toString()
-//         },
-//         beforeSend: function () {
-//             closeAllSaveModal();
-//             alert("저장 성공");
-//         },
-//         success: function (result){
-//             title = "";
-//         },
-//         error:function (error){
-//             alert("기존 알고리즘이 없습니다.");
-//         }
-//     });
-// }
+
 
     //수정
 function allSaveHistory(){
@@ -777,125 +613,6 @@ function createAlloyTable(response, order) {
     return table;
 }
 
-// 합금철 투입량 표 생성 함수
-//     function createAlloyTable(response, order) {
-//         var table = document.createElement("table");
-//         var caption = document.createElement("caption");
-//         caption.classList.add("title");
-//         table.appendChild(caption);
-//
-//         var ori = response.oriAlloyInputs;
-//         var rev = response.revAlloyInputs;
-//
-//         var totalKeys = order.length;
-//
-//         if (totalKeys > 9) { // 합금철 종류의 데이터가 10개 이상이면 두 개의 표로 나누어 보여줌
-//             var halfKeys = Math.ceil(totalKeys / 2);
-//
-//             // 첫번째 표
-//             var row1 = document.createElement("tr");
-//             var row2 = document.createElement("tr");
-//             var row3 = document.createElement("tr");
-//
-//             head = document.createElement("th");
-//             head.textContent = "합금철 종류";
-//             cell1 = document.createElement("td");
-//             cell1.textContent = "기존 알고리즘";
-//             cell2 = document.createElement("td");
-//             cell2.textContent = "수정 알고리즘";
-//
-//             row1.appendChild(head);
-//             row2.appendChild(cell1);
-//             row3.appendChild(cell2);
-//
-//             var head, cell1, cell2;
-//             for (var i = 0; i < halfKeys; i++) {
-//                 var key = order[i];
-//                 head = document.createElement("th");
-//                 head.textContent = key;
-//                 cell1 = document.createElement("td");
-//                 cell1.textContent = ori[key];
-//                 cell2 = document.createElement("td");
-//                 cell2.textContent = rev[key];
-//                 row1.appendChild(head);
-//                 row2.appendChild(cell1);
-//                 row3.appendChild(cell2);
-//             }
-//
-//             table.appendChild(row1);
-//             table.appendChild(row2);
-//             table.appendChild(row3);
-//             table.appendChild(document.createElement("br")); // 첫 번째 표와 두 번째 표 사이에 빈 줄 삽입
-//
-//             // 두번째표
-//             var row4 = document.createElement("tr");
-//             var row5 = document.createElement("tr");
-//             var row6 = document.createElement("tr");
-//
-//             head = document.createElement("th");
-//             head.textContent = "합금철 종류";
-//             cell1 = document.createElement("td");
-//             cell1.textContent = "기존 알고리즘";
-//             cell2 = document.createElement("td");
-//             cell2.textContent = "수정 알고리즘";
-//
-//             row4.appendChild(head);
-//             row5.appendChild(cell1);
-//             row6.appendChild(cell2);
-//
-//             for (var i = halfKeys; i < totalKeys; i++) {
-//                 var key = order[i];
-//                 head = document.createElement("th");
-//                 head.textContent = key;
-//                 cell1 = document.createElement("td");
-//                 cell1.textContent = ori[key];
-//                 cell2 = document.createElement("td");
-//                 cell2.textContent = rev[key];
-//                 row4.appendChild(head);
-//                 row5.appendChild(cell1);
-//                 row6.appendChild(cell2);
-//             }
-//
-//             table.appendChild(row4);
-//             table.appendChild(row5);
-//             table.appendChild(row6);
-//         } else { // 합금철 종류의 데이터가 10개 이하이면 하나의 표로 보여줌
-//             var row1 = document.createElement("tr");
-//             var row2 = document.createElement("tr");
-//             var row3 = document.createElement("tr");
-//
-//             head = document.createElement("th");
-//             head.textContent = "합금철 종류";
-//             cell1 = document.createElement("td");
-//             cell1.textContent = "기존 알고리즘";
-//             cell2 = document.createElement("td");
-//             cell2.textContent = "수정 알고리즘";
-//
-//             row1.appendChild(head);
-//             row2.appendChild(cell1);
-//             row3.appendChild(cell2);
-//
-//             var head, cell1, cell2;
-//             for (var i = 0; i < totalKeys; i++) {
-//                 var key = order[i];
-//                 head = document.createElement("th");
-//                 head.textContent = key;
-//                 cell1 = document.createElement("td");
-//                 cell1.textContent = ori[key];
-//                 cell2 = document.createElement("td");
-//                 cell2.textContent = rev[key];
-//                 row1.appendChild(head);
-//                 row2.appendChild(cell1);
-//                 row3.appendChild(cell2);
-//             }
-//
-//             table.appendChild(row1);
-//             table.appendChild(row2);
-//             table.appendChild(row3);
-//         }
-//
-//         return table;
-//     }
 
 
 
