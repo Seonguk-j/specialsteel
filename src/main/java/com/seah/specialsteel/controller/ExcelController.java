@@ -29,16 +29,17 @@ public class ExcelController {
     @GetMapping("/download/{historyId}")
     public void download(HttpServletResponse res, @PathVariable Long historyId) throws Exception {
 
-        List<Long> revIdList = excelService.revIdList(historyId);
+//        List<Long> revIdList = excelService.revIdList(historyId);
+        List<Long> oriIdList = excelService.oriIdList(historyId);
 
         /**
          * excel sheet 생성
          */
         Workbook workbook = new XSSFWorkbook();
-        excelService.createOriSheet(workbook, historyId);
+//        excelService.createOriSheet(workbook, historyId);
 
-        for(int i = 0; i < revIdList.size(); i++) {
-            excelService.createRevSheet(workbook, revIdList.get(i), i + 1);
+        for(int i = 0; i < oriIdList.size(); i++) {
+            excelService.createOriSheet(workbook, oriIdList.get(i), i+1);
         }
 
 
