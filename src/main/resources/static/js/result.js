@@ -188,11 +188,10 @@ function showRevFile(response) {
 }
 function showSaveBtn(){
     var html = "";
-    html += "<div class='row'>";
-    html += "<div class='card col-12'>";
+
+    html += "<div class='card'>";
     html += "<div class='card-body'>";
     html += "<div class='result-save'>";
-    // html += "<button class='saveBtn'>저장</button>";
     html += "<button class='allSaveBtn'>일괄 저장</button>";
     html += "</div>";
     html += "</div>";
