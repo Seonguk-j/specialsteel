@@ -308,6 +308,11 @@ function displayData(data) {
 
 // 조회 버튼 클릭 시 실행될 함수를 정의합니다.
 function fetchDataById() {
+    showRevInit();
+    showOriInit();
+    chartInit();
+    tableInit();
+
     const fetchButton = document.getElementById("fetchButton");
     fetchButton.setAttribute("onclick", "fetchData()");
     listContainer.innerHTML = "";
@@ -327,7 +332,7 @@ function fetchDataById() {
                 // 서버에서 받은 데이터를 원하는 방식으로 화면에 표시합니다.
 
                 console.log(data);
-                showOriFile(data.oriResults);
+                // showOriFile(data.oriResults);
 
                 var html = "";
 
@@ -344,11 +349,18 @@ function fetchDataById() {
                 $(".insert").html(html);
 
                 showUploadedList1(data.revResults);
+                discardSave();
             })
             .catch(error => {
                 console.error('Error:', error);
             });
     }
+}
+
+function discardSave() {
+    var html = "";
+
+    $("#save-card").html(html);
 }
 
 function showUploadedList1(revResults) {

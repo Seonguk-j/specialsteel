@@ -178,7 +178,7 @@ function showRevFile(response) {
 }
 function showSaveBtn() {
     var html = "";
-    html += "<div class='card col-12'>";
+    html += "<div id='save-card' class='card col-12'>";
     html += "<div class='card-body'>";
     html += "<div class='result-save'>";
     // html += "<button class='saveBtn'>저장</button>";
@@ -360,10 +360,7 @@ function showRevFile1(response) {
 }
 
 function showOriFile1(response) {
-
-    console.log("리스폰스 - " + response)
     // nowIndex = response.index;
-
     var html = "";
     html += "<div class='oriInsert list-group'>";
     html += "<li class='list-group-item'>합금철 총 투입비용 : " + response.totalCost + "</li>";
@@ -371,11 +368,8 @@ function showOriFile1(response) {
     html += "<li class='list-group-item'>예상 용강량 : " + response.expectOutput + "</li>";
     html += "<li class='list-group-item'>방법 : " + response.method + "</li>";
     html += "<div>";
-    console.log("리스폰스길이 - " + response.length);
-
 
     $(".oriInsert").html(html);
-    // nowRevComment = $("#commentRevTextarea").val();
 }
 
 
