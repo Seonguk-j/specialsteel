@@ -1,11 +1,19 @@
-// 날짜 조회 모달창 ======================================================================
+/*
+    1. 날짜 조회 모달창
+    2. 날짜 지정
+    3. 일괄저장 모달창
+    4. 타이틀 검색
+    5. 변환 선택 모달 encoding.html
+*/
+
+
+
+//  1. 날짜 조회 모달창 ======================================================================
 // 열기
 function showModal() {
 
     const modal = document.getElementById('myModal');
     modal.style.display = 'block';
-
-
 }
 
 //닫기
@@ -22,7 +30,7 @@ window.addEventListener("keydown", function (event) {
     }
 });
 
-// 날짜 지정=====================================================================================
+// 2. 날짜 지정=====================================================================================
 function formatDate(date) {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, "0"); // 월은 0부터 시작하므로 1을 더한 후, 두 자리로 만듭니다.
@@ -38,20 +46,9 @@ function excelDownload() {
 
 }
 
-// 저장 모달창 ======================================================================
 
-function showSaveModal() {
-    const modal = document.getElementById('saveModal');
-    modal.style.display = 'block';
-}
 
-//닫기
-function closeSaveModal() {
-    const modal = document.getElementById('saveModal');
-    modal.style.display = 'none';
-}
-
-// 일괄저장 모달창 ======================================================================
+// 3. 일괄저장 모달창 ======================================================================
 
 function showAllSaveModal() {
     const modal = document.getElementById('allSaveModal');
@@ -64,44 +61,11 @@ function closeAllSaveModal() {
     modal.style.display = 'none';
 }
 
-//변환 선택 모달 ==========================
-
-function closeChoiceModal() {
-    const modal = document.getElementById('choiceModal');
-    modal.style.display = 'none';
-}
-
-//변환 파일 선택 모달 ==========================
-function choiceFileModal() {
-
-    //미리보기 영역 초기화
-    const previewArea = document.getElementById('previewArea');
-    previewArea.innerHTML = '<h5 class="h5">미리보기</h5><li>Heat 정보 : </li><div class="card-table"></div>';
-
-
-    const modal = document.getElementById('choiceFileModal');
-    modal.style.display = 'block';
-}
-
-function closeChoiceFileModal() {
-    const modal = document.getElementById('choiceFileModal');
-    modal.style.display = 'none';
-
-    // 파일 입력 초기화
-    const changeFileInput = document.getElementById('changeFileInput');
-    changeFileInput.value = '';
-
-    // 라디오 버튼 초기화
-    const standardizationRadio = document.getElementById('standardizationRadio');
-    standardizationRadio.checked = true;
-    const normalizationRadio = document.getElementById('normalizationRadio');
-    normalizationRadio.checked = false;
-}
 
 
 // 모달====================================
 
-// 타이틀 검색
+// 4. 타이틀 검색
 function titleSearch() {
     const searchInput = document.getElementById("searchWord").value;
     // 검색어만 서버로 전송합니다.
@@ -308,6 +272,11 @@ function displayData(data) {
 
 // 조회 버튼 클릭 시 실행될 함수를 정의합니다.
 function fetchDataById() {
+    showRevInit();
+    showOriInit();
+    chartInit();
+    tableInit();
+
     const fetchButton = document.getElementById("fetchButton");
     fetchButton.setAttribute("onclick", "fetchData()");
     listContainer.innerHTML = "";
@@ -327,7 +296,7 @@ function fetchDataById() {
                 // 서버에서 받은 데이터를 원하는 방식으로 화면에 표시합니다.
 
                 console.log(data);
-                showOriFile(data.oriResults);
+                // showOriFile(data.oriResults);
 
                 var html = "";
 
@@ -344,11 +313,18 @@ function fetchDataById() {
                 $(".insert").html(html);
 
                 showUploadedList1(data.revResults);
+                discardSave();
             })
             .catch(error => {
                 console.error('Error:', error);
             });
     }
+}
+
+function discardSave() {
+    var html = "";
+
+    $("#save-card").html(html);
 }
 
 function showUploadedList1(revResults) {
@@ -363,4 +339,39 @@ function showUploadedList1(revResults) {
     $("#showResult").html(html);
 }
 
+// =========================================================================================
+// 5. 변환 선택 모달 encoding.html ==========================
 
+function closeChoiceModal() {
+    const modal = document.getElementById('choiceModal');
+    modal.style.display = 'none';
+}
+
+
+//변환 파일 선택 모달 ==========================
+function choiceFileModal() {
+
+    //미리보기 영역 초기화
+    const previewArea = document.getElementById('previewArea');
+    previewArea.innerHTML = '<h5 class="h5">미리보기</h5><li>Heat 정보 : </li><div class="card-table"></div>';
+
+
+    const modal = document.getElementById('choiceFileModal');
+    modal.style.display = 'block';
+}
+
+
+function closeChoiceFileModal() {
+    const modal = document.getElementById('choiceFileModal');
+    modal.style.display = 'none';
+
+    // 파일 입력 초기화
+    const changeFileInput = document.getElementById('changeFileInput');
+    changeFileInput.value = '';
+
+    // 라디오 버튼 초기화
+    const standardizationRadio = document.getElementById('standardizationRadio');
+    standardizationRadio.checked = true;
+    const normalizationRadio = document.getElementById('normalizationRadio');
+    normalizationRadio.checked = false;
+}

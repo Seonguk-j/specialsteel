@@ -29,12 +29,9 @@
                 <div class="row">
                     <div class="card1 card col-12">
                         <div class="date-search-container">
-                            <!-- 테스트-->
                             <input type="file" name="file" id="jsonFile" multiple />
                             <button id="fileUpload">파일 업로드</button>
-
                             <button class="show-Btn" onclick="showModal()">조회</button>
-
                         </div>
                     </div>
                 </div>
@@ -79,7 +76,7 @@
             <!-- 파일 모달 부분 -->
 
             <!-- 차트 -->
-            <div class="row">
+            <div id="chart">
                 <div class="card col-12">
                     <div class="card-body">
                         <div class="allchart"></div>
@@ -93,8 +90,9 @@
                 </div>
             </div>
 
+
             <!-- 표 -->
-            <div class="row">
+            <div id="table">
                 <div class="card col-12">
                     <div class="card-body">
                         <div class="table-container">
@@ -104,6 +102,7 @@
                     </div>
                 </div>
             </div>
+
             <footer th:insert="footer"></footer>
         </div>
     </div>
@@ -125,6 +124,7 @@
             // await delay(200);
             await filterList();
             await showList();
+            document.getElementById("jsonFile").value = "";
         });
 
         function initList() {
@@ -136,7 +136,10 @@
                     method: 'GET',
                     success: function (result) {
                         console.log(result);
-                        showInit();
+                        showRevInit();
+                        showOriInit();
+                        chartInit();
+                        tableInit();
                         resolve();
                     },
                     error: function () {
