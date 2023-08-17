@@ -41,7 +41,7 @@ public class ExcelService {
         colName.add("합금철 총 투입량");
         colName.add("예상 용강량");
         colName.add("방법");
-        colName.add("메모");
+//        colName.add("메모");
 
         return colName;
     }

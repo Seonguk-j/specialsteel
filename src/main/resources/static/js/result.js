@@ -5,7 +5,10 @@
     3. 정렬
     4. 표
     5. 차트
+
  */
+
+
 
 //1. 기존알고리즘 결과, 수정알고리즘 결과 ================================================================
 var compareDTO;
@@ -13,8 +16,6 @@ var diffAlloyInputsMap;
 var diffMaterialsMap;
 
 //request json파일 api 전송
-
-
 function sendOriFileName(index) {
     console.log("샌드파일네임 - " + index)
     // Ajax 요청을 사용하여 백엔드에 데이터를 전송
@@ -51,7 +52,12 @@ function showOriFile(response) {
     // nowOriComment = $("#commentOriTextarea").val();
 }
 
+
+
 //전달 받은 파일의 개수 만큼 버튼 생성, 버튼을 누르면 해당 인덱스를 가지는 json파일 출력
+
+
+
 function showUploadedList(arr) {
     event.preventDefault();
     var html = "";
@@ -63,6 +69,11 @@ function showUploadedList(arr) {
     $("#uploadResult").html(html);
 
 }
+
+
+
+
+
 
 function sendFileName(index) {
     sendOriFileName(index);
@@ -181,7 +192,6 @@ function showSaveBtn() {
     html += "<div id='save-card' class='card col-12'>";
     html += "<div class='card-body'>";
     html += "<div class='result-save'>";
-    // html += "<button class='saveBtn'>저장</button>";
     html += "<button class='allSaveBtn'>일괄 저장</button>";
     html += "</div>";
     html += "</div>";

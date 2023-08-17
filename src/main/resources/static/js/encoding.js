@@ -144,6 +144,7 @@ function sendExcelCsv(){
 function changeDbSave() {
 
     console.log("세이브");
+
     //decodingKeySave();
     console.log(resultData);
     const resultModeDataList = { mode: resultMode, keyData: resultData }
@@ -152,9 +153,8 @@ function changeDbSave() {
             type: "POST",
             contentType: "application/json;charset=UTF-8",
             data: JSON.stringify(resultModeDataList),
-
         });
-
+    alert("저장되었습니다.");
 }
 function csvOrExcelDownload(){
     // 날짜 포맷 지정 YYYY-MM-DD
