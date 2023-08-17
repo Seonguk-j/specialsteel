@@ -5,20 +5,19 @@
     3. 정렬
     4. 표
     5. 차트
+
  */
 
+
+
 //1. 기존알고리즘 결과, 수정알고리즘 결과 ================================================================
-// var nowIndex;
-// var nowRevComment;
-// var nowOriComment;
+
 var compareDTO;
 var diffAlloyInputsMap;
 var diffMaterialsMap;
 
 
 //request json파일 api 전송
-
-
 function sendOriFileName(index) {
 
     // Ajax 요청을 사용하여 백엔드에 데이터를 전송
@@ -807,3 +806,7 @@ function createAlloyTable(response, order) {
         chart.draw(data, google.charts.Bar.convertOptions(options));
 
     }
+
+
+
+//===================================================================================================================
