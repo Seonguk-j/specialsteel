@@ -79,7 +79,7 @@
             <!-- 파일 모달 부분 -->
 
             <!-- 차트 -->
-            <div class="row">
+            <div id="chart">
                 <div class="card col-12">
                     <div class="card-body">
                         <div class="allchart"></div>
@@ -94,7 +94,7 @@
             </div>
 
             <!-- 표 -->
-            <div class="row">
+            <div id="table">
                 <div class="card col-12">
                     <div class="card-body">
                         <div class="table-container">
@@ -136,7 +136,10 @@
                     method: 'GET',
                     success: function (result) {
                         console.log(result);
-                        showInit();
+                        showRevInit();
+                        showOriInit();
+                        chartInit();
+                        tableInit();
                         resolve();
                     },
                     error: function () {

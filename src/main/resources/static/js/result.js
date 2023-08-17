@@ -8,36 +8,9 @@
  */
 
 //1. 기존알고리즘 결과, 수정알고리즘 결과 ================================================================
-// var nowIndex;
-// var nowRevComment;
-// var nowOriComment;
 var compareDTO;
 var diffAlloyInputsMap;
 var diffMaterialsMap;
-
-// $('#oriUploadBtn').click(function (){
-//     // event.preventDefault();
-//     var formData = new FormData();
-//     var inputFile = $("input[type='file']");
-//     var files = inputFile[1].files;
-//     formData.append("uploadfiles", files[0]);
-//
-//     //uplaod ajax
-//     $.ajax({
-//         url: '/oriUploadAjax',
-//         processData: false,
-//         contentType: false,
-//         data: formData,
-//         type: 'POST',
-//         dataType: 'json',
-//         success: function (result){
-//             sendOriFileName(result[0]);
-//         },
-//         error:function (){
-//         }
-//     });
-//     $(this).prev("input[type='file']").val("");
-// });
 
 //request json파일 api 전송
 
@@ -74,38 +47,6 @@ function showOriFile(response) {
     $(".oriInsert").html(html);
     // nowOriComment = $("#commentOriTextarea").val();
 }
-
-//업로드 버튼을 누르면 파일을 MultipartFile[]에 담아 백으로 전달
-// $('#revUploadBtn').click(function (){
-//     // event.preventDefault();
-//     var formData = new FormData();
-//
-//     var inputFile = $("input[type='file']");
-//
-//     var files = inputFile[1].files;
-//
-//     for(var i=0; i<files.length; i++){
-//
-//         formData.append("uploadfiles", files[i]);
-//     }
-//     //uplaod ajax
-//     $.ajax({
-//         url: '/revUploadAjax',
-//         processData: false,
-//         contentType: false,
-//         data: formData,
-//         type: 'POST',
-//         dataType: 'json',
-//         success: function (result){
-//             showInit();
-//             showUploadedList(result);
-//         },
-//         error:function (jqXHR, textStatus, errorThrown){
-//             console.log(textStatus);
-//         }
-//     });
-//     $(this).prev("input[type='file']").val("");
-// });
 
 //전달 받은 파일의 개수 만큼 버튼 생성, 버튼을 누르면 해당 인덱스를 가지는 json파일 출력
 function showUploadedList(arr) {
@@ -234,13 +175,11 @@ function showRevFile(response) {
 }
 function showSaveBtn(){
     var html = "";
-    html += "<div class='row'>";
     html += "<div class='card col-12'>";
     html += "<div class='card-body'>";
     html += "<div class='result-save'>";
     // html += "<button class='saveBtn'>저장</button>";
     html += "<button class='allSaveBtn'>일괄 저장</button>";
-    html += "</div>";
     html += "</div>";
     html += "</div>";
     html += "</div>";
@@ -252,7 +191,7 @@ function showSaveBtn(){
 
 
 //
-function showInit() {
+function showRevInit() {
     var html = "";
 
     html += "<div class='insert list-group'>"
@@ -266,6 +205,50 @@ function showInit() {
     $(".insert").html(html);
 }
 
+function showOriInit() {
+    var html = "";
+
+    html += "<div class='oriInsert list-group'>"
+    html += "<li class='list-group-item'>합금철 총 투입비용 : </li>";
+    html += "<li class='list-group-item'>합금철 총 투입량 : </li>";
+    html += "<li class='list-group-item'>예상 용강량 :</li>";
+    html += "<li class='list-group-item'>방법 : </li>";
+    html += "</div>";
+
+    $(".oriInsert").html(html);
+}
+
+function chartInit() {
+    var html = "";
+
+    html += "<div id='chart'>"
+    html += "<div class='card col-12'>"
+    html += "<div class='card-body'>"
+    html += "<div class='allchart'></div>"
+    html += "<div class='alloy_chart'>"
+    html += "<div id='alloy_chart'></div>"
+    html += "</div>"
+    html += "<div class='material_chart'>"
+    html += "<div id='material_chart'></div>"
+    html += "</div></div></div></div>"
+
+    $("#chart").html(html);
+}
+
+function tableInit() {
+    var html = "";
+
+    html += "<div id='table'>"
+    html += "<div class='card col-12'>"
+    html += "<div class='card-body'>"
+    html += "<div class='table-container'>"
+    html += "<div class='alloy-table'></div>"
+    html += "<div class='material-table'></div>"
+    html += "<div id='material_chart'></div>"
+    html += "</div></div></div></div>"
+
+    $("#table").html(html);
+}
 
 function sendRevFileName1(index) {
 
@@ -370,29 +353,6 @@ function showRevFile1(response) {
     $(".insert").html(html);
     // nowRevComment = $("#commentRevTextarea").val();
 }
-
-
-
-
-//2. 삭제, 파일저장, 일괄저장 =======================================================================
-// 삭제 버튼
-// $('.insert').on('click', '.deleteBtn', function () {
-//     var index = $(this).data('index');
-//     $.ajax({
-//         url: '/deleteList',
-//         method: 'POST',
-//         data: { index: index },
-//         success: function(response) {
-//             showRevFile(response);
-//
-//         },
-//         error: function(error) {
-//             showInit();
-//         }
-//     });
-// });
-
-
 
 // 파일 일괄 저장
 $('.hidden-group').on('click', '.allSaveBtn', function (){
