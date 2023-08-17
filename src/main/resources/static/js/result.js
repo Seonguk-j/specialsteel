@@ -43,7 +43,7 @@ var diffMaterialsMap;
 
 
 function sendOriFileName(index) {
-
+    console.log("샌드파일네임 - "+index)
     // Ajax 요청을 사용하여 백엔드에 데이터를 전송
     $.ajax({
         url: '/sendOriFileName',
@@ -63,13 +63,16 @@ function sendOriFileName(index) {
 
 //
 function showOriFile(response) {
+    console.log(response);
     var html = "";
-    html += "<div class='oriInsert list-group'>"
-    html += "<li class='list-group-item'>합금철 총 투입비용 : " + response.totalCost + "</li>";
-    html += "<li class='list-group-item'>합금철 총 투입량 : " + response.totalAmount + "</li>";
-    html += "<li class='list-group-item'>예상 용강량 : " + response.expectOutput + "</li>";
-    html += "<li class='list-group-item'>방법 : " + response.method + "</li>";
-    html += "</div>";
+
+        html += "<div class='oriInsert list-group'>"
+        html += "<li class='list-group-item'>합금철 총 투입비용 : " + "</li>";
+        html += "<li class='list-group-item'>합금철 총 투입량 : " +  "</li>";
+        html += "<li class='list-group-item'>예상 용강량 : " +  "</li>";
+        html += "<li class='list-group-item'>방법 : " +  "</li>";
+        html += "</div>";
+
 
     $(".oriInsert").html(html);
     // nowOriComment = $("#commentOriTextarea").val();
@@ -276,8 +279,10 @@ function sendRevFileName1(index) {
         data: { index: index },
         success: function(response) {
             // 요청이 성공한 경우의 동작
-
+            console.log("리스폰스1 - "+response.revResultDTO);
+            console.log("리스폰스2 - "+response);
             showRevFile1(response.revResultDTO);
+            showOriFile1(response.oriResultDTO);
             //showSaveBtn();
             compareDTO = response.compareDTO;
             console.log(compareDTO);
@@ -368,6 +373,25 @@ function showRevFile1(response) {
 
 
     $(".insert").html(html);
+    // nowRevComment = $("#commentRevTextarea").val();
+}
+
+function showOriFile1(response) {
+
+    console.log("리스폰스 - "+response)
+    // nowIndex = response.index;
+
+    var html = "";
+    html += "<div class='oriInsert list-group'>";
+    html += "<li class='list-group-item'>합금철 총 투입비용 : " + response.totalCost + "</li>";
+    html += "<li class='list-group-item'>합금철 총 투입량 : " + response.totalAmount + "</li>";
+    html += "<li class='list-group-item'>예상 용강량 : " + response.expectOutput + "</li>";
+    html += "<li class='list-group-item'>방법 : " + response.method + "</li>";
+    html += "<div>";
+    console.log("리스폰스길이 - "+response.length);
+
+
+    $(".oriInsert").html(html);
     // nowRevComment = $("#commentRevTextarea").val();
 }
 

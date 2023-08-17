@@ -113,6 +113,8 @@ public class UploadController {
     @PostMapping("/sendOriFileName")
     public ResponseEntity<ResultDTO> receiveOriResultDTO(@RequestParam ("index")int index) {
 //        log.info("오리지널" + index);
+        System.out.println("샌드오리파일 - "+index);
+        System.out.println(oriResultDTOList.get(index));
         return new ResponseEntity<>(oriResultDTOList.get(index), HttpStatus.OK);
     }
 
