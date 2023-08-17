@@ -40,10 +40,10 @@ function showOriFile(response) {
     var html = "";
 
     html += "<div class='oriInsert list-group'>"
-    html += "<li class='list-group-item'>합금철 총 투입비용 : " + "</li>";
-    html += "<li class='list-group-item'>합금철 총 투입량 : " + "</li>";
-    html += "<li class='list-group-item'>예상 용강량 : " + "</li>";
-    html += "<li class='list-group-item'>방법 : " + "</li>";
+    html += "<li class='list-group-item'>합금철 총 투입비용 : " + response.totalCost + "</li>";
+    html += "<li class='list-group-item'>합금철 총 투입량 : " + response.totalAmount + "</li>";
+    html += "<li class='list-group-item'>예상 용강량 : " + response.expectOutput + "</li>";
+    html += "<li class='list-group-item'>방법 : " + response.method + "</li>";
     html += "</div>";
 
 

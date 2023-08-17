@@ -74,6 +74,8 @@ public class DataController {
     }
 
     private List<ResultDTO> oriResultDTOList = new ArrayList<>();
+
+    private List<ResultDTO> oriResultDTOList1 = new ArrayList<>();
     private List<RevResult> revResults;
     private List<ResultDTO> revResultDTOList = new ArrayList<>();
     private Map<String, Object> resultMap = new HashMap<>();
@@ -85,7 +87,8 @@ public class DataController {
     public Map<String, Object> getDataById(@PathVariable Long id) {
         // RevResult 조회
         revResults = revResultRepository.findByHistoryId(id);
-        List<OriResult> oriResults = oriResultRepository.findByHistoryId(id);
+        Optional<OriResult> oriResults = oriResultRepository.findById(id);
+        List<OriResult> oriResultsList = oriResultRepository.findByHistoryId(id);
 
         System.out.println(revResults);
         System.out.println(oriResults);
@@ -126,74 +129,110 @@ public class DataController {
             }
         }
 
-        if (!oriResults.isEmpty()) {
+        if (oriResults.isPresent()) {
             System.out.println("오리리썰트이프들어옴");
-            for (OriResult oriResult : oriResults) {
-                ResultDTO oriresultDTO = new ResultDTO();
-                oriresultDTO.id = oriResult.getId(); // Assuming there is a getId() method in RevResult class
-                oriresultDTO.totalCost = oriResult.getTotalCost(); // Assuming there is a getTotalCost() method in RevResult class
-                oriresultDTO.totalAmount = oriResult.getTotalAmount();
+            ResultDTO oriresultDTO = new ResultDTO();
+            oriresultDTO.id = oriResults.get().getId(); // Assuming there is a getId() method in RevResult class
+            oriresultDTO.totalCost = oriResults.get().getTotalCost(); // Assuming there is a getTotalCost() method in RevResult class
+            oriresultDTO.totalAmount = oriResults.get().getTotalAmount();
 //            oriresultDTO.comment = oriResults.get().getComment();
-                oriresultDTO.method = oriResult.getMethod();
-                oriresultDTO.expectOutput = oriResult.getExpectOutput();
-                System.out.println("오리아이디 - " + oriResult.getId());
+            oriresultDTO.method = oriResults.get().getMethod();
+            oriresultDTO.expectOutput = oriResults.get().getExpectOutput();
+            System.out.println("오리아이디 - "+oriResults.get().getId());
+            // AlloyInput 조회
+            List<AlloyInput> alloyInputs = alloyInputRepository.findByOriResultId(oriResults.get().getId());
+            Map<String, String> alloyInputsMap = new LinkedHashMap<>();
+            for (AlloyInput alloyInput : alloyInputs) {
+                // Assuming there is a getName() method and getValue() method in AlloyInput class
+                alloyInputsMap.put(alloyInput.getName(), String.valueOf(alloyInput.getAmount()));
+            }
+            System.out.println("오리얼로이맵 - "+alloyInputsMap);
+            oriresultDTO.alloyInputs = (LinkedHashMap<String, String>) alloyInputsMap;
+
+            // ExpectedResult 조회
+            List<ExpectedResult> expectedResults = expectedResultRepository.findByOriResultId(oriResults.get().getId());
+            Map<String, String> expectedMaterialsMap1 = new LinkedHashMap<>();
+            for (ExpectedResult expectedResult : expectedResults) {
+                expectedMaterialsMap1.put(expectedResult.getName(), String.valueOf(expectedResult.getAmount()));
+            }
+            oriresultDTO.expectMaterials = (LinkedHashMap<String, String>) expectedMaterialsMap1;
+            System.out.println("오리여기까지");
+            oriResultDTOList.add(oriresultDTO);
+            System.out.println("오리리설트 - "+oriResultDTOList);
+        }
+
+
+        System.out.println("------------------여기5----------------");
+        System.out.println(revResults);
+        System.out.println("------------------여기5----------------");
+        resultMap.put("oriResults",oriResults);
+        if (!revResults.isEmpty()) {
+            resultMap.put("revResults", revResults); // 모든 RevResult를 담는 List로 수정
+            // AlloyInput 조회
+            List<AlloyInput> alloyInputs = alloyInputRepository.findByRevResultId(id);
+            resultMap.put("alloyInputs", alloyInputs);
+
+            // ExpectedResult 조회
+            List<ExpectedResult> expectedResults = expectedResultRepository.findByRevResultId(id);
+            resultMap.put("expectedResults", expectedResults);
+        } else {
+            resultMap.put("error", "RevResult not found with ID: " + id);
+        }
+
+        if (oriResults.isPresent()) {
+
+            for (OriResult oriResults1 : oriResultsList) {
+                System.out.println("오리리썰트이프들어옴");
+                ResultDTO oriresultDTO1 = new ResultDTO();
+                oriresultDTO1.id = oriResults1.getId(); // Assuming there is a getId() method in RevResult class
+                oriresultDTO1.totalCost = oriResults1.getTotalCost(); // Assuming there is a getTotalCost() method in RevResult class
+                oriresultDTO1.totalAmount = oriResults1.getTotalAmount();
+//            oriresultDTO.comment = oriResults.get().getComment();
+                oriresultDTO1.method = oriResults1.getMethod();
+                oriresultDTO1.expectOutput = oriResults1.getExpectOutput();
+                System.out.println("오리아이디 - " + oriResults1.getId());
                 // AlloyInput 조회
-                List<AlloyInput> alloyInputs = alloyInputRepository.findByOriResultId(oriResult.getId());
+                List<AlloyInput> alloyInputs = alloyInputRepository.findByOriResultId(oriResults1.getId());
                 Map<String, String> alloyInputsMap = new LinkedHashMap<>();
                 for (AlloyInput alloyInput : alloyInputs) {
                     // Assuming there is a getName() method and getValue() method in AlloyInput class
                     alloyInputsMap.put(alloyInput.getName(), String.valueOf(alloyInput.getAmount()));
                 }
                 System.out.println("오리얼로이맵 - " + alloyInputsMap);
-                oriresultDTO.alloyInputs = (LinkedHashMap<String, String>) alloyInputsMap;
+                oriresultDTO1.alloyInputs = (LinkedHashMap<String, String>) alloyInputsMap;
 
                 // ExpectedResult 조회
-                List<ExpectedResult> expectedResults = expectedResultRepository.findByOriResultId(oriResult.getId());
+                List<ExpectedResult> expectedResults = expectedResultRepository.findByOriResultId(oriResults1.getId());
                 Map<String, String> expectedMaterialsMap1 = new LinkedHashMap<>();
                 for (ExpectedResult expectedResult : expectedResults) {
                     expectedMaterialsMap1.put(expectedResult.getName(), String.valueOf(expectedResult.getAmount()));
                 }
-                oriresultDTO.expectMaterials = (LinkedHashMap<String, String>) expectedMaterialsMap1;
+                oriresultDTO1.expectMaterials = (LinkedHashMap<String, String>) expectedMaterialsMap1;
                 System.out.println("오리여기까지");
-                oriResultDTOList.add(oriresultDTO);
+                oriResultDTOList1.add(oriresultDTO1);
                 System.out.println("오리리설트 - " + oriResultDTOList);
-
             }
-                System.out.println("------------------여기5----------------");
-                System.out.println(revResults);
-                System.out.println("------------------여기5----------------");
-                resultMap.put("oriResults", oriResults);
-                if (!revResults.isEmpty()) {
-                    resultMap.put("revResults", revResults); // 모든 RevResult를 담는 List로 수정
-                    // AlloyInput 조회
-                    List<AlloyInput> alloyInputs = alloyInputRepository.findByRevResultId(id);
-                    resultMap.put("alloyInputs", alloyInputs);
-
-                    // ExpectedResult 조회
-                    List<ExpectedResult> expectedResults = expectedResultRepository.findByRevResultId(id);
-                    resultMap.put("expectedResults", expectedResults);
-                } else {
-                    resultMap.put("error", "RevResult not found with ID: " + id);
-                }
-                System.out.println("------------------여기6----------------");
-                System.out.println(resultMap);
-                System.out.println("------------------여기6----------------");
+        }
 
 
 
-         }
-        System.out.println("안녕여기 - "+resultMap);
+
+
+
+        System.out.println("------------------여기6----------------");
+        System.out.println(resultMap);
+        System.out.println("------------------여기6----------------");
         return resultMap;
     }
 
     @PostMapping("/getRevData")
     public ResponseEntity<Map<String, Object>> getRevData(@RequestParam ("index")int index) {
         System.out.println("리브리설트디티오사이즈 - " + revResultDTOList.size());
-        System.out.println("오리진디티오사이즈 - " + oriResultDTOList.size());
-        System.out.println("오리진디티오 - " +oriResultDTOList);
+        System.out.println("오리진디티오사이즈 - " + oriResultDTOList1.size());
+        System.out.println("오리진디티오 - " +oriResultDTOList1);
         revResultDTOList.get(index).setLength(revResults.size());
         ResultDTO revResultDTO = revResultDTOList.get(index);
-        ResultDTO oriResultDTO = oriResultDTOList.get(index);
+        ResultDTO oriResultDTO = oriResultDTOList1.get(index);
 
         if (oriResultDTOList != null) {
 
