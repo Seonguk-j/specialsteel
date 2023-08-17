@@ -79,7 +79,7 @@ public class ChangeDataService {
             double totalAmount = Double.parseDouble(String.valueOf(rowData.get(2)));
             double expectOutput = Double.parseDouble(String.valueOf(rowData.get(3)));
             String method = String.valueOf(rowData.get(4));
-            String comment = String.valueOf(rowData.get(5));
+            //String comment = String.valueOf(rowData.get(5));
 
 
             ChangeOriResult changeOriResult = new ChangeOriResult();
@@ -88,7 +88,7 @@ public class ChangeDataService {
             changeOriResult.setTotalAmount(totalAmount);
             changeOriResult.setExpectOutput(expectOutput);
             changeOriResult.setMethod(method);
-            changeOriResult.setComment(comment);
+            //changeOriResult.setComment(comment);
 
 
             changeOriResultRepository.save(changeOriResult);
