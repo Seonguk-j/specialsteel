@@ -36,9 +36,10 @@ public class ChangeFileSaveController {
 
         String filename = file.getOriginalFilename();
         String fileExtension = filename.substring(filename.lastIndexOf('.') + 1).toLowerCase();
-        ArrayList<ArrayList<Object>> outputData = null;
+        ArrayList<ArrayList<ArrayList<Object>>> outputData = null;
+        ArrayList<ArrayList<Object>> csvOutPutData = null;
         if (fileExtension.equals("xlsx") || fileExtension.equals("xls")) {
-            ArrayList<ArrayList<Object>> excelData = changeDataService.parseExcelFileToArrayList(file);
+            ArrayList<ArrayList<ArrayList<Object>>> excelData = changeDataService.parseExcel(file);
             System.out.println("엑셀 데이터: " + excelData);
 
             if(mode.equals("standardizationRadio")){
@@ -56,13 +57,13 @@ public class ChangeFileSaveController {
             ArrayList<ArrayList<Object>> csvData = changeDataService.parseCsvFileToArrayList(file);
             System.out.println("CSV 데이터 : "+csvData);
             if(mode.equals("standardizationRadio")){
-                outputData = changeDataService.standardizeExcelData(csvData);
+                csvOutPutData = changeDataService.standardizeCsvData(csvData);
                 System.out.println("표준화된 csv 데이터: " + outputData);
             }else{
-                outputData = changeDataService.normalizeExcelData(csvData);
+                csvOutPutData = changeDataService.normalizeCsvData(csvData);
                 System.out.println("정규화된 csv 데이터: " + outputData);
             }
-            map.put("data", outputData);
+            map.put("data", csvOutPutData);
             // 정규화,표준화된 데이터를 JSON 형식으로 반환
             return new ResponseEntity<>(map, HttpStatus.OK);
 
@@ -79,7 +80,7 @@ public class ChangeFileSaveController {
     public void saveData(@RequestBody Map<String, Object> dataListMap) {
         Map<String, Object> saveDataKeyMap = new HashMap<>();
 
-        List<List<Object>> dataList = (List<List<Object>>) dataListMap.get("keyData");
+        List<List<List<Object>>> dataList = (List<List<List<Object>>>) dataListMap.get("keyData");
         String mode = (String) dataListMap.get("mode");
         saveDataKeyMap.put("mode", mode);
         saveDataKeyMap.put("dataKeyList", dataList);
