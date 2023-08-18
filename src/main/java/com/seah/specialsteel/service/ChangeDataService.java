@@ -20,12 +20,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.nio.charset.*;
 import java.util.*;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
-import static org.apache.poi.ss.usermodel.CellType.*;
 import static org.hibernate.query.criteria.internal.ValueHandlerFactory.isNumeric;
 
 @Service
@@ -56,23 +55,23 @@ public class ChangeDataService {
 
         System.out.println(dataMapList);
 
-        ArrayList<ArrayList<Object>> dataList = (ArrayList<ArrayList<Object>>) dataMapList.get("dataKeyList");
+        ArrayList<ArrayList<ArrayList<Object>>> dataList = (ArrayList<ArrayList<ArrayList<Object>>>) dataMapList.get("dataKeyList");
         String mode = (String) dataMapList.get("mode");
 
-
+        System.out.println("세이브데이타 - " + dataList);
 
 
         if (dataList.isEmpty()) {
             return;
         }
 
-
-            List<Object> rowData = dataList.get(2); // 첫 번째 행의 데이터를 가져옵니다.
-            List<Object> rowData1 = dataList.get(3);
-            List<Object> rowData2 = dataList.get(4);
-            List<Object> rowData3 = dataList.get(5);
-            List<Object> rowData4 = dataList.get(6);
-            List<Object> rowData5 = dataList.get(7);
+        for (int i = 0; i < dataList.size(); i++) {
+            List<Object> rowData = dataList.get(i).get(2); // 첫 번째 행의 데이터를 가져옵니다.
+            List<Object> rowData1 = dataList.get(i).get(3);
+            List<Object> rowData2 = dataList.get(i).get(4);
+            List<Object> rowData3 = dataList.get(i).get(5);
+            List<Object> rowData4 = dataList.get(i).get(6);
+            List<Object> rowData5 = dataList.get(i).get(7);
 
             String title = String.valueOf(rowData.get(0));
             String totalCost = String.valueOf(rowData.get(1));
@@ -124,37 +123,38 @@ public class ChangeDataService {
 
             }
 
-        if(mode.equals("standardizationRadio")){
-            System.out.println("표준화 디코딩 저장 들어옴");
-            DeCodingKey deCodingKey = new DeCodingKey();
-            deCodingKey.setMean((Double) rowData5.get(0));
-            deCodingKey.setStdDev((Double) rowData5.get(1));
-            deCodingKey.setShift((Integer) rowData5.get(2));
+            if (mode.equals("standardizationRadio")) {
+                System.out.println("표준화 디코딩 저장 들어옴");
+                DeCodingKey deCodingKey = new DeCodingKey();
+                deCodingKey.setMean((Double) rowData5.get(0));
+                deCodingKey.setStdDev((Double) rowData5.get(1));
+                deCodingKey.setShift((Integer) rowData5.get(2));
 
-            // changeOriResult 참조를 설정
-            deCodingKey.setChangeOriResult(changeOriResult);
+                // changeOriResult 참조를 설정
+                deCodingKey.setChangeOriResult(changeOriResult);
 
-            decodingKeyRepository.save(deCodingKey);
+                decodingKeyRepository.save(deCodingKey);
 
-        }else if(mode.equals("normalizationRadio")){
-            System.out.println("정규화 디코딩 저장 들어옴");
+            } else if (mode.equals("normalizationRadio")) {
+                System.out.println("정규화 디코딩 저장 들어옴");
 
-            DeCodingKey deCodingKey = new DeCodingKey();
-            deCodingKey.setMax((Double) rowData5.get(0));
-            if(rowData5.get(1).equals(0)){
-                deCodingKey.setMin(0.0);
-            }else{
-                deCodingKey.setMin((Double) rowData5.get(1));
+                DeCodingKey deCodingKey = new DeCodingKey();
+                deCodingKey.setMax((Double) rowData5.get(0));
+                if (rowData5.get(1).equals(0)) {
+                    deCodingKey.setMin(0.0);
+                } else {
+                    deCodingKey.setMin((Double) rowData5.get(1));
+                }
+
+                deCodingKey.setShift((Integer) rowData5.get(2));
+
+                // changeOriResult 참조를 설정
+                deCodingKey.setChangeOriResult(changeOriResult);
+
+                decodingKeyRepository.save(deCodingKey);
             }
-
-            deCodingKey.setShift((Integer) rowData5.get(2));
-
-            // changeOriResult 참조를 설정
-            deCodingKey.setChangeOriResult(changeOriResult);
-
-            decodingKeyRepository.save(deCodingKey);
         }
-        }
+    }
 
 
     public void saveStandardDecodingkey(List<Object> keyList) {
@@ -191,52 +191,143 @@ public class ChangeDataService {
     }
 
 
-    public ArrayList<ArrayList<Object>> parseExcelFileToArrayList(MultipartFile file) {
-        ArrayList<ArrayList<Object>> data = new ArrayList<>();
+    public ArrayList<ArrayList<ArrayList<Object>>> parseExcel(MultipartFile file) {
+        ArrayList<ArrayList<ArrayList<Object>>> excelData = new ArrayList<>();
 
-        try (InputStream inputStream = file.getInputStream()) {
-            Workbook workbook = new XSSFWorkbook(inputStream);
-            Sheet sheet = workbook.getSheetAt(0);
+        try (InputStream inputStream = file.getInputStream()){
+             Workbook workbook = new XSSFWorkbook(inputStream);
 
-            for (Row row : sheet) {
-                ArrayList<Object> rowData = new ArrayList<>();
-                for (Cell cell : row) {
-                    switch (cell.getCellType()) {
-                        case STRING:
-                            rowData.add(cell.getStringCellValue());
-                            break;
-
-                        case NUMERIC:
-                            rowData.add(cell.getNumericCellValue());
-                            break;
-
-                        case BOOLEAN:
-                            rowData.add(Boolean.toString(cell.getBooleanCellValue()));
-                            break;
-
-                        case FORMULA:
-                            rowData.add(cell.getCellFormula());
-                            break;
-
-                        default:
-                            rowData.add("");
-                    }
-                }
-                data.add(rowData);
+            int sheetCount = workbook.getNumberOfSheets();
+            for (int i = 0; i < sheetCount; i++) {
+                Sheet sheet = workbook.getSheetAt(i);
+                ArrayList<ArrayList<Object>> sheetData = parseSheet(sheet);
+                excelData.add(sheetData);
             }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return data;
+        return excelData;
+    }
+
+    private ArrayList<ArrayList<Object>> parseSheet(Sheet sheet) {
+        ArrayList<ArrayList<Object>> sheetData = new ArrayList<>();
+
+        for (Row row : sheet) {
+            ArrayList<Object> rowData = new ArrayList<>();
+            for (Cell cell : row) {
+                switch (cell.getCellType()) {
+                    case STRING:
+                        rowData.add(cell.getStringCellValue());
+                        break;
+
+                    case NUMERIC:
+                        rowData.add(cell.getNumericCellValue());
+                        break;
+
+                    case BOOLEAN:
+                        rowData.add(Boolean.toString(cell.getBooleanCellValue()));
+                        break;
+
+                    case FORMULA:
+                        rowData.add(cell.getCellFormula());
+                        break;
+
+                    default:
+                        rowData.add("");
+                }
+            }
+            sheetData.add(rowData);
+        }
+
+        return sheetData;
     }
 
 
-    //정규화
-    public ArrayList<ArrayList<Object>> normalizeExcelData(ArrayList<ArrayList<Object>> excelData) {
+
+    //엑셀 정규화
+    public ArrayList<ArrayList<ArrayList<Object>>> normalizeExcelData(ArrayList<ArrayList<ArrayList<Object>>> excelData) {
+        ArrayList<ArrayList<ArrayList<Object>>> normalizedExcelData = new ArrayList<>();
+        ArrayList<ArrayList<Object>> decodingKeyList = new ArrayList<>();
+        ArrayList<Object> decodingKey = new ArrayList<>();
+        int shift = 3;
+        // 데이터의 최소값과 최대값을 찾기 위한 초기화
+        double minValue = Double.MAX_VALUE;
+        double maxValue = Double.MIN_VALUE;
+
+        List<Double> minValueList = new ArrayList<>();
+        List<Double> maxValueList = new ArrayList<>();
+
+
+        for (ArrayList<ArrayList<Object>> sheetData : excelData) {
+            ArrayList<ArrayList<Object>> normalizedSheetData = new ArrayList<>();
+            int startIdx = 1;
+
+
+            // 최소값과 최대값을 찾기
+            for (int i = startIdx; i < sheetData.size(); i++) {
+                ArrayList<Object> row = sheetData.get(i);
+                for (Object data : row) {
+                    if (data instanceof Number) {
+                        double value = ((Number) data).doubleValue();
+                        minValue = Math.min(minValue, value);
+                        maxValue = Math.max(maxValue, value);
+
+
+                    }
+                }
+            }
+
+            minValueList.add(minValue);
+            maxValueList.add(maxValue);
+
+            // min-max 정규화를 적용하여 normalizedSheetData에 저장
+            for (int i = 0; i < sheetData.size(); i++) {
+                ArrayList<Object> row = sheetData.get(i);
+                ArrayList<Object> normalizedRow = new ArrayList<>();
+                for (Object data : row) {
+                    if (data instanceof Number) {
+                        double value = ((Number) data).doubleValue();
+                        double normalizedValue = (value - minValue) / (maxValue - minValue);
+
+                        // 소수점 10자리까지 반올림
+                        normalizedValue = Math.round(normalizedValue * Math.pow(10, 10)) / Math.pow(10, 10);
+                        // 소수점 표기법으로 문자열로 변환하여 저장
+                        String formattedValue = String.format("%.10f", normalizedValue);
+
+                        normalizedRow.add(formattedValue);
+                    } else if (data instanceof String) {
+                        // 문자열인 경우 오른쪽으로 시프트하여 암호화
+                        String encryptedString = caesarCipherEncrypt((String) data, shift);
+                        normalizedRow.add(encryptedString);
+                    } else {
+                        normalizedRow.add(data);
+                    }
+                }
+
+                normalizedSheetData.add(normalizedRow);
+            }
+
+            decodingKey.add(minValueList.get(0));
+            decodingKey.add(maxValueList.get(0));
+            decodingKey.add(minValueList.get(0));
+            decodingKey.add(minValueList.get(minValueList.size()));
+            System.out.println("minValueList - "+minValueList);
+            System.out.println("maxValueList - "+maxValueList);
+
+            normalizedSheetData.add(decodingKey);
+            normalizedExcelData.add(normalizedSheetData);
+        }
+
+        return normalizedExcelData;
+    }
+
+    //csv 정규화
+    public ArrayList<ArrayList<Object>> normalizeCsvData(ArrayList<ArrayList<Object>> excelData) {
         ArrayList<ArrayList<Object>> normalizedExcelData = new ArrayList<>();
         ArrayList<Object> decodingKeyList = new ArrayList<>();
-        ArrayList<String> decodingKeyName = new ArrayList<>();
+
 
         // 시작 인덱스: 첫 번째 row는 제목이므로 두 번째 row부터 시작
         int startIdx = 1;
@@ -301,8 +392,85 @@ public class ChangeDataService {
     }
 
 
-    //표준화
-    public ArrayList<ArrayList<Object>> standardizeExcelData(ArrayList<ArrayList<Object>> excelData) {
+    //엑셀 표준화
+    public ArrayList<ArrayList<ArrayList<Object>>> standardizeExcelData(ArrayList<ArrayList<ArrayList<Object>>> excelData) {
+        ArrayList<ArrayList<ArrayList<Object>>> standardizedExcelData = new ArrayList<>();
+        int shift = 3;
+
+        for (ArrayList<ArrayList<Object>> sheetData : excelData) {
+            ArrayList<ArrayList<Object>> standardizedSheetData = new ArrayList<>();
+            int startIdx = 1;
+
+            int colCount = 0;
+            for (ArrayList<Object> row : sheetData) {
+                colCount = Math.max(colCount, row.size());
+            }
+
+            double meanValue = 0;
+            double stddevValue = 0;
+            int count = 0;
+
+            // 각 열 평균, 표준편차 계산
+            for (int i = startIdx; i < sheetData.size(); i++) {
+                ArrayList<Object> row = sheetData.get(i);
+                for (Object data : row) {
+                    if (isNumeric(data)) {
+                        double value = Double.parseDouble(data.toString());
+                        meanValue += value;
+                        count++;
+                    }
+                }
+            }
+
+            meanValue /= count;
+
+            // 각 열 표준편차 계산
+            for (int i = startIdx; i < sheetData.size(); i++) {
+                ArrayList<Object> row = sheetData.get(i);
+                for (Object data : row) {
+                    if (isNumeric(data)) {
+                        double value = Double.parseDouble(data.toString());
+                        double diff = value - meanValue;
+                        stddevValue += diff * diff;
+                    }
+                }
+            }
+
+            stddevValue = Math.sqrt(stddevValue / (count - 1));
+
+            // 각 셀의 데이터를 표준화하여 채워넣기
+            for (int i = 0; i < sheetData.size(); i++) {
+                ArrayList<Object> row = sheetData.get(i);
+                ArrayList<Object> standardizedRow = new ArrayList<>();
+                for (Object data : row) {
+                    if (isNumeric(data)) {
+                        double value = Double.parseDouble(data.toString());
+                        // 표준편차가 0인 경우 표준화를 건너뛰고 원래의 값을 사용합니다.
+                        if (stddevValue != 0) {
+                            double standardizedValue = (value - meanValue) / stddevValue;
+                            standardizedRow.add(standardizedValue);
+                        } else {
+                            standardizedRow.add(value);
+                        }
+                    } else if (data instanceof String) {
+                        // 문자열인 경우 오른쪽으로 시프트하여 암호화
+                        String encryptedString = caesarCipherEncrypt((String) data, shift);
+                        standardizedRow.add(encryptedString);
+                    } else {
+                        standardizedRow.add(data);
+                    }
+                }
+
+                standardizedSheetData.add(standardizedRow);
+            }
+            standardizedExcelData.add(standardizedSheetData);
+        }
+
+        return standardizedExcelData;
+    }
+
+    //csv 표준화
+    public ArrayList<ArrayList<Object>> standardizeCsvData(ArrayList<ArrayList<Object>> excelData) {
 
         ArrayList<Object> decodingKeyList = new ArrayList<>();
         // 입력 데이터의 행과 열 크기 구하기
@@ -388,6 +556,7 @@ public class ChangeDataService {
 
         return standardizedExcelData;
     }
+
 
 
     //csv파일 파싱
