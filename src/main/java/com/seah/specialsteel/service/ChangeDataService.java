@@ -9,10 +9,7 @@ import com.seah.specialsteel.repository.ChangeExpectedRepository;
 import com.seah.specialsteel.repository.ChangeOriResultRepository;
 import com.seah.specialsteel.repository.DecodingKeyRepository;
 import lombok.AllArgsConstructor;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -126,11 +123,18 @@ public class ChangeDataService {
             changeOriResult.setHeatNo((String) changeOriResultList.get(i).get(0));
             changeOriResult.setName((String) changeOriResultList.get(i).get(1));
             changeOriResult.setTotalAmount(Double.parseDouble(changeOriResultList.get(i).get(3).toString()));
-            changeOriResult.setTotalCost((String) changeOriResultList.get(i).get(2));
+            Object value = changeOriResultList.get(i).get(2);
+            if(value instanceof Double){
+                changeOriResult.setTotalCost((Double) changeOriResultList.get(i).get(2));
+            }else if(value instanceof String){
+                changeOriResult.setTotalCost(Double.parseDouble((String) changeOriResultList.get(i).get(2)));
+            }
             changeOriResult.setMethod((String) changeOriResultList.get(i).get(5));
             changeOriResult.setExpectOutput(Double.parseDouble(changeOriResultList.get(i).get(4).toString()));
             changeOriResult.setHistoryId(maxHistoryId);
             changeOriResultRepository.save(changeOriResult);
+
+            System.out.println("얼로이네임리스트 - "+alloyNameList);
 
 
             for (int e = 0; e < alloyNameList.size(); e++) {
@@ -260,12 +264,20 @@ public class ChangeDataService {
             Workbook workbook = new XSSFWorkbook(inputStream);
             Sheet sheet = workbook.getSheetAt(0);
 
+            DataFormatter dataFormatter = new DataFormatter();
+
             for (Row row : sheet) {
                 ArrayList<Object> rowData = new ArrayList<>();
                 for (Cell cell : row) {
                     switch (cell.getCellType()) {
                         case STRING:
-                            rowData.add(cell.getStringCellValue());
+                            String cellValue = dataFormatter.formatCellValue(cell);
+                            try {
+                                double numericValue = Double.parseDouble(cellValue);
+                                rowData.add(numericValue);
+                            } catch (NumberFormatException e) {
+                                rowData.add(cellValue);
+                            }
                             break;
 
                         case NUMERIC:
@@ -328,6 +340,9 @@ public class ChangeDataService {
 
         // Heat번호와 방법이 열의 인덱스들에 대한 정보를 저장하세요 (예: 0번과 5번 열)
         int heatNumberColumnIndex = 0;
+        int no1 = 2;
+        int no2 = 3;
+        int no3 = 4;
         int methodColumnIndex = 5;
 
         for (int i = 0; i < excelData.size(); i++) {
@@ -335,7 +350,7 @@ public class ChangeDataService {
 
             ArrayList<Object> normalizedRow = new ArrayList<>();
             for (int j = 0; j < row.size(); j++) {
-                if (row.get(j) instanceof Number) {
+                if (row.get(j) instanceof Number && j != heatNumberColumnIndex && j != methodColumnIndex && j != no1 && j != no2 && j != no3) {
                     double value = ((Number) row.get(j)).doubleValue();
                     double normalizedValue = (value - minValuesPerColumn.get(j)) / (maxValuesPerColumn.get(j) - minValuesPerColumn.get(j));
 
@@ -441,6 +456,9 @@ public class ChangeDataService {
 
         // Heat번호와 방법이 열의 인덱스들에 대한 정보를 저장하세요 (예: 0번과 5번 열)
         int heatNumberColumnIndex = 0;
+        int no1 = 2;
+        int no2 = 3;
+        int no3 = 4;
         int methodColumnIndex = 5;
 
         for (int i = 0; i < rowCount; i++) {
@@ -449,16 +467,16 @@ public class ChangeDataService {
             for (int j = 0; j < row.size(); j++) {
                 if (isNumeric(row.get(j))) {
                     double value = Double.parseDouble(row.get(j).toString());
-                    if (stddevValuesPerColumn.get(j) != 0) {
+                    if (stddevValuesPerColumn.get(j) != 0 && j != heatNumberColumnIndex && j != methodColumnIndex && j != no1 && j != no2 && j != no3 ) {
                         double standardizedValue = (value - meanValuesPerColumn.get(j)) / stddevValuesPerColumn.get(j);
                         standardizedRow.add(standardizedValue);
-                    } else {
+                    }else {
                         standardizedRow.add(value);
                     }
                 } else if (row.get(j) instanceof String) {
                     String value = (String) row.get(j);
                     // Heat번호와 방법 열의 값은 암호화하지 않음
-                    if (j == heatNumberColumnIndex || j == methodColumnIndex) {
+                    if (j == heatNumberColumnIndex || j == methodColumnIndex || j == no1 || j == no2 || j == no3) {
                         standardizedRow.add(value);
                     }else {
                         String encryptedString = caesarCipherEncrypt((String) row.get(j), shift);

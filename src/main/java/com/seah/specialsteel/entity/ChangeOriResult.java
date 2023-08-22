@@ -25,7 +25,7 @@ public class ChangeOriResult extends BaseEntity {
     private String Name;
 
     @Column
-    private String totalCost;
+    private double totalCost;
 
     @Column
     private double totalAmount;

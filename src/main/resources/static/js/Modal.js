@@ -13,7 +13,22 @@
 function showModal() {
 
     const modal = document.getElementById('myModal');
+    displayList();
     modal.style.display = 'block';
+}
+
+function displayList() {
+    fetch('/api/displayList', {
+        method: 'POST',
+    })
+        .then(response => response.json())
+        .then(data => {
+            // 받은 데이터를 리스트로 표시합니다.
+            displayData(data);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
 }
 
 //닫기
