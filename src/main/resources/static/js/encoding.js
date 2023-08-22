@@ -80,7 +80,7 @@ function sendExcelCsv(){
         .then(result => {
             const data = result.data;
             const data1 = result.data.slice();
-            const data2 = data1.pop();
+            const data2 = data1.splice(data1.length - 3, 3);;
             const mode = result.mode;
             const decodingKey = data[7];
 
@@ -96,9 +96,10 @@ function sendExcelCsv(){
             // 미리보기 테이블 생성
             const previewTable = createPreviewTable(dataArray, "합금철별 투입량 :");
             container.appendChild(previewTable);
-            console.log("data - "+data);
+            console.log(data);
             console.log(mode);
             console.log(dataArray);
+
             resultData = data;
             resultMode = mode;
         })

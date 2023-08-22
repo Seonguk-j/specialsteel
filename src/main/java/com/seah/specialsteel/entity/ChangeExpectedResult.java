@@ -27,4 +27,7 @@ public class ChangeExpectedResult {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "ChangeOriResult_id")
     private ChangeOriResult changeOriResult;
+
+    @Column
+    private Long changeOriResultHistoryId;
 }

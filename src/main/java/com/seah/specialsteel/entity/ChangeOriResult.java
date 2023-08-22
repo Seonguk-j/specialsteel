@@ -19,6 +19,12 @@ public class ChangeOriResult extends BaseEntity {
     private Long id;
 
     @Column
+    private String HeatNo;
+
+    @Column
+    private String Name;
+
+    @Column
     private String totalCost;
 
     @Column
@@ -27,14 +33,11 @@ public class ChangeOriResult extends BaseEntity {
     @Column
     private double expectOutput;
 
+    @Column(name="history_id")
+    private Long HistoryId;
+
     @Column
     private String method;
-
-    @Column
-    private String comment;
-
-    @Column
-    private String title;
 
 
 
