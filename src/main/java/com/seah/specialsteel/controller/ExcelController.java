@@ -37,18 +37,18 @@ public class ExcelController {
     public void download(HttpServletResponse res, @PathVariable Long historyId) throws Exception {
 
 //        List<Long> revIdList = excelService.revIdList(historyId);
-        List<Long> oriIdList = excelService.oriIdList(historyId);
+
         History history = historyRepository.findById(historyId).orElseThrow();
 
         /**
          * excel sheet 생성
          */
         Workbook workbook = new XSSFWorkbook();
-//        excelService.createOriSheet(workbook, historyId);
+        excelService.createExcelSheet(workbook, historyId);
 
-        for(int i = 0; i < oriIdList.size(); i++) {
-            excelService.createOriSheet(workbook, oriIdList.get(i), i+1);
-        }
+//        for(int i = 0; i < oriIdList.size(); i++) {
+//            excelService.createOriSheet(workbook, oriIdList.get(i));
+//        }
 
 
         /**
