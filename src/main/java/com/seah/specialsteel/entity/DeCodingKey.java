@@ -12,7 +12,7 @@ import javax.persistence.*;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class DeCodingKey extends BaseEntity {
+public class DeCodingKey  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +20,13 @@ public class DeCodingKey extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "ChangeOriResult_id")
-    private ChangeOriResult changeOriResult;
+    private ChangeOriResult changeOriResultId;
+
+    @Column
+    private Long changeOriResultHistoryId;
+
+    @Column
+    private String name;
 
     @Column
     private Double max;

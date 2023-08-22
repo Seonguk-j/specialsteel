@@ -26,4 +26,7 @@ public class ChangeAlloyInput {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "ChangeOriResult_id")
     private ChangeOriResult changeOriResult;
+
+    @Column
+    private Long changeOriResultHistoryId;
 }

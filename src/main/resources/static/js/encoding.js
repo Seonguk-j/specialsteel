@@ -112,87 +112,26 @@ function sendExcelCsv(){
         .then(result => {
             const data = result.data;
             const data1 = result.data.slice();
-            const data2 = data1.pop();
+            const data2 = data1.splice(data1.length - 3, 3);;
             const mode = result.mode;
             const decodingKey = data[7];
 
             decodingKeyList = decodingKey;
-            let dataArray = [];
+
 
             // JSON 데이터를 2차원 배열로 변환
-            for (let i = 0; i < data1.length; i++) {
-                dataArray[i] = data1[i].map(row => Object.values(row));
-            }
+            const dataArray = data1.map(row => Object.values(row));
 
             // 표를 추가할 컨테이너 요소
             const container = document.querySelector(".card-table");
-            const perPage = 1; // 한 페이지에 보여줄 테이블 개수
-            let currentPage = 1;
 
-            function showTable() {
-                container.innerHTML = '';
-                const startIndex = (currentPage - 1) * perPage;
-                const endIndex = startIndex + perPage;
-
-                for (let i = startIndex; i < endIndex && i < dataArray.length; i++) {
-                    const previewTable = createPreviewTable(dataArray[i], "합금철별 투입량 :");
-                    container.appendChild(previewTable);
-                }
-            }
-
-            // 표를 추가할 컨테이너 요소
-            const wrapper = document.createElement('div');
-            wrapper.classList.add('card-table-wrapper');
-            const container1 = document.createElement('div');
-            container1.classList.add('card-table');
-            wrapper.appendChild(container1);
-
-            function showTable() {
-                container1.innerHTML = '';
-                const startIndex = (currentPage - 1) * perPage;
-                const endIndex = startIndex + perPage;
-
-                for (let i = startIndex; i < endIndex && i < dataArray.length; i++) {
-                    const previewTable = createPreviewTable(dataArray[i], "합금철별 투입량 :");
-                    container1.appendChild(previewTable);
-                }
-            }
-
-            showTable();
-
-            // 페이징 버튼 생성
-            const pagination = document.createElement('div');
-            pagination.classList.add('pagination');
-            wrapper.appendChild(pagination);
-
-            for (let i = 1; i <= Math.ceil(dataArray.length / perPage); i++) {
-                const pageLink = document.createElement('button');
-                pageLink.innerText = i;
-                pageLink.classList.add('page-link');
-                pageLink.addEventListener('click', () => {
-                    currentPage = i;
-                    showTable();
-                });
-
-                pagination.appendChild(pageLink);
-            }
-
-            container.appendChild(wrapper);
-
-
-
-
-            console.log("data - "+data);
+            // 미리보기 테이블 생성
+            const previewTable = createPreviewTable(dataArray, "합금철별 투입량 :");
+            container.appendChild(previewTable);
+            console.log(data);
             console.log(mode);
             console.log(dataArray);
-            console.log(data1[0]);
-            console.log(data1[1]);
-            console.log(data1[2]);
-            console.log(data1[3]);
-            console.log(data1[4]);
-            console.log(data1[5]);
-            console.log(data2);
-            console.log(data);
+
             resultData = data;
             resultMode = mode;
         })

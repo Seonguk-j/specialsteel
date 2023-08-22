@@ -36,10 +36,10 @@ public class ChangeFileSaveController {
 
         String filename = file.getOriginalFilename();
         String fileExtension = filename.substring(filename.lastIndexOf('.') + 1).toLowerCase();
-        ArrayList<ArrayList<ArrayList<Object>>> outputData = null;
+        ArrayList<ArrayList<Object>> outputData = null;
         ArrayList<ArrayList<Object>> csvOutPutData = null;
         if (fileExtension.equals("xlsx") || fileExtension.equals("xls")) {
-            ArrayList<ArrayList<ArrayList<Object>>> excelData = changeDataService.parseExcel(file);
+            ArrayList<ArrayList<Object>> excelData = changeDataService.parseExcelFileToArrayList(file);
             System.out.println("엑셀 데이터: " + excelData);
 
             if(mode.equals("standardizationRadio")){
@@ -57,10 +57,10 @@ public class ChangeFileSaveController {
             ArrayList<ArrayList<Object>> csvData = changeDataService.parseCsvFileToArrayList(file);
             System.out.println("CSV 데이터 : "+csvData);
             if(mode.equals("standardizationRadio")){
-                csvOutPutData = changeDataService.standardizeCsvData(csvData);
+                csvOutPutData = changeDataService.standardizeExcelData(csvData);
                 System.out.println("표준화된 csv 데이터: " + outputData);
             }else{
-                csvOutPutData = changeDataService.normalizeCsvData(csvData);
+                csvOutPutData = changeDataService.normalizeExcelData(csvData);
                 System.out.println("정규화된 csv 데이터: " + outputData);
             }
             map.put("data", csvOutPutData);
@@ -91,24 +91,7 @@ public class ChangeFileSaveController {
 
     }
 
-    @PostMapping("/saveDecodingKey")
-    public void saveDecodingKey(@RequestBody Map<String, Object> dataMap) {
-        String mode = (String) dataMap.get("mode");
-        List<Object> keyList = (List<Object>) dataMap.get("keyData");
-        System.out.println("디코딩 - " + keyList);
-        System.out.println("디코딩키 저장 들어옴");
-        System.out.println(mode);
-        if(mode.equals("standardizationRadio")){
-            System.out.println("표준화 디코딩 저장 들어옴");
-            changeDataService.saveStandardDecodingkey(keyList);
-        }else{
-            System.out.println("정규화 디코딩 저장 들어옴");
-            changeDataService.saveNormalDecodingkey(keyList);
-        }
 
-
-
-    }
 
 
 
