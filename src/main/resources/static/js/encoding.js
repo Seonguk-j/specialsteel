@@ -1,36 +1,4 @@
-// 합금철 투입량 표 데이터
-var alloyData = [
-    ["합금철 종류", "AAA", "BBB", "CCC", "DDD", "EEE", "FFF", "..."],
-    ["기존 알고리즘", "-", "-", "-", "-", "-", "-", "..."],
-    ["수정 알고리즘", "-", "-", "-", "-", "-", "-", "..."]
-]
 
-
-let resultData;
-
-
-
-
-// 합금철 투입량 표 생성 함수
-function createAlloyTable(data) {
-    const table = document.createElement("table");
-    table.classList.add("table");
-
-    for (const row of data) {
-
-        const tableRow = document.createElement("tr");
-
-        for (const cellData of row) {
-            const cell = document.createElement("td");
-            cell.textContent = cellData;
-            tableRow.appendChild(cell);
-        }
-
-        table.appendChild(tableRow);
-    }
-
-    return table;
-}
 
 // 미리보기 테이블 생성 함수
 function createPreviewTable(data, titleText) {
