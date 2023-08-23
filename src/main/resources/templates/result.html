@@ -163,6 +163,7 @@
         }
 
         async function processFile(file) {
+            var ip = "172.20.10.21:17080";
             return new Promise(async (resolve, reject) => {
                 var reader = new FileReader();
                 reader.readAsText(file);
@@ -172,7 +173,7 @@
                     try {
                         // uplaod ajax
                         await $.ajax({
-                            url: 'http://172.20.10.21:17080/mix',
+                            url: 'http://' + ip + '/mix',
                             processData: false,
                             contentType: false,
                             data: fileContent,
@@ -185,7 +186,7 @@
                         });
 
                         await $.ajax({
-                            url: 'http://172.20.10.21:17080/mix2',
+                            url: 'http://' + ip + '/mix2',
                             processData: false,
                             contentType: false,
                             data: fileContent,
