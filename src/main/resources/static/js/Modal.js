@@ -368,7 +368,7 @@ function choiceFileModal() {
 
     //미리보기 영역 초기화
     const previewArea = document.getElementById('previewArea');
-    previewArea.innerHTML = '<h5 class="h5">미리보기</h5><li>Heat 정보 : </li><div class="card-table"></div>';
+    previewArea.innerHTML = '<h5 class="h5">미리보기</h5><div class="card-table"></div>';
 
 
     const modal = document.getElementById('choiceFileModal');

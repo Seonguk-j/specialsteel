@@ -1,5 +1,28 @@
 
 
+
+
+// 합금철 투입량 표 생성 함수
+function createAlloyTable(data) {
+    const table = document.createElement("table");
+    table.classList.add("table");
+
+    for (const row of data) {
+
+        const tableRow = document.createElement("tr");
+
+        for (const cellData of row) {
+            const cell = document.createElement("td");
+            cell.textContent = cellData;
+            tableRow.appendChild(cell);
+        }
+
+        table.appendChild(tableRow);
+    }
+
+    return table;
+}
+
 // 미리보기 테이블 생성 함수
 function createPreviewTable(data, titleText) {
     const container = document.createElement("div");
@@ -94,7 +117,7 @@ function sendExcelCsv(){
             const container = document.querySelector(".card-table");
 
             // 미리보기 테이블 생성
-            const previewTable = createPreviewTable(dataArray, "합금철별 투입량 :");
+            const previewTable = createPreviewTable(dataArray);
             container.appendChild(previewTable);
             console.log(data);
             console.log(mode);

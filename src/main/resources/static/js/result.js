@@ -355,13 +355,12 @@ function showRevFile1(response) {
     html += "<div>";
     console.log("리스폰스길이 - " + response.length);
     for (var i = 0; i < response.length; i++) {
-        //$("#showResult").empty();
-        html += "<a href='#' id='showResult1' class='page-btn btn m-1' onclick='sendRevFileName1(\"" + i + "\",\"" + response.index + "\", $(\"#commentRevTextarea\").val())'>" + (i + 1) + "</a>";
+        html += "<a href='#' id='showResult1' class='pagebtn btn m-1' onclick='sendRevFileName1(\"" + i + "\",\"" + response.index + "\", $(\"#commentRevTextarea\").val())'>" + (i + 1) + "</a>";
     }
 
 
     $(".insert").html(html);
-    // nowRevComment = $("#commentRevTextarea").val();
+
 }
 
 function showOriFile1(response) {
@@ -836,3 +835,30 @@ function drawMaterialChart(response, order) {
     chart.draw(data, google.charts.Bar.convertOptions(options));
 
 }
+
+
+//
+
+var pagebtns = document.getElementsByClassName("pagebtn");
+
+function handleClick(event) {
+    console.log(event.target);
+
+    if (event.target.classList.contains("clicked")) {
+        event.target.classList.remove("clicked");
+    } else {
+        for (var i = 0; i < pagebtns.length; i++) {
+            pagebtns[i].classList.remove("clicked");
+        }
+
+        event.target.classList.add("clicked");
+    }
+}
+
+function init() {
+    for (var i = 0; i < pagebtns.length; i++) {
+        pagebtns[i].addEventListener("click", handleClick);
+    }
+}
+
+init();
