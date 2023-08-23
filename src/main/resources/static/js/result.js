@@ -359,11 +359,12 @@ function showRevFile1(response, index) {
     html += "<li class='list-group-item'>방법 : " + response.method + "</li>";
     html += "<div>";
     console.log("리스폰스길이 - " + response.length);
+    html += "<div class='changeTest'>";
     for (var i = 0; i < response.length; i++) {
         //$("#showResult").empty();
         html += "<a href='#' id='btn_" + i + "' class='pagebtn btn m-1' onclick='sendRevFileName1(\"" + i + "\",\"" + response.index + "\", $(\"#commentRevTextarea\").val())'>" + (i + 1) + "</a>";
     }
-
+    html += "</div>";
     $(".insert").html(html);
     // nowRevComment = $("#commentRevTextarea").val();
     $(".pagebtn").removeClass("active");
