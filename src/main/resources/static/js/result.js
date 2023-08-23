@@ -17,7 +17,8 @@ var diffMaterialsMap;
 
 //request json파일 api 전송
 function sendOriFileName(index) {
-    console.log("샌드파일네임 - " + index)
+
+
     // Ajax 요청을 사용하여 백엔드에 데이터를 전송
     $.ajax({
         url: '/sendOriFileName',
@@ -32,6 +33,8 @@ function sendOriFileName(index) {
             console.log(error);
         }
     });
+
+
 }
 
 
@@ -58,27 +61,26 @@ function showOriFile(response) {
 
 
 
+// JavaScript/jQuery code
+
 function showUploadedList(arr) {
     event.preventDefault();
     var html = "";
     html += "<div class='changeTest'>";
     for (var i = 0; i < arr; i++) {
-        html += "<a href='#' class='pagebtn btn m-1' onclick='sendFileName(\"" + i + "\")'>" + (i + 1) + "</a>";
+        html += "<a href='#' class='pagebtn btn m-1' id='btn_" + i + "' onclick='sendFileName(\"" + i + "\")'>" + (i + 1) + "</a>";
     }
     html += "</div>";
+
     $("#uploadResult").html(html);
 
 }
-
-
-
-
-
 
 function sendFileName(index) {
     sendOriFileName(index);
     sendRevFileName(index);
 }
+
 function sendRevFileName(index) {
 
     $.ajax({
@@ -87,7 +89,7 @@ function sendRevFileName(index) {
         data: { index: index },
         success: function (response) {
             // 요청이 성공한 경우의 동작
-            showRevFile(response.revResultDTO);
+            showRevFile(response.revResultDTO, index);
             showSaveBtn();
             compareDTO = response.compareDTO;
             console.log(compareDTO);
@@ -160,7 +162,7 @@ function sendRevFileName(index) {
     });
 }
 
-function showRevFile(response) {
+function showRevFile(response, index) {
     // nowIndex = response.index;
     var html = "";
     html += "<div class='insert list-group'>";
@@ -174,7 +176,7 @@ function showRevFile(response) {
     //------------------------------ 수정중인부분
     html += "<div class='changeTest'>";
     for (var i = 0; i < response.length; i++) {
-        html += "<a href='#' id='uploadResult' class='pagebtn btn m-1' onclick='sendFileName(\"" + i + "\")'>" + (i + 1) + "</a>";
+        html += "<a href='#' id='btn_" + i + "' class='pagebtn btn m-1' onclick='sendFileName(\"" + i + "\")'>" + (i + 1) + "</a>";
     }
     html += "</div>";
     html += "</div>";
@@ -182,6 +184,8 @@ function showRevFile(response) {
 
     $(".insert").html(html);
 
+    $(".pagebtn").removeClass("active");
+    $("#btn_" + index).addClass("active");
 }
 function showSaveBtn() {
     var html = "";
@@ -268,9 +272,9 @@ function sendRevFileName1(index) {
         data: { index: index },
         success: function (response) {
             // 요청이 성공한 경우의 동작
-            console.log("리스폰스1 - " + response.revResultDTO);
-            console.log("리스폰스2 - " + response);
-            showRevFile1(response.revResultDTO);
+            // console.log("리스폰스1 - " + response.revResultDTO);
+            // console.log("리스폰스2 - " + response);
+            showRevFile1(response.revResultDTO, index);
             showOriFile1(response.oriResultDTO);
             //showSaveBtn();
             compareDTO = response.compareDTO;
@@ -342,7 +346,7 @@ function sendRevFileName1(index) {
     });
 }
 
-function showRevFile1(response) {
+function showRevFile1(response, index) {
 
     console.log("리스폰스 - " + response)
     // nowIndex = response.index;
@@ -356,12 +360,14 @@ function showRevFile1(response) {
     html += "<div>";
     console.log("리스폰스길이 - " + response.length);
     for (var i = 0; i < response.length; i++) {
-        html += "<a href='#' id='showResult1' class='pagebtn btn m-1' onclick='sendRevFileName1(\"" + i + "\",\"" + response.index + "\", $(\"#commentRevTextarea\").val())'>" + (i + 1) + "</a>";
+        //$("#showResult").empty();
+        html += "<a href='#' id='btn_" + i + "' class='pagebtn btn m-1' onclick='sendRevFileName1(\"" + i + "\",\"" + response.index + "\", $(\"#commentRevTextarea\").val())'>" + (i + 1) + "</a>";
     }
 
-
     $(".insert").html(html);
-
+    // nowRevComment = $("#commentRevTextarea").val();
+    $(".pagebtn").removeClass("active");
+    $("#btn_" + index).addClass("active");
 }
 
 function showOriFile1(response) {
