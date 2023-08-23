@@ -18,9 +18,8 @@ import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.lang.reflect.Array;
+import java.util.*;
 
 @Service
 @AllArgsConstructor
@@ -33,6 +32,8 @@ public class ExcelService {
     private final AlloyInputRepository alloyInputRepository;
 
     private final ExpectedResultRepository expectedResultRepository;
+
+    static HashSet<String> alloyNameSet;
 
     private List<String> colName() {
 
@@ -50,27 +51,31 @@ public class ExcelService {
         return colName;
     }
 
-    private List<AlloyInput> alloyData(Long oriResultId, Long revResultId) {
-        List<AlloyInput> alloyInputList = new ArrayList<>();
+    private HashMap<String, Double> alloyData(Long oriResultId, Long revResultId) {
+//        List<AlloyInput> alloyInputList = new ArrayList<>();
+        HashMap<String, Double> alloyInputMap = new HashMap<>();
         if(oriResultId!= null) {
             OriResult oriResult = oriResultRepository.findById(oriResultId).orElseThrow();
-             alloyInputList = alloyInputRepository.findByOriResultId(oriResultId);
+            List<AlloyInput> alloyInputs = alloyInputRepository.findByOriResultId(oriResultId);
+            for(AlloyInput alloyInput : alloyInputs)
+                alloyInputMap.put(alloyInput.getName(), alloyInput.getAmount());
 
-
-            return alloyInputList;
+            return alloyInputMap;
         }else {
             RevResult revResult = revResultRepository.findById(revResultId).orElseThrow();
-            alloyInputList = alloyInputRepository.findByRevResultId(revResultId);
+            List<AlloyInput> alloyInputs = alloyInputRepository.findByRevResultId(revResultId);
+            for(AlloyInput alloyInput : alloyInputs)
+                alloyInputMap.put(alloyInput.getName(), alloyInput.getAmount());
 
-            return alloyInputList;
+            return alloyInputMap;
         }
     }
 
-    private List<ExpectedResult> expectData(Long orResultId, Long revResultId) {
+    private List<ExpectedResult> expectData(Long oriResultId, Long revResultId) {
         List<ExpectedResult> expectedResultList = new ArrayList<>();
-        if(orResultId!= null) {
-            OriResult oriResult = oriResultRepository.findById(orResultId).orElseThrow();
-            expectedResultList = expectedResultRepository.findByOriResultId(orResultId);
+        if(oriResultId!= null) {
+            OriResult oriResult = oriResultRepository.findById(oriResultId).orElseThrow();
+            expectedResultList = expectedResultRepository.findByOriResultId(oriResultId);
 
 
             return expectedResultList;
@@ -86,6 +91,21 @@ public class ExcelService {
 
         List<OriResult> OriResultList = oriResultRepository.findByHistoryId(historyId);
         List<RevResult> revResultList = revResultRepository.findByHistoryId(historyId);
+
+        alloyNameSet = new HashSet<>();
+        for(OriResult oriResult : OriResultList) {
+            List<AlloyInput> alloyInputs = alloyInputRepository.findByOriResultId(oriResult.getId());
+            for(AlloyInput alloyInput : alloyInputs) {
+                alloyNameSet.add(alloyInput.getName());
+            }
+        }
+
+        ArrayList<String> alloyNameList = new ArrayList<>(alloyNameSet);
+
+//        int sss = 1;
+//        for (String name : alloyNameList)
+//            System.out.println(sss++ + " : " +name);
+
         Sheet sheet = workbook.createSheet("알고리즘"); // 엑셀 sheet 이름
 
 
@@ -110,8 +130,6 @@ public class ExcelService {
 
         int rowCount = 1;
 
-
-
         Row headerRow2 = sheet.createRow(rowCount);
 
         for (int i = 0; i < oriRowName.size(); i++) {
@@ -120,7 +138,7 @@ public class ExcelService {
 
         }
 
-        List<AlloyInput> alloyData2 = this.alloyData(OriResultList.get(0).getId(), null);
+        HashMap<String, Double> alloyData2 = this.alloyData(OriResultList.get(0).getId(), null);
         List<ExpectedResult> expectData2 = this.expectData(OriResultList.get(0).getId(), null);
 
 
@@ -132,25 +150,22 @@ public class ExcelService {
         alloyNameCell.setCellValue("합금철 별 투입량");
 
         sheet.addMergedRegion(new CellRangeAddress(0, 0, oriRowName.size(),oriRowName.size() + expectData2.size()-1));
-        sheet.addMergedRegion(new CellRangeAddress(0, 0, oriRowName.size() + expectData2.size(),oriRowName.size() + expectData2.size() + alloyData2.size() - 1));
-
-
-
+        sheet.addMergedRegion(new CellRangeAddress(0, 0, oriRowName.size() + expectData2.size(),oriRowName.size() + expectData2.size() + alloyNameList.size() - 1));
 
         CellStyle centeredStyle = workbook.createCellStyle();
-    // 배경색 설정
-            centeredStyle.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
-            centeredStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-            //폰트 설정
+        // 배경색 설정
+        centeredStyle.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
+        centeredStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        //폰트 설정
         Font font = workbook.createFont();
         font.setColor(IndexedColors.BLACK.getIndex());
         font.setBold(true);
         centeredStyle.setFont(font);
-    // 예상 성분 셀에 스타일 적용
-            expectNameCell.setCellStyle(centeredStyle);
+        // 예상 성분 셀에 스타일 적용
+        expectNameCell.setCellStyle(centeredStyle);
 
-    // 합금철 별 투입량 셀에 스타일 적용
-            alloyNameCell.setCellStyle(centeredStyle);
+        // 합금철 별 투입량 셀에 스타일 적용
+        alloyNameCell.setCellStyle(centeredStyle);
 
 
         for (int j = 0; j < expectData2.size(); j++) {
@@ -159,20 +174,20 @@ public class ExcelService {
 
         }
 
-        for (int j = 0; j < alloyData2.size(); j++) {
-            Cell bodyCell = headerRow2.createCell(j + 6 + expectData2.size());
-            bodyCell.setCellValue(alloyData2.get(j).getName()); // 데이터 추가
 
+        for (int j = 0; j < alloyNameList.size(); j++) {
+            Cell bodyCell = headerRow2.createCell(j + 6 + expectData2.size());
+            bodyCell.setCellValue(alloyNameList.get(j)); // 데이터 추가
         }
 
 
         Cell alloyBodyCell = null;
         for (int i = 0; i < OriResultList.size(); i++) {
 
-            List<AlloyInput> alloyData = this.alloyData(OriResultList.get(i).getId(), null);
+            HashMap<String, Double> alloyData = this.alloyData(OriResultList.get(i).getId(), null);
             List<ExpectedResult> expectData = this.expectData(OriResultList.get(i).getId(), null);
 
-            List<AlloyInput> revAlloyData = this.alloyData(null, revResultList.get(i).getId());
+            HashMap<String, Double> revAlloyData = this.alloyData(null, revResultList.get(i).getId());
             List<ExpectedResult> revExpectData = this.expectData(null, revResultList.get(i).getId());
 
 
@@ -208,9 +223,11 @@ public class ExcelService {
                 expectBody.setCellValue(Double.toString(expectData.get(j).getAmount())); // 데이터 추가
             }
 
-            for (int j = 0; j < alloyData.size(); j++) {
+
+            // 데이터 값 등록
+            for (int j = 0; j < alloyNameList.size(); j++) {
                 alloyBodyCell = headerRow.createCell(j + 6 + expectData.size());
-                alloyBodyCell.setCellValue(Double.toString(alloyData.get(j).getAmount())); // 데이터 추가
+                alloyBodyCell.setCellValue(Double.toString(alloyData.getOrDefault(alloyNameList.get(j), 0.0))); // 데이터 추가
             }
 
             headerRow3 = sheet.createRow((i + 1) * 2 + 1);
@@ -243,10 +260,11 @@ public class ExcelService {
                 expectBody.setCellValue(Double.toString(revExpectData.get(j).getAmount())); // 데이터 추가
             }
 
-            for (int j = 0; j < revAlloyData.size(); j++) {
+            for (int j = 0; j < alloyNameList.size(); j++) {
                 alloyBodyCell = headerRow3.createCell(j + 6 + revExpectData.size());
-                alloyBodyCell.setCellValue(Double.toString(revAlloyData.get(j).getAmount())); // 데이터 추가
+                alloyBodyCell.setCellValue(Double.toString(revAlloyData.getOrDefault(alloyNameList.get(j), 0.0))); // 데이터 추가
             }
+
         }
         int totalColumns = 0;
 

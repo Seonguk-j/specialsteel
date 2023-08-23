@@ -36,8 +36,6 @@ public class ExcelController {
     @GetMapping("/download/{historyId}")
     public void download(HttpServletResponse res, @PathVariable Long historyId) throws Exception {
 
-//        List<Long> revIdList = excelService.revIdList(historyId);
-
         History history = historyRepository.findById(historyId).orElseThrow();
 
         /**
@@ -46,11 +44,6 @@ public class ExcelController {
         Workbook workbook = new XSSFWorkbook();
         excelService.createExcelSheet(workbook, historyId);
 
-//        for(int i = 0; i < oriIdList.size(); i++) {
-//            excelService.createOriSheet(workbook, oriIdList.get(i));
-//        }
-
-
         /**
          * download
          */
@@ -58,7 +51,7 @@ public class ExcelController {
         // 현재 날짜 구하기
         LocalDate todayDate = LocalDate.now();
 
-// 포맷 형식 지정 (yy년mm월dd일)
+        // 포맷 형식 지정 (yy년mm월dd일)
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yy_MM_dd");
         String formattedDate = todayDate.format(formatter);
 
@@ -75,8 +68,5 @@ public class ExcelController {
         servletOutputStream.flush();
         servletOutputStream.close();
     }
-
-
-
 
 }
