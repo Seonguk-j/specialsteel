@@ -51,16 +51,19 @@ public class ExcelController {
         // 현재 날짜 구하기
         LocalDate todayDate = LocalDate.now();
 
-        // 포맷 형식 지정 (yy년mm월dd일)
+    // 포맷 형식 지정 (yy년mm월dd일)
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yy_MM_dd");
         String formattedDate = todayDate.format(formatter);
 
-        String fileName = formattedDate +"_"+history.getTitle();
-        // fileName을 URL 인코딩
+        String fileName = formattedDate + "_" + history.getTitle();
+
+    // 한글 파일 이름을 URL 인코딩
         String encodedFileName = URLEncoder.encode(fileName, StandardCharsets.UTF_8);
+        encodedFileName = encodedFileName.replace("+", "%20"); // 공백을 %20으로 변경 (선택사항)
 
         res.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-        res.setHeader("Content-Disposition", "attachment;filename=" + fileName + ".xlsx");
+        res.setHeader("Content-Disposition", "attachment;filename=" + encodedFileName + ".xlsx");
+
         ServletOutputStream servletOutputStream = res.getOutputStream();
 
         workbook.write(servletOutputStream);
