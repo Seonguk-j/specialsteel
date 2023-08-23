@@ -63,7 +63,7 @@ function showUploadedList(arr) {
     var html = "";
     html += "<div class='changeTest'>";
     for (var i = 0; i < arr; i++) {
-        html += "<a href='#' class='pagebtn btn m-1' onclick='sendFileName(\"" + i + "\")'>" + (i + 1) + "</a>";
+        html += "<a href='#' class='page-btn btn m-1' onclick='sendFileName(\"" + i + "\")'>" + (i + 1) + "</a>";
     }
     html += "</div>";
     $("#uploadResult").html(html);
@@ -174,18 +174,13 @@ function showRevFile(response) {
     //------------------------------ 수정중인부분
     html += "<div class='changeTest'>";
     for (var i = 0; i < response.length; i++) {
-        html += "<a href='#' id='uploadResult' class='pagebtn btn m-1' onclick='sendFileName(\"" + i + "\")'>" + (i + 1) + "</a>";
+        html += "<a href='#' id='uploadResult' class='page-btn btn m-1' onclick='sendFileName(\"" + i + "\")'>" + (i + 1) + "</a>";
     }
     html += "</div>";
     html += "</div>";
-    // html += "<div class='delete-group'>";
-    // html += "<button class='deleteBtn ' data-index='" + response.index + "'> 삭제</button>";
-    // html += "</div>";
     html += "</div>";
 
-
     $(".insert").html(html);
-    // nowRevComment = $("#commentRevTextarea").val();
 }
 function showSaveBtn() {
     var html = "";
@@ -361,7 +356,7 @@ function showRevFile1(response) {
     console.log("리스폰스길이 - " + response.length);
     for (var i = 0; i < response.length; i++) {
         //$("#showResult").empty();
-        html += "<a href='#' id='showResult1' class='pagebtn btn m-1' onclick='sendRevFileName1(\"" + i + "\",\"" + response.index + "\", $(\"#commentRevTextarea\").val())'>" + (i + 1) + "</a>";
+        html += "<a href='#' id='showResult1' class='page-btn btn m-1' onclick='sendRevFileName1(\"" + i + "\",\"" + response.index + "\", $(\"#commentRevTextarea\").val())'>" + (i + 1) + "</a>";
     }
 
 
