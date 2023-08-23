@@ -178,7 +178,7 @@ li {
 
 
 /*파일업로드 숫자 버튼*/
-.page-btn {
+.pagebtn {
     background-color: rgb(59,73,81);
     color: #fff;
 }
@@ -192,6 +192,8 @@ li {
     background-color: rgba(59, 73, 81, 0.7);
     color: #fff;
 }
+
+
 
 
 /* 4.  파일 선택 버튼 css  =================================================*/
