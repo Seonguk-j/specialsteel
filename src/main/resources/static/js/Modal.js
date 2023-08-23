@@ -347,11 +347,12 @@ function showUploadedList1(revResults) {
     var html = "";
     html += "<div class='changeTest'>";
     for (var i = 0; i < revResults.length; i++) {
-        html += "<a href='#' class='pagebtn btn m-1' onclick='sendRevFileName1(\"" + i + "\")'>" + (i + 1) + "</a>";
+        html += "<a href='#' id='btn_" + i + "' class='pagebtn btn m-1' onclick='sendRevFileName1(\"" + i + "\")'>" + (i + 1) + "</a>";
     }
     html += "</div>";
 
     $("#showResult").html(html);
+
 }
 
 // =========================================================================================

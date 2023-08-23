@@ -183,7 +183,7 @@ li {
     color: #fff;
 }
 
-.pagebtn:active{
+.pagebtn.active {
     background-color: rgb(229,78,43);
     color: #fff;
 }
