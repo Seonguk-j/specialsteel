@@ -1,12 +1,3 @@
-// 합금철 투입량 표 데이터
-var alloyData = [
-    ["합금철 종류", "AAA", "BBB", "CCC", "DDD", "EEE", "FFF", "..."],
-    ["기존 알고리즘", "-", "-", "-", "-", "-", "-", "..."],
-    ["수정 알고리즘", "-", "-", "-", "-", "-", "-", "..."]
-]
-
-
-let resultData;
 
 
 
@@ -126,7 +117,7 @@ function sendExcelCsv(){
             const container = document.querySelector(".card-table");
 
             // 미리보기 테이블 생성
-            const previewTable = createPreviewTable(dataArray, "합금철별 투입량 :");
+            const previewTable = createPreviewTable(dataArray);
             container.appendChild(previewTable);
             console.log(data);
             console.log(mode);
