@@ -74,6 +74,8 @@ public class HistoryService {
             oriResultDTO.setHistory(history);
             OriResult oriResult = oriResultDTO.toOriEntity();
 
+            System.out.println("뭐라고 들어오는데? " + oriResult.getHeatNo());
+            System.out.println("dto뭐라고 들어오는데? " + oriResultDTO.getHeatNo());
             // 기존 알고리즘 저장
             oriResultRepository.save(oriResult);
 

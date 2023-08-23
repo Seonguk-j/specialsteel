@@ -194,7 +194,7 @@ public class ExcelService {
             headerRow = sheet.createRow((i + 1) * 2);
             //히트 번호 셀
             heatCell = headerRow.createCell(0);
-            heatCell.setCellValue("heatNo" + i);
+            heatCell.setCellValue(OriResultList.get(i).getHeatNo());
 
             //알고리즘 타입(기존, 수정) 셀
             algorithmCell = headerRow.createCell(1);
@@ -233,7 +233,7 @@ public class ExcelService {
             headerRow3 = sheet.createRow((i + 1) * 2 + 1);
             //히트 번호 셀
             heatCell = headerRow3.createCell(0);
-            heatCell.setCellValue("heatNo" + i);
+            heatCell.setCellValue(revResultList.get(i).getHeatNo());
 
             //알고리즘 타입(기존, 수정) 셀
             algorithmCell = headerRow3.createCell(1);
