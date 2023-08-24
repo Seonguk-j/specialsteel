@@ -386,9 +386,9 @@ function showOriFile1(response) {
 
 
 // 파일 일괄 저장
-// $('.hidden-group').on('click', '.allSaveBtn', function () {
-//     showAllSaveModal();
-// });
+$('.hidden-group').on('click', '.allSaveBtn', function () {
+    showAllSaveModal();
+});
 
 
 
@@ -799,7 +799,7 @@ function drawAlloyChart(response, order) {
             title: '합금철별 투입량',
             subtitle: '',
         },
-        width: 1400,  // 원하는 가로 크기
+        width: 1200,  // 원하는 가로 크기
         height: 600, // 원하는 세로 크기
 
     };
@@ -834,7 +834,7 @@ function drawMaterialChart(response, order) {
             title: 'result 예상 성분',
             subtitle: '',
         },
-        width: 1400,  // 원하는 가로 크기
+        width: 1200,  // 원하는 가로 크기
         height: 600, // 원하는 세로 크기
     };
 
