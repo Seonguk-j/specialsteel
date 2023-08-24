@@ -40,7 +40,6 @@ function sendOriFileName(index) {
 
 //
 function showOriFile(response) {
-    console.log(response);
     var html = "";
 
     html += "<div class='oriInsert list-group'>"
@@ -92,7 +91,6 @@ function sendRevFileName(index) {
             showRevFile(response.revResultDTO, index);
             showSaveBtn();
             compareDTO = response.compareDTO;
-            console.log(compareDTO);
             var html = "";
             html += "<h5 id='chart-title'>요약 지표</h5>";
             html += "<div class='sort-group'>";
@@ -265,20 +263,16 @@ function tableInit() {
 
 function sendRevFileName1(index) {
 
-    console.log(index)
     $.ajax({
         url: '/api/getRevData',
         method: 'POST',
         data: { index: index },
         success: function (response) {
             // 요청이 성공한 경우의 동작
-            // console.log("리스폰스1 - " + response.revResultDTO);
-            // console.log("리스폰스2 - " + response);
             showRevFile1(response.revResultDTO, index);
             showOriFile1(response.oriResultDTO);
             //showSaveBtn();
             compareDTO = response.compareDTO;
-            console.log(compareDTO);
             var html = "";
             html += "<h5 id='chart-title'>요약 지표</h5>";
             html += "<div class='sort-group'>";
@@ -347,10 +341,6 @@ function sendRevFileName1(index) {
 }
 
 function showRevFile1(response, index) {
-
-    console.log("리스폰스 - " + response)
-    // nowIndex = response.index;
-
     var html = "";
     html += "<div class='insert list-group'>";
     html += "<li class='list-group-item'>합금철 총 투입비용 : " + response.totalCost + "</li>";
@@ -358,7 +348,6 @@ function showRevFile1(response, index) {
     html += "<li class='list-group-item'>예상 용강량 : " + response.expectOutput + "</li>";
     html += "<li class='list-group-item'>방법 : " + response.method + "</li>";
     html += "<div>";
-    console.log("리스폰스길이 - " + response.length);
     html += "<div class='changeTest'>";
     for (var i = 0; i < response.length; i++) {
         //$("#showResult").empty();
@@ -784,7 +773,6 @@ google.charts.setOnLoadCallback();
 
 function drawAlloyChart(response, order) {
     var data = new google.visualization.DataTable();
-    // console.log(JSON.stringify(response));
     data.addColumn('string', '');
     data.addColumn('number', 'Diff');
 
@@ -817,12 +805,9 @@ google.charts.setOnLoadCallback();
 
 function drawMaterialChart(response, order) {
     var data = new google.visualization.DataTable();
-    // console.log(JSON.stringify(response));
     data.addColumn('string', '');
     data.addColumn('number', 'Diff');
 
-    // var output = response.diffAlloyInputList;
-    // console.log("차트 테스트: " + output);
     for (var i = 0; i < order.length; i++) {
         var key = order[i];
         var value = response[key];
@@ -850,8 +835,6 @@ function drawMaterialChart(response, order) {
 var pagebtns = document.getElementsByClassName("pagebtn");
 
 function handleClick(event) {
-    console.log(event.target);
-
     if (event.target.classList.contains("clicked")) {
         event.target.classList.remove("clicked");
     } else {

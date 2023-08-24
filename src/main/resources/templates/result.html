@@ -141,7 +141,6 @@
                     contentType: false,
                     method: 'GET',
                     success: function (result) {
-                        console.log(result);
                         showRevInit();
                         showOriInit();
                         chartInit();
@@ -169,7 +168,8 @@
         }
 
         async function processFile(file) {
-            var ip = "172.20.10.21:17080";
+            var oriIp = document.getElementById("ip-input-1").value;
+            var revIp = document.getElementById("ip-input-2").value;
             return new Promise(async (resolve, reject) => {
                 var reader = new FileReader();
                 reader.readAsText(file);
@@ -179,7 +179,7 @@
                     try {
                         // uplaod ajax
                         await $.ajax({
-                            url: 'http://' + ip + '/mix',
+                            url: 'http://' + oriIp + '/mix',
                             processData: false,
                             contentType: false,
                             data: fileContent,
@@ -192,7 +192,7 @@
                         });
 
                         await $.ajax({
-                            url: 'http://' + ip + '/mix2',
+                            url: 'http://' + revIp + '/mix2',
                             processData: false,
                             contentType: false,
                             data: fileContent,
@@ -227,7 +227,6 @@
                     contentType: false,
                     method: 'GET',
                     success: function (result) {
-                        console.log(result);
                         resolve();
                     },
                     error: function () {
@@ -265,7 +264,6 @@
                 data: result,
                 type: 'POST',
                 success: function (response) {
-                    console.log(response);
                 },
                 error: function (error) {
                     // alert("기존 알고리즘이 없습니다.");
@@ -281,7 +279,6 @@
                 data: result,
                 type: 'POST',
                 success: function (response) {
-                    console.log(response[0]);
                 },
                 error: function (error) {
                     alert("기존 알고리즘이 없습니다.");
