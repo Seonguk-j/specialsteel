@@ -232,7 +232,7 @@
     cursor: pointer;
     margin: 5px;
 }
-.pagination-button:active {
+.pagination-button.active {
     background: rgb(229,78,43);
     color: #fff;
 }
