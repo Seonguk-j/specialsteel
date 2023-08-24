@@ -76,7 +76,23 @@ li {
 }
 
 
+/*ip 주소 입력 input 부분*/
 
+
+#ip-input-1 , #ip-input-2{
+    width: 180px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+    margin-bottom: 20px;
+}
+
+#ip-input-1:focus, #ip-input-2:focus {
+    outline: none;
+    border-color: rgb(229,78,43);
+}
 
 
 
