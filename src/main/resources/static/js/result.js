@@ -386,9 +386,9 @@ function showOriFile1(response) {
 
 
 // 파일 일괄 저장
-$('.hidden-group').on('click', '.allSaveBtn', function () {
-    showAllSaveModal();
-});
+// $('.hidden-group').on('click', '.allSaveBtn', function () {
+//     showAllSaveModal();
+// });
 
 
 
