@@ -56,9 +56,9 @@
 
 /* 2. 기본 화면 ================================*/
 
-/*li {*/
-/*    list-style-type: none;*/
-/*}*/
+li {
+    list-style-type: none;
+}
 
 .h5 {
     font-weight: bold;

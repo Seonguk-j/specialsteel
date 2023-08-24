@@ -13,6 +13,12 @@
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
 
+<!--    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
+<!--    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>-->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
+
+
     <script src="js/result.js"></script>
     <script src="js/Modal.js"></script>
 
@@ -118,15 +124,20 @@
 <div id="excelSaveModal" class="modal" tabindex="-2">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <!-- 모달 내용 생략 -->
+            <div class="modal-header">
+                <h5 class="modal-title">엑셀 저장 미리보기</h5>
+                <button class="btn-close" data-bs-dismiss="modal" onclick="closeExcelView()" aria-label="Close"></button>
+            </div>
             <div class="modal-body">
-                <ul id="sortable" class="sortable-list">
-                    <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item test</li>
-                    <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 2</li>
-                    <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 3</li>
-                    <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 4</li>
-                    <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 5</li>
-                </ul>
+                <div id="sortableContainer" class="sortable-list">
+                    <ul id="sortable" class="sortable-list">
+                        <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item test</li>
+                        <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 2</li>
+                        <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 3</li>
+                        <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 4</li>
+                        <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 5</li>
+                    </ul>
+                </div>
             </div>
             <div class="modal-footer">
                 <button class="Closebtn" data-bs-dismiss="modal" onclick="closeExcelView()">닫기</button>
@@ -136,11 +147,15 @@
     </div>
 </div>
 
+
+
+
 <script>
-    $(function() {
-        $("#excelSaveModal").on("shown.bs.modal", function() {
-            $("#sortable").sortable();
-            $("#sortable").disableSelection();
+    $(document).ready(function() {
+        var sortableContainer = document.getElementById('sortable');
+        var sortable = new Sortable(sortableContainer, {
+            animation: 150, // 드래그 애니메이션 시간(ms)
+            // 여기에 필요한 옵션들을 추가하세요.
         });
     });
 </script>
