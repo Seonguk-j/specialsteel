@@ -350,7 +350,7 @@ public class ChangeDataService {
 
             ArrayList<Object> normalizedRow = new ArrayList<>();
             for (int j = 0; j < row.size(); j++) {
-                if (row.get(j) instanceof Number && j != heatNumberColumnIndex && j != methodColumnIndex && j != no1 && j != no2 && j != no3) {
+                if (row.get(j) instanceof Number && j != 1 && j != 2 && j != 3 && j != 4 && j != 5 && j != 0) {
                     double value = ((Number) row.get(j)).doubleValue();
                     double normalizedValue = (value - minValuesPerColumn.get(j)) / (maxValuesPerColumn.get(j) - minValuesPerColumn.get(j));
 
@@ -359,6 +359,11 @@ public class ChangeDataService {
                     normalizedRow.add(formattedValue);
                 } else if (row.get(j) instanceof String) {
                     String value = (String) row.get(j);
+                    if(value.equals("Heat 번호")){
+                        heatNumberColumnIndex = j;
+                    }else if(value.equals("방법")){
+                        methodColumnIndex = j;
+                    }
                     // Heat번호와 방법 열의 값은 암호화하지 않음
                     if (j == heatNumberColumnIndex || j == methodColumnIndex) {
                         normalizedRow.add(value);
@@ -467,7 +472,7 @@ public class ChangeDataService {
             for (int j = 0; j < row.size(); j++) {
                 if (isNumeric(row.get(j))) {
                     double value = Double.parseDouble(row.get(j).toString());
-                    if (stddevValuesPerColumn.get(j) != 0 && j != heatNumberColumnIndex && j != methodColumnIndex && j != no1 && j != no2 && j != no3 ) {
+                    if (stddevValuesPerColumn.get(j) != 0 && j != 1 && j != 2 && j != 3 && j != 4 && j != 5 && j != 0 ) {
                         double standardizedValue = (value - meanValuesPerColumn.get(j)) / stddevValuesPerColumn.get(j);
                         standardizedRow.add(standardizedValue);
                     }else {
@@ -475,6 +480,14 @@ public class ChangeDataService {
                     }
                 } else if (row.get(j) instanceof String) {
                     String value = (String) row.get(j);
+
+
+                    if(value.equals("Heat 번호")){
+                        heatNumberColumnIndex = j;
+                    }else if(value.equals("방법")){
+                        methodColumnIndex = j;
+                    }
+
                     // Heat번호와 방법 열의 값은 암호화하지 않음
                     if (j == heatNumberColumnIndex || j == methodColumnIndex || j == no1 || j == no2 || j == no3) {
                         standardizedRow.add(value);
