@@ -391,3 +391,16 @@ function closeChoiceFileModal() {
     const normalizationRadio = document.getElementById('normalizationRadio');
     normalizationRadio.checked = false;
 }
+
+
+//엑셀 저장 미리 보기 모달 관련 js ==========================================================================
+function excelView() {
+    const modal = document.getElementById('excelSaveModal');
+    modal.style.display = 'block';
+}
+
+//닫기
+function closeExcelView() {
+    const modal = document.getElementById('excelSaveModal');
+    modal.style.display = 'none';
+}
