@@ -35,21 +35,21 @@ public class ExcelService {
 
     static HashSet<String> alloyNameSet;
 
-    private List<String> colName() {
-
-        List<String> colName = new ArrayList<>();
-        colName.add("Heat 번호");
-        colName.add("알고리즘(기존/수정)");
-        colName.add("합금철 총 투입비용");
-        colName.add("합금철 총 투입량");
-        colName.add("예상용강량");
-        colName.add("방법");
-
-
-//        colName.add("메모");
-
-        return colName;
-    }
+//    private List<String> colName() {
+//
+//        List<String> colName = new ArrayList<>();
+//        colName.add("Heat 번호");
+//        colName.add("알고리즘(기존/수정)");
+//        colName.add("합금철 총 투입비용");
+//        colName.add("합금철 총 투입량");
+//        colName.add("예상용강량");
+//        colName.add("방법");
+//
+//
+////        colName.add("메모");
+//
+//        return colName;
+//    }
 
     private HashMap<String, Double> alloyData(Long oriResultId, Long revResultId) {
 //        List<AlloyInput> alloyInputList = new ArrayList<>();
@@ -87,8 +87,8 @@ public class ExcelService {
         }
     }
 
-    public Sheet createExcelSheet(Workbook workbook, Long historyId) {
-
+    public Sheet createExcelSheet(Workbook workbook, Long historyId, String number) {
+        System.out.println("숫자 + :" +number);
         List<OriResult> OriResultList = oriResultRepository.findByHistoryId(historyId);
         List<RevResult> revResultList = revResultRepository.findByHistoryId(historyId);
 
@@ -108,8 +108,16 @@ public class ExcelService {
 
         Sheet sheet = workbook.createSheet("알고리즘"); // 엑셀 sheet 이름
 
+        List<String> oriRowName = new ArrayList<>();
 
-        List<String> oriRowName = this.colName();
+
+        String[] colName = {"Heat 번호","알고리즘(기존/수정)","합금철 총 투입비용", "합금철 총 투입량","예상용강량","방법"};
+        HashMap<String, Integer> colNameMap = new HashMap<>();
+        for(int i =0; i < colName.length; i++){
+            int n = number.charAt(i) - '1';
+            oriRowName.add(colName[n]);
+            colNameMap.put(colName[n], i);
+        }
 
         Row headerRow;
         Row headerRow3;
@@ -193,23 +201,23 @@ public class ExcelService {
 
             headerRow = sheet.createRow((i + 1) * 2);
             //히트 번호 셀
-            heatCell = headerRow.createCell(0);
+            heatCell = headerRow.createCell(colNameMap.get("Heat 번호"));
             heatCell.setCellValue(OriResultList.get(i).getHeatNo());
 
             //알고리즘 타입(기존, 수정) 셀
-            algorithmCell = headerRow.createCell(1);
+            algorithmCell = headerRow.createCell(colNameMap.get("알고리즘(기존/수정)"));
             algorithmCell.setCellValue("기존");
 
-            totalCost = headerRow.createCell(2);
+            totalCost = headerRow.createCell(colNameMap.get("합금철 총 투입비용"));
 
             //합금철 총 투입량
-            totalAmount = headerRow.createCell(3);
+            totalAmount = headerRow.createCell(colNameMap.get("합금철 총 투입량"));
 
             //예상 용강량 셀
-            expectOutputCell = headerRow.createCell(4);
+            expectOutputCell = headerRow.createCell(colNameMap.get("예상용강량"));
 
 
-            methodCell = headerRow.createCell(5);
+            methodCell = headerRow.createCell(colNameMap.get("방법"));
 
 
             // 기존 알고리즘인 경우
@@ -232,23 +240,23 @@ public class ExcelService {
 
             headerRow3 = sheet.createRow((i + 1) * 2 + 1);
             //히트 번호 셀
-            heatCell = headerRow3.createCell(0);
+            heatCell = headerRow3.createCell(colNameMap.get("Heat 번호"));
             heatCell.setCellValue(revResultList.get(i).getHeatNo());
 
             //알고리즘 타입(기존, 수정) 셀
-            algorithmCell = headerRow3.createCell(1);
+            algorithmCell = headerRow3.createCell(colNameMap.get("알고리즘(기존/수정)"));
             algorithmCell.setCellValue("수정");
 
-            totalCost = headerRow3.createCell(2);
+            totalCost = headerRow3.createCell(colNameMap.get("합금철 총 투입비용"));
 
             //합금철 총 투입량
-            totalAmount = headerRow3.createCell(3);
+            totalAmount = headerRow3.createCell(colNameMap.get("합금철 총 투입량"));
 
             //예상 용강량 셀
-            expectOutputCell = headerRow3.createCell(4);
+            expectOutputCell = headerRow3.createCell(colNameMap.get("예상용강량"));
 
 
-            methodCell = headerRow3.createCell(5);
+            methodCell = headerRow3.createCell(colNameMap.get("방법"));
 
             // 수정 알고리즘인 경우
             totalCost.setCellValue(revResultList.get(i).getTotalCost());

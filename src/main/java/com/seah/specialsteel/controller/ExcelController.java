@@ -33,16 +33,18 @@ import java.nio.charset.StandardCharsets;
 public class ExcelController {
     private final ExcelService excelService;
     private final HistoryRepository historyRepository;
-    @GetMapping("/download/{historyId}")
-    public void download(HttpServletResponse res, @PathVariable Long historyId) throws Exception {
+    @GetMapping("/download/{historyId}/{number}")
+    public void download(HttpServletResponse res,  @PathVariable Long historyId, @PathVariable String number) throws Exception {
+
 
         History history = historyRepository.findById(historyId).orElseThrow();
+
 
         /**
          * excel sheet 생성
          */
         Workbook workbook = new XSSFWorkbook();
-        excelService.createExcelSheet(workbook, historyId);
+        excelService.createExcelSheet(workbook, historyId, number);
 
         /**
          * download
@@ -71,5 +73,6 @@ public class ExcelController {
         servletOutputStream.flush();
         servletOutputStream.close();
     }
+
 
 }
