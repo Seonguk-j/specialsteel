@@ -131,11 +131,6 @@
             <div class="modal-body">
                 <div id="sortableContainer" class="sortable-list">
                     <ul id="sortable" class="sortable-list">
-                        <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item test</li>
-                        <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 2</li>
-                        <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 3</li>
-                        <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 4</li>
-                        <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 5</li>
                     </ul>
                 </div>
             </div>
@@ -151,14 +146,36 @@
 
 
 <script>
+    var newOrder = ['1','2','3','4','5','6'];
     $(document).ready(function() {
-        var sortableContainer = document.getElementById('sortable');
-        var sortable = new Sortable(sortableContainer, {
-            animation: 150, // 드래그 애니메이션 시간(ms)
-            // 여기에 필요한 옵션들을 추가하세요.
+
+        const listItems = [
+            "Heat 번호",
+            "알고리즘(기존/수정)",
+            "합금철 총 투입비용",
+            "합금철 총 투입량",
+            "예상용강량",
+            "방법"
+        ];
+
+        const sortableList = document.getElementById("sortable");
+        listItems.forEach((itemText, index) => {
+            const listItem = document.createElement("li");
+            listItem.classList.add("ui-state-default");
+            listItem.innerHTML = `<span class="ui-icon ui-icon-arrowthick-2-n-s"></span>${index + 1}. ${itemText}`;
+            sortableList.appendChild(listItem);
+        });
+
+        var sortable = new Sortable(sortableList, {
+            animation: 200, // 드래그 애니메이션 시간(ms)
+            onUpdate: function(event) {
+                newOrder = Array.from(sortableList.children).map(item => item.innerText.trim());
+                // console.log("새로운 순서:", newOrder);
+            }
         });
     });
 </script>
+
 
 </body>
 

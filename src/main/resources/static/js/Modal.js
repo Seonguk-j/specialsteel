@@ -56,8 +56,14 @@ function formatDate(date) {
     return `${year}-${month}-${day} ${hours}:${minutes}`;
 }
 function excelDownload() {
+    var number = "";
+    newOrder.forEach(name => {
+        if (name.length > 0) {
+            number += name[0]; // 각 이름의 첫 번째 글자를 추출하여 배열에 추가
+        }
+    });
+    window.location.href = '/excel/download/' + selectedId  + '/' + number;
 
-    window.location.href = '/excel/download/' + selectedId;
 
 }
 
