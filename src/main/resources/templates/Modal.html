@@ -142,10 +142,41 @@
     </div>
 </div>
 
+<div id="showIpModal" class="modal" tabindex="-2">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Ip 주소</h5>
+                <button onclick="promptOn()">button</button>
+                <button class="btn-close" data-bs-dismiss="modal" onclick="closeIpModal()" aria-label="Close"></button>
+            </div>
+
+                <table class="list-table">
+                    <thead>
+                        <th>No</th>
+                        <th>Ip 주소</th>
+                        <th></th>
+                    </thead>
+                    <!-- Thymeleaf 문법을 사용하여 ipAddresses 리스트의 각 아이템을 반복하여 출력 -->
+                    <tr th:each="ipAddress, index : ${ipDTOList}">
+                        <td th:text="${index.index + 1}"></td>
+                        <td th:text="${ipAddress.address}"></td>
+                        <td>
+                            <button class="Closebtn" id="delete-btn" th:attr="data-id=${ipAddress.id}" onclick="deleteIp(this.getAttribute('data-id'))">X</button>
+                        </td>
+                    </tr>
+                </table>
+            <div class="modal-footer">
+                <button class="Closebtn" data-bs-dismiss="modal" onclick="closeIpModal()">닫기</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
 <script>
+
     var newOrder = ['1','2','3','4','5','6'];
     $(document).ready(function() {
 

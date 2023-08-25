@@ -29,6 +29,7 @@
                 <div class="row">
                     <div class="card1 card col-12">
                         <div class="date-search-container">
+                            <button class="IpInsertBtn" onclick="showIpModal()">Ip 주소</button>
                             <input type="file" name="file" id="jsonFile" multiple />
                             <button id="fileUpload">파일 업로드</button>
                             <button class="show-Btn" onclick="showModal()">조회</button>
@@ -42,11 +43,16 @@
                     <div class="card col-6" id="ori">
                         <div class="card-body">
                             <div class="title-file-group row">
-                                <div class="ipinput-group">
-                                    <input id="ip-input-1" placeholder="ip 주소를 입력하세요"/>
-                                </div>
-                                <h5 class="h5 col-5">기존 알고리즘 결과</h5>
+                                  <select class="form-select" onchange="selectedOriIp(this)">
+                                    <option selected>ip 주소를 입력하세요</option>
+                                      <option th:each="ipAddress : ${ipDTOList}" th:value="${ipAddress.address}" th:text="${ipAddress.address}"></option>
+                                </select>
                             </div>
+                            <p></p>
+                            <div id="oriIpInput" style="display: block;">
+                                <input id="ip-input-1" placeholder="직접 입력" oninput="updateOriIp(this.value)"/>
+                            </div>
+                            <h5 class="h5 col-5">기존 알고리즘 결과</h5>
                             <div class="oriInsert list-group">
                                 <li class="list-group-item">합금철 총 투입비용 : </li>
                                 <li class="list-group-item">합금철 총 투입량 : </li>
@@ -58,11 +64,17 @@
                     <div class="card col-6">
                         <div class="card-body">
                             <div class="title-file-group row">
-                                <div class="ipinput-group">
-                                    <input id="ip-input-2" placeholder="ip 주소를 입력하세요"/>
-                                </div>
-                                <h5 class="h5 col-5">수정 알고리즘 결과</h5>
+                                <select class="form-select" onchange="selectedRevIp(this)">
+                                    <option selected>ip 주소를 입력하세요</option>
+                                    <option th:each="ipAddress : ${ipDTOList}" th:value="${ipAddress.address}" th:text="${ipAddress.address}"></option>
+                                </select>
                             </div>
+                            <p></p>
+                            <div id="revIpInput" style="display: block;">
+                                <input id="ip-input-2" placeholder="직접 입력" oninput="updateRevIp(this.value)"/>
+                            </div>
+                            <h5 class="h5 col-5">수정 알고리즘 결과</h5>
+
                             <div class="insert list-group">
                                 <li class="list-group-item">합금철 총 투입비용 : </li>
                                 <li class="list-group-item">합금철 총 투입량 : </li>
@@ -124,6 +136,10 @@
     <script src="js/result.js"></script>.
     <script src="js/Modal.js"></script>
     <script>
+        var oriIp = '';
+        var revIp = '';
+
+
         $('#fileUpload').click(async function () {
             await initList();
             await sendRequestFile(); // testUpload 실행 후 test2 실행
@@ -166,10 +182,42 @@
                 resolve(); // sendRequestFile 함수 완료를 알림
             });
         }
+        function updateOriIp(value) {
+            oriIp = value; // 현재 입력된 값으로 oriIp 업데이트
+        }
+
+        function updateRevIp(value) {
+            revIp = value; // 현재 입력된 값으로 oriIp 업데이트
+        }
+        function selectedOriIp(selectElement) {
+            oriIp = selectElement.options[selectElement.selectedIndex].text;
+
+            if (oriIp === "ip 주소를 입력하세요") {
+                oriIp = document.getElementById("ip-input-1").value;
+                document.getElementById("oriIpInput").style.display = "block";
+            } else {
+                document.getElementById("oriIpInput").style.display = "none";
+                oriIp = selectElement.options[selectElement.selectedIndex].text;;
+            }
+
+        }
+        function selectedRevIp(selectElement) {
+            revIp = selectElement.options[selectElement.selectedIndex].text;
+
+            if (revIp === "ip 주소를 입력하세요") {
+                revIp = document.getElementById("ip-input-2").value;
+                document.getElementById("revIpInput").style.display = "block";
+            } else {
+                document.getElementById("revIpInput").style.display = "none";
+                revIp = selectElement.options[selectElement.selectedIndex].text;
+            }
+
+        }
 
         async function processFile(file) {
-            var oriIp = document.getElementById("ip-input-1").value;
-            var revIp = document.getElementById("ip-input-2").value;
+
+
+            console.log("test: " + oriIp);
             return new Promise(async (resolve, reject) => {
                 var reader = new FileReader();
                 reader.readAsText(file);
@@ -185,6 +233,7 @@
                             data: fileContent,
                             type: 'POST',
                             success: async function (result) {
+
                                 postOriResponseJson(result);
                             },
                             error: function () {

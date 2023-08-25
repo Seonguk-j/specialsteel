@@ -405,13 +405,6 @@ function allSaveHistory() {
 }
 
 
-
-
-
-
-
-
-
 //3. 정렬 ==============================================================================
 function sendSortData() {
     var selectedSort = $("#sort-select").val();

@@ -35,9 +35,8 @@ function displayList() {
 function closeModal() {
     const modal = document.getElementById('myModal');
     modal.style.display = 'none';
-
-
 }
+
 // 조회 Esc 키로 모달 창 닫기 처리
 window.addEventListener("keydown", function (event) {
     if (event.key === "Escape" || event.key === "Esc") {
@@ -64,10 +63,7 @@ function excelDownload() {
     });
     window.location.href = '/excel/download/' + selectedId  + '/' + number;
 
-
 }
-
-
 
 // 3. 일괄저장 모달창 ======================================================================
 
@@ -409,4 +405,92 @@ function excelView() {
 function closeExcelView() {
     const modal = document.getElementById('excelSaveModal');
     modal.style.display = 'none';
+}
+
+function showIpModal() {
+    const modal = document.getElementById('showIpModal');
+    modal.style.display = 'block';
+}
+
+//Ip modal
+function closeIpModal() {
+    const modal = document.getElementById('showIpModal');
+    location.reload();
+    modal.style.display = 'none';
+}
+//IP 삭제
+function deleteIp(id){
+    $.ajax({
+        url: '/deleteIp/'+id,
+        method: 'POST',
+        success: function (data) {
+
+            var html = "<table class='list-table'>";
+            html += "<thead>";
+            html += "<th>No</th>";
+            html += "<th>Ip 주소</th>";
+            html += "<th></th>";
+            html += "</thead>";
+            html += "<tbody>";
+
+    // ipDTOList를 이용하여 각 아이템 반복 출력
+            data.forEach(function(ipAddress, index) {
+                html += "<tr>";
+                html += "<td>" + (index + 1) + "</td>";
+                html += "<td>" + ipAddress.address + "</td>";
+                html += "<td>";
+                html += "<button class='Closebtn' id='delete-btn' data-id='" + ipAddress.id + "' onclick='deleteIp(" + ipAddress.id + ")'>X</button>";
+                html += "</td>";
+                html += "</tr>";
+            });
+
+            html += "</tbody>";
+            html += "</table>";
+
+    // 생성한 HTML을 .allchart 요소에 추가
+            $(".list-table").html(html);
+        },
+        error: function () {
+
+        }
+    });
+}
+function promptOn(){
+    var ipAddress = prompt("ip 주소를 입력하세요.", "기본 값");
+
+    $.ajax({
+        url: '/add_ip',
+        method: 'POST',
+        data: { ipAddress: ipAddress },
+        success: function (data) {
+
+            var html = "<table class='list-table'>";
+            html += "<thead>";
+            html += "<th>No</th>";
+            html += "<th>Ip 주소</th>";
+            html += "<th></th>";
+            html += "</thead>";
+            html += "<tbody>";
+
+            // ipDTOList를 이용하여 각 아이템 반복 출력
+            data.forEach(function(ipAddress, index) {
+                html += "<tr>";
+                html += "<td>" + (index + 1) + "</td>";
+                html += "<td>" + ipAddress.address + "</td>";
+                html += "<td>";
+                html += "<button class='Closebtn' id='delete-btn' data-id='" + ipAddress.id + "' onclick='deleteIp(" + ipAddress.id + ")'>X</button>";
+                html += "</td>";
+                html += "</tr>";
+            });
+
+            html += "</tbody>";
+            html += "</table>";
+
+            // 생성한 HTML을 .allchart 요소에 추가
+            $(".list-table").html(html);
+        },
+        error: function () {
+
+        }
+    });
 }
