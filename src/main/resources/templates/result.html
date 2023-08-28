@@ -29,10 +29,14 @@
                 <div class="row">
                     <div class="card1 card col-12">
                         <div class="date-search-container">
-                            <button class="IpInsertBtn" onclick="showIpModal()">Ip 주소</button>
-                            <input type="file" name="file" id="jsonFile" multiple />
-                            <button id="fileUpload">파일 업로드</button>
-                            <button class="show-Btn" onclick="showModal()">조회</button>
+                            <div class="left-btn">
+                                <button class="IpInsertBtn" onclick="showIpModal()">Ip 주소</button>
+                            </div>
+                            <div class="right-btn">
+                                <input type="file" name="file" id="jsonFile" multiple />
+                                <button id="fileUpload">비교하기</button>
+                                <button class="show-Btn" onclick="showModal()">조회</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -43,9 +47,9 @@
                     <div class="card col-6" id="ori">
                         <div class="card-body">
                             <div class="title-file-group row">
-                                  <select class="form-select" onchange="selectedOriIp(this)">
+                                <select class="form-select" onchange="selectedOriIp(this)">
                                     <option selected>ip 주소를 입력하세요</option>
-                                      <option th:each="ipAddress : ${ipDTOList}" th:value="${ipAddress.address}" th:text="${ipAddress.address}"></option>
+                                    <option th:each="ipAddress : ${ipDTOList}" th:value="${ipAddress.address}" th:text="${ipAddress.address}"></option>
                                 </select>
                             </div>
                             <p></p>

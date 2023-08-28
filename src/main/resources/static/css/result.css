@@ -1,18 +1,20 @@
 /*
-    1. 날짜 검색 조회 버튼
-    2. 기본 화면
-    3. 버튼
+    1. content 상단바
+    2. 기본 화면 & ip 부분
+    3. 전체 버튼
     4. 파일 선택 버튼 css
     5. 표
     6. 차트
 */
 
 
-/* 1. 날짜 검색 조회 버튼 */
+/*1. content 상단바 ===============================================================*/
+
+/* 날짜 검색 조회 버튼 */
 .date-search-container {
     display: flex;
-    align-items: center;
-    justify-content: flex-end;
+    /*align-items: center;*/
+    justify-content: flex-start;
 }
 
 .show-Btn {
@@ -25,21 +27,7 @@
     cursor: pointer;
 }
 .show-Btn:hover {
-    background: rgb(229,78,43);
-    color: #fff;
-}
-.IpInsertBtn {
-    padding: 5px 10px;
-    border-radius: 5px;
-    background-color: rgb(59,73,81);
-    color: #fff;
-    border: none;
-    cursor: pointer;
-    justify-content: left;
-
-}
-.IpInsertBtn:hover {
-    background: rgb(229,78,43);
+    background-color: rgba(59, 73, 81, 0.7);
     color: #fff;
 }
 
@@ -66,7 +54,7 @@
 
 
 
-/* 2. 기본 화면 ================================*/
+/* 2. 기본 화면 ========================================================================*/
 
 li {
     list-style-type: none;
@@ -109,8 +97,20 @@ li {
 
 
 
+/*ip form 부분*/
+.form-select {
+    width: 300px;
+}
 
-/* 3.  버튼====================================== */
+/*ip 주소입력란 사이즈 맞춤*/
+.title-file-group {
+    margin-left: 1px;
+}
+
+
+
+
+/* 3. 전체 버튼  ====================================== */
 .btn-group {
     float: right;
 }
@@ -163,7 +163,7 @@ li {
 
 }
 #fileUpload:hover {
-    background: rgb(229,78,43);
+    background-color: rgba(59, 73, 81, 0.7);
     color: #fff;
 }
 
@@ -219,6 +219,35 @@ li {
 .page-btn:hover {
     background-color: rgba(59, 73, 81, 0.7);
     color: #fff;
+}
+
+/*ip 주소 버튼*/
+.IpInsertBtn {
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: rgb(59,73,81);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    justify-content: left;
+
+}
+.IpInsertBtn:hover {
+    background-color: rgba(59, 73, 81, 0.7);
+    color: #fff;
+}
+
+
+/*ip 주소 버튼 & 파일업로드 버튼 위치*/
+.left-btn {
+    margin-left: 20px;
+    margin-right: auto;
+    background-position: center;
+}
+
+.right-btn {
+    margin-right: 20px;
+    background-position: center;
 }
 
 
@@ -407,4 +436,6 @@ caption {
 #material_chart {
     margin: 10px;
 }
+
+
 
