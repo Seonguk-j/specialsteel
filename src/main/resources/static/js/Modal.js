@@ -397,8 +397,12 @@ function closeChoiceFileModal() {
 
 //엑셀 저장 미리 보기 모달 관련 js ==========================================================================
 function excelView() {
-    const modal = document.getElementById('excelSaveModal');
-    modal.style.display = 'block';
+    if(selectedId != null) {
+        const modal = document.getElementById('excelSaveModal');
+        modal.style.display = 'block';
+    } else {
+        alert("데이터를 선택 해주세요.");
+    }
 }
 
 //닫기
