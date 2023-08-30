@@ -45,7 +45,7 @@ function createPreviewTable(data, titleText) {
 }
 
 
-
+let fileTitle;
 //엑셀, csv파일만 선택가능 펑션
 function validateFileType() {
 
@@ -58,9 +58,10 @@ function validateFileType() {
     const fileInput = document.getElementById('changeFileInput');
     const files = fileInput.files;
 
-    console.log(files);
     for (let i = 0; i < files.length; i++) {
         const fileType = files[i].type;
+        fileTitle = files[i].name;
+        console.log(fileTitle);
         console.log(files[i].type);
         if (!allowedFileTypes.includes(fileType)) {
             alert('선택한 파일 형식이 올바르지 않습니다. CSV 또는 Excel 파일만 선택해 주세요.');
@@ -158,8 +159,16 @@ function csvOrExcelDownload(){
         "-" +
         ("0" + date.getDate()).slice(-2);
 
+    var resultModeName;
+
+    if(resultMode == "standardizationRadio"){
+        resultModeName = "표준화";
+    }else if(resultMode == "normalizationRadio"){
+        resultModeName = "정규화";
+    }
+
     // 파일 이름 설정
-    const fileName = dateStr + resultData[2][0];
+    const fileName = dateStr + "(" + fileTitle.slice(0, fileTitle.lastIndexOf(".")) + "(" + resultModeName + "변환)" + ")";
     const contentType =
         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8";
     const excelData = arrayToExcel(resultData);
