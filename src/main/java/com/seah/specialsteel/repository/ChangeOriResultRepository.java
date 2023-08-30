@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ChangeOriResultRepository extends JpaRepository<ChangeOriResult, Long> {
 
-
     @Query("SELECT MAX(HistoryId) FROM ChangeOriResult")
     Long findMaxHistoryId();
 }

@@ -1,7 +1,6 @@
 package com.seah.specialsteel.controller;
 
 import com.seah.specialsteel.dto.IpDTO;
-import com.seah.specialsteel.dto.ResultDTO;
 import com.seah.specialsteel.entity.Ip;
 import com.seah.specialsteel.repository.IpRepository;
 import lombok.AllArgsConstructor;
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServlet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,10 +26,6 @@ public class MainController {
                 ipList.stream()
                         .map(ip -> ip.entityToDTO())
                         .collect(Collectors.toList());
-
-//        List<String> ipAddresses = ipDTOList.stream()
-//                .map(ip -> ip.getAddress())
-//                .collect(Collectors.toList());
 
         model.addAttribute("ipDTOList",ipDTOList);
 

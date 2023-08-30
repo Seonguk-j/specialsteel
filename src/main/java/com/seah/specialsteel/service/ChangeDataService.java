@@ -17,7 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 import java.io.*;
-import java.lang.reflect.Array;
 import java.nio.charset.*;
 import java.util.*;
 import java.util.regex.Pattern;
@@ -603,20 +602,6 @@ public class ChangeDataService {
         }
         return encrypted.toString();
     }
-
-    public static String caesarCipherDecrypt(String encryptedText, int shift) {
-        return caesarCipherEncrypt(encryptedText, 26 - (shift % 26));
-    }
-
-
-
-
-
-
-
-
-
-
 
 }
 

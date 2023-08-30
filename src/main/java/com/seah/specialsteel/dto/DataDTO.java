@@ -11,9 +11,7 @@ import java.time.LocalDateTime;
 @JsonSerialize
 public class DataDTO {
 
-
     private LocalDateTime date;
-//    private String comment;
     private String name;
     private Double amount;
     private Long id;
