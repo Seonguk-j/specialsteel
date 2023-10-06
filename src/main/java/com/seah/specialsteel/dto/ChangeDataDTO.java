@@ -10,13 +10,9 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ChangeDataDTO {
+
     private String title;
     private List<List<String>> data;
     private List<Double> amounts;
-
-
-
-
-
 
 }

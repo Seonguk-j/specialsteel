@@ -12,13 +12,8 @@ import lombok.AllArgsConstructor;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.CellReference;
-import org.apache.poi.xssf.usermodel.XSSFCellStyle;
-import org.apache.poi.xssf.usermodel.XSSFColor;
-import org.apache.poi.xssf.usermodel.XSSFFont;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 @Service
@@ -35,34 +30,15 @@ public class ExcelService {
 
     static HashSet<String> alloyNameSet;
 
-//    private List<String> colName() {
-//
-//        List<String> colName = new ArrayList<>();
-//        colName.add("Heat 번호");
-//        colName.add("알고리즘(기존/수정)");
-//        colName.add("합금철 총 투입비용");
-//        colName.add("합금철 총 투입량");
-//        colName.add("예상용강량");
-//        colName.add("방법");
-//
-//
-////        colName.add("메모");
-//
-//        return colName;
-//    }
-
     private HashMap<String, Double> alloyData(Long oriResultId, Long revResultId) {
-//        List<AlloyInput> alloyInputList = new ArrayList<>();
         HashMap<String, Double> alloyInputMap = new HashMap<>();
         if(oriResultId!= null) {
-            OriResult oriResult = oriResultRepository.findById(oriResultId).orElseThrow();
             List<AlloyInput> alloyInputs = alloyInputRepository.findByOriResultId(oriResultId);
             for(AlloyInput alloyInput : alloyInputs)
                 alloyInputMap.put(alloyInput.getName(), alloyInput.getAmount());
 
             return alloyInputMap;
         }else {
-            RevResult revResult = revResultRepository.findById(revResultId).orElseThrow();
             List<AlloyInput> alloyInputs = alloyInputRepository.findByRevResultId(revResultId);
             for(AlloyInput alloyInput : alloyInputs)
                 alloyInputMap.put(alloyInput.getName(), alloyInput.getAmount());
@@ -74,21 +50,15 @@ public class ExcelService {
     private List<ExpectedResult> expectData(Long oriResultId, Long revResultId) {
         List<ExpectedResult> expectedResultList = new ArrayList<>();
         if(oriResultId!= null) {
-            OriResult oriResult = oriResultRepository.findById(oriResultId).orElseThrow();
             expectedResultList = expectedResultRepository.findByOriResultId(oriResultId);
-
-
             return expectedResultList;
         }else {
-            RevResult revResult = revResultRepository.findById(revResultId).orElseThrow();
             expectedResultList = expectedResultRepository.findByRevResultId(revResultId);
-
             return expectedResultList;
         }
     }
 
     public Sheet createExcelSheet(Workbook workbook, Long historyId, String number) {
-        System.out.println("숫자 + :" +number);
         List<OriResult> OriResultList = oriResultRepository.findByHistoryId(historyId);
         List<RevResult> revResultList = revResultRepository.findByHistoryId(historyId);
 
@@ -102,14 +72,9 @@ public class ExcelService {
 
         ArrayList<String> alloyNameList = new ArrayList<>(alloyNameSet);
 
-//        int sss = 1;
-//        for (String name : alloyNameList)
-//            System.out.println(sss++ + " : " +name);
-
         Sheet sheet = workbook.createSheet("알고리즘"); // 엑셀 sheet 이름
 
         List<String> oriRowName = new ArrayList<>();
-
 
         String[] colName = {"Heat 번호","알고리즘(기존/수정)","합금철 총 투입비용", "합금철 총 투입량","예상용강량","방법"};
         HashMap<String, Integer> colNameMap = new HashMap<>();
@@ -146,7 +111,6 @@ public class ExcelService {
 
         }
 
-        HashMap<String, Double> alloyData2 = this.alloyData(OriResultList.get(0).getId(), null);
         List<ExpectedResult> expectData2 = this.expectData(OriResultList.get(0).getId(), null);
 
 
@@ -181,7 +145,6 @@ public class ExcelService {
             bodyCell.setCellValue(expectData2.get(j).getName()); // 데이터 추가
 
         }
-
 
         for (int j = 0; j < alloyNameList.size(); j++) {
             Cell bodyCell = headerRow2.createCell(j + 6 + expectData2.size());

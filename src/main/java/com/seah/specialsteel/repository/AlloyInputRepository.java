@@ -13,6 +13,4 @@ public interface AlloyInputRepository extends JpaRepository<AlloyInput, Long> {
 
     List<AlloyInput> findByRevResultId(Long id);
 
-
-
 }

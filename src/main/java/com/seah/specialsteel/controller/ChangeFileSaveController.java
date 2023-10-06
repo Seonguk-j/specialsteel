@@ -1,10 +1,7 @@
 package com.seah.specialsteel.controller;
 
-import com.seah.specialsteel.dto.ChangeDataDTO;
-import com.seah.specialsteel.dto.DataDTO;
 import com.seah.specialsteel.service.ChangeDataService;
-import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import com.seah.specialsteel.service.DecoidngService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.io.InputStream;
+import java.sql.ResultSetMetaData;
 import java.util.*;
 
 @Controller
@@ -24,15 +21,14 @@ public class ChangeFileSaveController {
     @Autowired
     private ChangeDataService changeDataService;
 
-
+    @Autowired
+    private DecoidngService decoidngService;
 
     @PostMapping("/sendExcelCsv")
     public ResponseEntity<Object> processFile(@RequestParam("file") MultipartFile file, @RequestParam("mode") String mode) throws IOException {
-        System.out.println("sendExcelCsv - " + file + " mode - " + mode);
 
         HashMap<String, Object> map = new HashMap<>();
         map.put("mode", mode);
-
 
         String filename = file.getOriginalFilename();
         String fileExtension = filename.substring(filename.lastIndexOf('.') + 1).toLowerCase();
@@ -40,14 +36,10 @@ public class ChangeFileSaveController {
         ArrayList<ArrayList<Object>> csvOutPutData = null;
         if (fileExtension.equals("xlsx") || fileExtension.equals("xls")) {
             ArrayList<ArrayList<Object>> excelData = changeDataService.parseExcelFileToArrayList(file);
-            System.out.println("엑셀 데이터: " + excelData);
-
             if(mode.equals("standardizationRadio")){
                 outputData = changeDataService.standardizeExcelData(excelData);
-                System.out.println("표준화된 엑셀 데이터: " + outputData);
             }else{
                 outputData = changeDataService.normalizeExcelData(excelData);
-                System.out.println("정규화된 엑셀 데이터: " + outputData);
             }
             map.put("data", outputData);
             // 정규화,표준화된 데이터를 JSON 형식으로 반환
@@ -55,13 +47,10 @@ public class ChangeFileSaveController {
 
         } else if (fileExtension.equals("csv")) {
             ArrayList<ArrayList<Object>> csvData = changeDataService.parseCsvFileToArrayList(file);
-            System.out.println("CSV 데이터 : "+csvData);
             if(mode.equals("standardizationRadio")){
                 csvOutPutData = changeDataService.standardizeExcelData(csvData);
-                System.out.println("표준화된 csv 데이터: " + outputData);
             }else{
                 csvOutPutData = changeDataService.normalizeExcelData(csvData);
-                System.out.println("정규화된 csv 데이터: " + outputData);
             }
             map.put("data", csvOutPutData);
             // 정규화,표준화된 데이터를 JSON 형식으로 반환
@@ -73,9 +62,6 @@ public class ChangeFileSaveController {
 
     }
 
-
-
-
     @PostMapping("/saveData")
     public void saveData(@RequestBody Map<String, Object> dataListMap) {
         Map<String, Object> saveDataKeyMap = new HashMap<>();
@@ -85,10 +71,32 @@ public class ChangeFileSaveController {
         saveDataKeyMap.put("mode", mode);
         saveDataKeyMap.put("dataKeyList", dataList);
 
-
-        System.out.println("excel변환값저장"+dataListMap);
         changeDataService.saveData(saveDataKeyMap);
 
+    }
+
+    @PostMapping("/decodingData")
+    public ResponseEntity<ArrayList<ArrayList<Object>>> decodingData(@RequestBody Map<String, Object> payload){
+        System.out.println("복호화들어옴");
+
+        ArrayList<ArrayList<Object>> ResultData = (ArrayList<ArrayList<Object>>)payload.get("keyData");
+        String mode = (String)payload.get("mode");
+
+        System.out.println(ResultData);
+        System.out.println(mode);
+
+        ArrayList<ArrayList<Object>> decodingData = null;
+
+        if(mode.equals("normalizationRadio")){
+            decodingData = decoidngService.denormalizeExcelData(ResultData);
+
+        }else if(mode.equals("standardizationRadio")){
+            decodingData = decoidngService.denormalizeStandardExcelData(ResultData);
+
+        }
+
+
+        return new ResponseEntity<>(decodingData, HttpStatus.OK);
     }
 
 

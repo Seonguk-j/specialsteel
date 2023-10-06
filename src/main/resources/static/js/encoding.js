@@ -45,7 +45,7 @@ function createPreviewTable(data, titleText) {
 }
 
 
-
+let fileTitle;
 //엑셀, csv파일만 선택가능 펑션
 function validateFileType() {
 
@@ -58,9 +58,10 @@ function validateFileType() {
     const fileInput = document.getElementById('changeFileInput');
     const files = fileInput.files;
 
-    console.log(files);
     for (let i = 0; i < files.length; i++) {
         const fileType = files[i].type;
+        fileTitle = files[i].name;
+        console.log(fileTitle);
         console.log(files[i].type);
         if (!allowedFileTypes.includes(fileType)) {
             alert('선택한 파일 형식이 올바르지 않습니다. CSV 또는 Excel 파일만 선택해 주세요.');
@@ -158,8 +159,16 @@ function csvOrExcelDownload(){
         "-" +
         ("0" + date.getDate()).slice(-2);
 
+    var resultModeName;
+
+    if(resultMode == "standardizationRadio"){
+        resultModeName = "표준화";
+    }else if(resultMode == "normalizationRadio"){
+        resultModeName = "정규화";
+    }
+
     // 파일 이름 설정
-    const fileName = dateStr + resultData[2][0];
+    const fileName = dateStr + "(" + fileTitle.slice(0, fileTitle.lastIndexOf(".")) + "(" + resultModeName + "변환)" + ")";
     const contentType =
         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8";
     const excelData = arrayToExcel(resultData);
@@ -182,6 +191,31 @@ function arrayToExcel(data) {
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
     return XLSX.write(workbook, { type: "array", bookType: "xlsx" });
+}
+
+function DecryptionEncoding(){
+    const decoidngModeDataList = { mode: resultMode, keyData: resultData }
+    $.ajax({
+        url: "/decodingData",
+        type: "POST",
+        contentType: "application/json;charset=UTF-8",
+        data: JSON.stringify(decoidngModeDataList),
+    }).done(function(response) {
+        console.log(response);
+
+        // 표를 추가할 컨테이너 요소
+        const container = document.querySelector(".card-table");
+
+        // 미리보기 테이블 생성
+        const previewTable = createPreviewTable(response);
+        container.appendChild(previewTable);
+
+        // 여기에 응답 처리 로직 작성
+    }).fail(function(jqXHR, textStatus, errorThrown) {
+        console.error("Request failed: " + textStatus + ", Error: " + errorThrown);
+
+        // 여기에 실패 처리 로직 작성
+    });
 }
 
 

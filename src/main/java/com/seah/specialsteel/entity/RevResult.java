@@ -16,8 +16,6 @@ import java.util.LinkedHashMap;
 @AllArgsConstructor
 public class RevResult extends BaseEntity{
 
-//    private final AlloyInputRepository alloyInputRepository;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -41,7 +39,4 @@ public class RevResult extends BaseEntity{
     @JoinColumn(name = "history_id")
     private History history;
 
-//    public ResultDTO entityToDTO() {
-//        return new ResultDTO(id, totalCost, totalAmount, null, expectOutput, null, method, 0, null);
-//    }
 }

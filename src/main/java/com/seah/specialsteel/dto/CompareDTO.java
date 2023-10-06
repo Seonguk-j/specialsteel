@@ -85,7 +85,6 @@ public class CompareDTO {
                  diffMaterials.put(key, Double.parseDouble(oriHash.get(key)));
                  oriMaterials.put(key, Double.parseDouble(oriHash.get(key)));
                  revMaterials.put(key, 0.0);
-
              }
          }
          // 기존알고리즘에 값이 없으나 수정알고리즘에 값이 있을 경우

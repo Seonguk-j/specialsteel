@@ -1,18 +1,11 @@
 package com.seah.specialsteel.controller;
 
-import com.seah.specialsteel.entity.AlloyInput;
-import com.seah.specialsteel.entity.ExpectedResult;
 import com.seah.specialsteel.entity.History;
-import com.seah.specialsteel.entity.RevResult;
 import com.seah.specialsteel.repository.HistoryRepository;
 import com.seah.specialsteel.service.ExcelService;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.ss.util.CellReference;
-import org.apache.poi.xssf.usermodel.XSSFCellStyle;
-import org.apache.poi.xssf.usermodel.XSSFColor;
-import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,9 +13,6 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 

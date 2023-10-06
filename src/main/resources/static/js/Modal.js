@@ -397,8 +397,12 @@ function closeChoiceFileModal() {
 
 //엑셀 저장 미리 보기 모달 관련 js ==========================================================================
 function excelView() {
-    const modal = document.getElementById('excelSaveModal');
-    modal.style.display = 'block';
+    if(selectedId != null) {
+        const modal = document.getElementById('excelSaveModal');
+        modal.style.display = 'block';
+    } else {
+        alert("데이터를 선택 해주세요.");
+    }
 }
 
 //닫기
@@ -458,39 +462,41 @@ function deleteIp(id){
 function promptOn(){
     var ipAddress = prompt("ip 주소를 입력하세요.", "기본 값");
 
-    $.ajax({
-        url: '/add_ip',
-        method: 'POST',
-        data: { ipAddress: ipAddress },
-        success: function (data) {
+    if (ipAddress !== null) {
+        $.ajax({
+            url: '/add_ip',
+            method: 'POST',
+            data: {ipAddress: ipAddress},
+            success: function (data) {
 
-            var html = "<table class='list-table'>";
-            html += "<thead>";
-            html += "<th>No</th>";
-            html += "<th>Ip 주소</th>";
-            html += "<th></th>";
-            html += "</thead>";
-            html += "<tbody>";
+                var html = "<table class='list-table'>";
+                html += "<thead>";
+                html += "<th>No</th>";
+                html += "<th>Ip 주소</th>";
+                html += "<th></th>";
+                html += "</thead>";
+                html += "<tbody>";
 
-            // ipDTOList를 이용하여 각 아이템 반복 출력
-            data.forEach(function(ipAddress, index) {
-                html += "<tr>";
-                html += "<td>" + (index + 1) + "</td>";
-                html += "<td>" + ipAddress.address + "</td>";
-                html += "<td>";
-                html += "<button class='Closebtn' id='delete-btn' data-id='" + ipAddress.id + "' onclick='deleteIp(" + ipAddress.id + ")'>X</button>";
-                html += "</td>";
-                html += "</tr>";
-            });
+                // ipDTOList를 이용하여 각 아이템 반복 출력
+                data.forEach(function (ipAddress, index) {
+                    html += "<tr>";
+                    html += "<td>" + (index + 1) + "</td>";
+                    html += "<td>" + ipAddress.address + "</td>";
+                    html += "<td>";
+                    html += "<button class='Closebtn' id='delete-btn' data-id='" + ipAddress.id + "' onclick='deleteIp(" + ipAddress.id + ")'>X</button>";
+                    html += "</td>";
+                    html += "</tr>";
+                });
 
-            html += "</tbody>";
-            html += "</table>";
+                html += "</tbody>";
+                html += "</table>";
 
-            // 생성한 HTML을 .allchart 요소에 추가
-            $(".list-table").html(html);
-        },
-        error: function () {
+                // 생성한 HTML을 .allchart 요소에 추가
+                $(".list-table").html(html);
+            },
+            error: function () {
 
-        }
-    });
+            }
+        });
+    }
 }

@@ -71,7 +71,6 @@ public class DataController {
         LocalDateTime endDate = dateRequest.getEndDate();
 
         // 조회에 필요한 작업을 수행합니다.
-//        List<OriResult> oriResults = oriResultRepository.findByModDateBetween(startDate, endDate);
 
         List<History> histories = historyRepository.findByDateBetween(startDate, endDate);
 
@@ -89,7 +88,6 @@ public class DataController {
             DataDTO dataDTO = new DataDTO();
             dataDTO.setDate(history.getDate());
             dataDTO.setTitle(history.getTitle());
-//            dataDTO.setComment(oriResult.getComment());
             dataDTO.setId(historyId); // OriResult의 ID를 이름으로 지정
             dataDTO.setAmount((double) revResultCount); // RevResult의 개수를 amount로 지정
 
@@ -117,10 +115,6 @@ public class DataController {
         Optional<OriResult> oriResults = oriResultRepository.findById(id);
         List<OriResult> oriResultsList = oriResultRepository.findByHistoryId(id);
 
-        System.out.println(revResults);
-        System.out.println(oriResults);
-        System.out.println("리브리설트디티오사이즈 - "+revResultDTOList.size());
-
         if (!revResults.isEmpty()) {
 
             for (RevResult revResult : revResults) {
@@ -128,7 +122,6 @@ public class DataController {
                 resultDTO.id = revResult.getId(); // Assuming there is a getId() method in RevResult class
                 resultDTO.totalCost = revResult.getTotalCost(); // Assuming there is a getTotalCost() method in RevResult class
                 resultDTO.method = revResult.getMethod();
-//                resultDTO.comment = revResult.getComment();
                 resultDTO.totalAmount = revResult.getTotalAmount();
                 resultDTO.expectOutput = revResult.getExpectOutput();
 
@@ -152,12 +145,10 @@ public class DataController {
                 resultDTO.expectMaterials = (LinkedHashMap<String, String>) expectedMaterialsMap;
 
                 revResultDTOList.add(resultDTO);
-                System.out.println("리브리썰트 - "+revResultDTOList);
             }
         }
 
         if (oriResults.isPresent()) {
-            System.out.println("오리리썰트이프들어옴");
             ResultDTO oriresultDTO = new ResultDTO();
             oriresultDTO.id = oriResults.get().getId(); // Assuming there is a getId() method in RevResult class
             oriresultDTO.totalCost = oriResults.get().getTotalCost(); // Assuming there is a getTotalCost() method in RevResult class
@@ -165,7 +156,6 @@ public class DataController {
 //            oriresultDTO.comment = oriResults.get().getComment();
             oriresultDTO.method = oriResults.get().getMethod();
             oriresultDTO.expectOutput = oriResults.get().getExpectOutput();
-            System.out.println("오리아이디 - "+oriResults.get().getId());
             // AlloyInput 조회
             List<AlloyInput> alloyInputs = alloyInputRepository.findByOriResultId(oriResults.get().getId());
             Map<String, String> alloyInputsMap = new LinkedHashMap<>();
@@ -173,7 +163,6 @@ public class DataController {
                 // Assuming there is a getName() method and getValue() method in AlloyInput class
                 alloyInputsMap.put(alloyInput.getName(), String.valueOf(alloyInput.getAmount()));
             }
-            System.out.println("오리얼로이맵 - "+alloyInputsMap);
             oriresultDTO.alloyInputs = (LinkedHashMap<String, String>) alloyInputsMap;
 
             // ExpectedResult 조회
@@ -183,15 +172,9 @@ public class DataController {
                 expectedMaterialsMap1.put(expectedResult.getName(), String.valueOf(expectedResult.getAmount()));
             }
             oriresultDTO.expectMaterials = (LinkedHashMap<String, String>) expectedMaterialsMap1;
-            System.out.println("오리여기까지");
             oriResultDTOList.add(oriresultDTO);
-            System.out.println("오리리설트 - "+oriResultDTOList);
         }
 
-
-        System.out.println("------------------여기5----------------");
-        System.out.println(revResults);
-        System.out.println("------------------여기5----------------");
         resultMap.put("oriResults",oriResults);
         if (!revResults.isEmpty()) {
             resultMap.put("revResults", revResults); // 모든 RevResult를 담는 List로 수정
@@ -209,15 +192,12 @@ public class DataController {
         if (oriResults.isPresent()) {
 
             for (OriResult oriResults1 : oriResultsList) {
-                System.out.println("오리리썰트이프들어옴");
                 ResultDTO oriresultDTO1 = new ResultDTO();
                 oriresultDTO1.id = oriResults1.getId(); // Assuming there is a getId() method in RevResult class
                 oriresultDTO1.totalCost = oriResults1.getTotalCost(); // Assuming there is a getTotalCost() method in RevResult class
                 oriresultDTO1.totalAmount = oriResults1.getTotalAmount();
-//            oriresultDTO.comment = oriResults.get().getComment();
                 oriresultDTO1.method = oriResults1.getMethod();
                 oriresultDTO1.expectOutput = oriResults1.getExpectOutput();
-                System.out.println("오리아이디 - " + oriResults1.getId());
                 // AlloyInput 조회
                 List<AlloyInput> alloyInputs = alloyInputRepository.findByOriResultId(oriResults1.getId());
                 Map<String, String> alloyInputsMap = new LinkedHashMap<>();
@@ -225,7 +205,6 @@ public class DataController {
                     // Assuming there is a getName() method and getValue() method in AlloyInput class
                     alloyInputsMap.put(alloyInput.getName(), String.valueOf(alloyInput.getAmount()));
                 }
-                System.out.println("오리얼로이맵 - " + alloyInputsMap);
                 oriresultDTO1.alloyInputs = (LinkedHashMap<String, String>) alloyInputsMap;
 
                 // ExpectedResult 조회
@@ -235,9 +214,7 @@ public class DataController {
                     expectedMaterialsMap1.put(expectedResult.getName(), String.valueOf(expectedResult.getAmount()));
                 }
                 oriresultDTO1.expectMaterials = (LinkedHashMap<String, String>) expectedMaterialsMap1;
-                System.out.println("오리여기까지");
                 oriResultDTOList1.add(oriresultDTO1);
-                System.out.println("오리리설트 - " + oriResultDTOList);
             }
         }
 

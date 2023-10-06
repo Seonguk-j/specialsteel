@@ -329,6 +329,21 @@
     color: #fff;
 }
 
+.decoding-data-Btn {
+    margin-right: 10px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: rgb(59,73,81);
+    color: #fff;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+.decoding-data-Btn:hover {
+    background-color: rgba(59, 73, 81, 0.7);
+    color: #fff;
+}
+
 
 /*변환, 닫기 css*/
 

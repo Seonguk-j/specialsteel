@@ -30,5 +30,4 @@ public class AlloyInput {
     @JoinColumn(name = "OriResult_id")
     private OriResult oriResult;
 
-
 }

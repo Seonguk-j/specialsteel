@@ -39,9 +39,4 @@ public class ChangeOriResult extends BaseEntity {
     @Column
     private String method;
 
-
-
-
-
-
 }
