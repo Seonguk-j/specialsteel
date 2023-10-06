@@ -1,6 +1,7 @@
 package com.seah.specialsteel.controller;
 
 import com.seah.specialsteel.service.ChangeDataService;
+import com.seah.specialsteel.service.DecoidngService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.sql.ResultSetMetaData;
 import java.util.*;
 
 @Controller
@@ -18,6 +20,9 @@ public class ChangeFileSaveController {
 
     @Autowired
     private ChangeDataService changeDataService;
+
+    @Autowired
+    private DecoidngService decoidngService;
 
     @PostMapping("/sendExcelCsv")
     public ResponseEntity<Object> processFile(@RequestParam("file") MultipartFile file, @RequestParam("mode") String mode) throws IOException {
@@ -68,6 +73,30 @@ public class ChangeFileSaveController {
 
         changeDataService.saveData(saveDataKeyMap);
 
+    }
+
+    @PostMapping("/decodingData")
+    public ResponseEntity<ArrayList<ArrayList<Object>>> decodingData(@RequestBody Map<String, Object> payload){
+        System.out.println("복호화들어옴");
+
+        ArrayList<ArrayList<Object>> ResultData = (ArrayList<ArrayList<Object>>)payload.get("keyData");
+        String mode = (String)payload.get("mode");
+
+        System.out.println(ResultData);
+        System.out.println(mode);
+
+        ArrayList<ArrayList<Object>> decodingData = null;
+
+        if(mode.equals("normalizationRadio")){
+            decodingData = decoidngService.denormalizeExcelData(ResultData);
+
+        }else if(mode.equals("standardizationRadio")){
+            decodingData = decoidngService.denormalizeStandardExcelData(ResultData);
+
+        }
+
+
+        return new ResponseEntity<>(decodingData, HttpStatus.OK);
     }
 
 

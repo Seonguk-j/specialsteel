@@ -193,6 +193,31 @@ function arrayToExcel(data) {
     return XLSX.write(workbook, { type: "array", bookType: "xlsx" });
 }
 
+function DecryptionEncoding(){
+    const decoidngModeDataList = { mode: resultMode, keyData: resultData }
+    $.ajax({
+        url: "/decodingData",
+        type: "POST",
+        contentType: "application/json;charset=UTF-8",
+        data: JSON.stringify(decoidngModeDataList),
+    }).done(function(response) {
+        console.log(response);
+
+        // 표를 추가할 컨테이너 요소
+        const container = document.querySelector(".card-table");
+
+        // 미리보기 테이블 생성
+        const previewTable = createPreviewTable(response);
+        container.appendChild(previewTable);
+
+        // 여기에 응답 처리 로직 작성
+    }).fail(function(jqXHR, textStatus, errorThrown) {
+        console.error("Request failed: " + textStatus + ", Error: " + errorThrown);
+
+        // 여기에 실패 처리 로직 작성
+    });
+}
+
 
 
 
