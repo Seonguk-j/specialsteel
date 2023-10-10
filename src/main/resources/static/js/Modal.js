@@ -9,12 +9,22 @@
 
 
 //  1. 날짜 조회 모달창 ======================================================================
-// 열기
-function showModal() {
 
-    const modal = document.getElementById('myModal');
+// 모달 열기 함수
+function showModal() {
+    var modalBackground = document.getElementById('modalBackground');
+    var modal = document.getElementById('myModal');
     displayList();
+    modalBackground.style.display = 'block';
     modal.style.display = 'block';
+}
+
+// 모달 닫기 함수
+function closeModal() {
+    var modalBackground = document.getElementById('modalBackground');
+    var modal = document.getElementById('myModal');
+    modalBackground.style.display = 'none';
+    modal.style.display = 'none';
 }
 
 function displayList() {
@@ -31,11 +41,7 @@ function displayList() {
         });
 }
 
-//닫기
-function closeModal() {
-    const modal = document.getElementById('myModal');
-    modal.style.display = 'none';
-}
+
 
 // 조회 Esc 키로 모달 창 닫기 처리
 window.addEventListener("keydown", function (event) {
@@ -68,16 +74,19 @@ function excelDownload() {
 // 3. 일괄저장 모달창 ======================================================================
 
 function showAllSaveModal() {
+    var modalBackground = document.getElementById('modalBackground');
     const modal = document.getElementById('allSaveModal');
+    modalBackground.style.display = 'block';
     modal.style.display = 'block';
 }
 
 //닫기
 function closeAllSaveModal() {
+    var modalBackground = document.getElementById('modalBackground');
     const modal = document.getElementById('allSaveModal');
+    modalBackground.style.display = 'none';
     modal.style.display = 'none';
 }
-
 
 
 // 모달====================================
@@ -85,6 +94,7 @@ function closeAllSaveModal() {
 // 4. 타이틀 검색
 function titleSearch() {
     const searchInput = document.getElementById("searchWord").value;
+    
     // 검색어만 서버로 전송합니다.
     fetch('/api/searchByTitle', {
         method: 'POST',
@@ -373,14 +383,17 @@ function choiceFileModal() {
     const previewArea = document.getElementById('previewArea');
     previewArea.innerHTML = '<h5 class="h5">미리보기</h5><div class="card-table"></div>';
 
-
+    var modalBackground = document.getElementById('modalBackground');
     const modal = document.getElementById('choiceFileModal');
+    modalBackground.style.display = 'block';
     modal.style.display = 'block';
 }
 
 
 function closeChoiceFileModal() {
+    var modalBackground = document.getElementById('modalBackground');
     const modal = document.getElementById('choiceFileModal');
+    modalBackground.style.display = 'none';
     modal.style.display = 'none';
 
     // 파일 입력 초기화
@@ -393,6 +406,10 @@ function closeChoiceFileModal() {
     const normalizationRadio = document.getElementById('normalizationRadio');
     normalizationRadio.checked = false;
 }
+
+
+
+
 
 
 //엑셀 저장 미리 보기 모달 관련 js ==========================================================================

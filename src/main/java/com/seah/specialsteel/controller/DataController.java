@@ -6,6 +6,7 @@ import com.seah.specialsteel.dto.DateRequestDTO;
 import com.seah.specialsteel.dto.ResultDTO;
 import com.seah.specialsteel.entity.*;
 import com.seah.specialsteel.repository.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +15,7 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/api")
+@Slf4j
 public class DataController {
 
     private final OriResultRepository oriResultRepository;
@@ -290,7 +292,16 @@ public class DataController {
     // 수정
     @PostMapping("/searchByTitle")
     public List<DataDTO> searchByTitle(@RequestBody String searchWord){
-        List<History> histories = historyRepository.findByTitleContaining(searchWord);
+        log.info("여기는 오나?");
+        List<History> histories;
+        if(searchWord.length() > 0 && searchWord != null) {
+            histories = historyRepository.findByTitleContaining(searchWord);
+            log.info("뭐지? " + searchWord);
+        }
+        else {
+            histories = historyRepository.findAll();
+            log.info("뭐지? " + histories.size());
+        }
 //                oriResultRepository.findByTitleContaining(searchWord);
 //        System.out.println("제목오리결과 - "+histories);
 //        System.out.println("검색어 - "+searchWord);
