@@ -77,16 +77,12 @@ public class UploadController {
     //기존 알고리즘 json파일을 dto에 담아서 보내기
     @PostMapping("/sendOriFileName")
     public ResponseEntity<ResultDTO> receiveOriResultDTO(@RequestParam ("index")int index) {
-//        log.info("오리지널" + index);
-        System.out.println("샌드오리파일 - "+index);
-        System.out.println(oriResultDTOList.get(index));
         return new ResponseEntity<>(oriResultDTOList.get(index), HttpStatus.OK);
     }
 
     //수정 알고리즘 json파일을 dto에 담아서 보내기
     @PostMapping("/sendRevFileName")
     public ResponseEntity<Map<String, Object>> receiveRevResultDTO(@RequestParam ("index")int index) {
-//        System.out.println("왜안되지?" + index);
         revResultDTOList.get(index).setLength(revResultDTOList.size());
         ResultDTO revResultDTO = revResultDTOList.get(index);
 

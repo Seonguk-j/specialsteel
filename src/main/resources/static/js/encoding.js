@@ -120,9 +120,6 @@ function sendExcelCsv(){
             // 미리보기 테이블 생성
             const previewTable = createPreviewTable(dataArray);
             container.appendChild(previewTable);
-            console.log(data);
-            console.log(mode);
-            console.log(dataArray);
 
             resultData = data;
             resultMode = mode;
@@ -206,8 +203,23 @@ function DecryptionEncoding(){
         // 표를 추가할 컨테이너 요소
         const container = document.querySelector(".card-table");
 
+        const empty = document.createElement("br");
+        empty.className = "br";
+
+        const h5 = document.createElement("h5");
+        h5.className = "h5";
+        h5.textContent = "검증";
+
+        // 마지막 행 제외한 데이터 슬라이스
+        const dataToDisplay = response.slice(0, -1);
+
         // 미리보기 테이블 생성
-        const previewTable = createPreviewTable(response);
+        const previewTable = createPreviewTable(dataToDisplay);
+
+        // 미리보기 테이블 생성
+
+        container.appendChild(empty);
+        container.appendChild(h5);
         container.appendChild(previewTable);
 
         // 여기에 응답 처리 로직 작성
